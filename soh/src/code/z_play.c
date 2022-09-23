@@ -1218,6 +1218,13 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
         func_800AA460(&globalCtx->view, globalCtx->view.fovy, globalCtx->view.zNear, globalCtx->lightCtx.fogFar);
         func_800AAA50(&globalCtx->view, 15);
+        
+        gSPMatrix(POLY_OPA_DISP++, globalCtx->view.projectionFlippedPtr, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
+        gSPMatrix(POLY_XLU_DISP++, globalCtx->view.projectionFlippedPtr, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
+        gSPMatrix(POLY_KAL_DISP++, globalCtx->view.projectionFlippedPtr, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
+        gSPMatrix(POLY_OPA_DISP++, globalCtx->view.viewingPtr, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_PROJECTION);
+        gSPMatrix(POLY_XLU_DISP++, globalCtx->view.viewingPtr, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_PROJECTION);
+        gSPMatrix(POLY_KAL_DISP++, globalCtx->view.viewingPtr, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_PROJECTION);
 
         // The billboard matrix temporarily stores the viewing matrix
         Matrix_MtxToMtxF(&globalCtx->view.viewing, &globalCtx->billboardMtxF);
@@ -1371,7 +1378,27 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                 }
 
                 if ((globalCtx->pauseCtx.state != 0) && (HREG(80) != 10) || (HREG(89) != 0)) {
+                    gSPMatrix(POLY_OPA_DISP++, globalCtx->view.projectionPtr,
+                              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
+                    gSPMatrix(POLY_XLU_DISP++, globalCtx->view.projectionPtr,
+                              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
+                    gSPMatrix(POLY_KAL_DISP++, globalCtx->view.projectionPtr,
+                              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
+                    gSPMatrix(POLY_OPA_DISP++, globalCtx->view.viewingPtr, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_PROJECTION);
+                    gSPMatrix(POLY_XLU_DISP++, globalCtx->view.viewingPtr, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_PROJECTION);
+                    gSPMatrix(POLY_KAL_DISP++, globalCtx->view.viewingPtr, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_PROJECTION);
+
                     Gameplay_DrawOverlayElements(globalCtx);
+
+                    gSPMatrix(POLY_OPA_DISP++, globalCtx->view.projectionFlippedPtr,
+                              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
+                    gSPMatrix(POLY_XLU_DISP++, globalCtx->view.projectionFlippedPtr,
+                              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
+                    gSPMatrix(POLY_KAL_DISP++, globalCtx->view.projectionFlippedPtr,
+                              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
+                    gSPMatrix(POLY_OPA_DISP++, globalCtx->view.viewingPtr, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_PROJECTION);
+                    gSPMatrix(POLY_XLU_DISP++, globalCtx->view.viewingPtr, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_PROJECTION);
+                    gSPMatrix(POLY_KAL_DISP++, globalCtx->view.viewingPtr, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_PROJECTION);
                 }
 
                 if ((HREG(80) != 10) || (HREG(85) != 0)) {

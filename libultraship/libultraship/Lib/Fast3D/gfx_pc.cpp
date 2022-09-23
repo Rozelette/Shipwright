@@ -1168,10 +1168,10 @@ static void gfx_sp_tri1(uint8_t vtx1_idx, uint8_t vtx2_idx, uint8_t vtx3_idx, bo
 
         switch (rsp.geometry_mode & G_CULL_BOTH) {
         case G_CULL_FRONT:
-            if (cross <= 0) return;
+            //if (cross <= 0) return;
             break;
         case G_CULL_BACK:
-            if (cross >= 0) return;
+            //if (cross >= 0) return;
             break;
         case G_CULL_BOTH:
             // Why is this even an option?
