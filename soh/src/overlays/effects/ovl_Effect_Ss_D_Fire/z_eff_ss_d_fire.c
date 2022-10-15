@@ -15,7 +15,6 @@
 #define rPrimColorA regs[5]
 #define rFadeDelay regs[6]
 #define rScaleStep regs[9]
-#define rObjBankIdx regs[10]
 #define rYAccelStep regs[11] // has no effect due to how it's implemented
 
 u32 EffectSsDFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
@@ -29,31 +28,24 @@ EffectSsInit Effect_Ss_D_Fire_InitVars = {
 
 u32 EffectSsDFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsDFireInitParams* initParams = (EffectSsDFireInitParams*)initParamsx;
-    s32 objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_DODONGO);
+    this->pos = initParams->pos;
+    this->velocity = initParams->velocity;
+    this->accel = initParams->accel;
+    this->gfx = SEGMENTED_TO_VIRTUAL(gDodongoFireDL);
+    this->life = initParams->life;
+    this->rScale = initParams->scale;
+    this->rScaleStep = initParams->scaleStep;
+    this->rYAccelStep = 0;
+    this->draw = EffectSsDFire_Draw;
+    this->update = EffectSsDFire_Update;
+    this->rTexIdx = ((s16)(globalCtx->state.frames % 4) ^ 3);
+    this->rPrimColorR = 255;
+    this->rPrimColorG = 255;
+    this->rPrimColorB = 50;
+    this->rPrimColorA = initParams->alpha;
+    this->rFadeDelay = initParams->fadeDelay;
 
-    if (objBankIndex >= 0) {
-        this->pos = initParams->pos;
-        this->velocity = initParams->velocity;
-        this->accel = initParams->accel;
-        this->gfx = SEGMENTED_TO_VIRTUAL(gDodongoFireDL);
-        this->life = initParams->life;
-        this->rScale = initParams->scale;
-        this->rScaleStep = initParams->scaleStep;
-        this->rYAccelStep = 0;
-        this->rObjBankIdx = objBankIndex;
-        this->draw = EffectSsDFire_Draw;
-        this->update = EffectSsDFire_Update;
-        this->rTexIdx = ((s16)(globalCtx->state.frames % 4) ^ 3);
-        this->rPrimColorR = 255;
-        this->rPrimColorG = 255;
-        this->rPrimColorB = 50;
-        this->rPrimColorA = initParams->alpha;
-        this->rFadeDelay = initParams->fadeDelay;
-
-        return 1;
-    }
-
-    return 0;
+    return 1;
 }
 
 static void* sTextures[] = { gDodongoFire0Tex, gDodongoFire1Tex, gDodongoFire2Tex, gDodongoFire3Tex };
@@ -65,35 +57,27 @@ void EffectSsDFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     MtxF mfResult;
     MtxF mfTrans11DA0;
     s32 pad;
-    void* object;
     Mtx* mtx;
     f32 scale;
 
-    object = globalCtx->objectCtx.status[this->rObjBankIdx].segment;
-
     OPEN_DISPS(gfxCtx);
 
-    if (Object_GetIndex(&globalCtx->objectCtx, OBJECT_DODONGO) > -1) {
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(object);
-        gSPSegment(POLY_XLU_DISP++, 0x06, object);
-        scale = this->rScale / 100.0f;
-        SkinMatrix_SetTranslate(&mfTrans, this->pos.x, this->pos.y, this->pos.z);
-        SkinMatrix_SetScale(&mfScale, scale, scale, 1.0f);
-        SkinMatrix_MtxFMtxFMult(&mfTrans, &globalCtx->billboardMtxF, &mfTrans11DA0);
-        SkinMatrix_MtxFMtxFMult(&mfTrans11DA0, &mfScale, &mfResult);
+    scale = this->rScale / 100.0f;
+    SkinMatrix_SetTranslate(&mfTrans, this->pos.x, this->pos.y, this->pos.z);
+    SkinMatrix_SetScale(&mfScale, scale, scale, 1.0f);
+    SkinMatrix_MtxFMtxFMult(&mfTrans, &globalCtx->billboardMtxF, &mfTrans11DA0);
+    SkinMatrix_MtxFMtxFMult(&mfTrans11DA0, &mfScale, &mfResult);
 
-        mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &mfResult);
+    mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &mfResult);
 
-        if (mtx != NULL) {
-            gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            func_80094BC4(gfxCtx);
-            gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 0);
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
-                            this->rPrimColorA);
-            gSegments[6] = VIRTUAL_TO_PHYSICAL(object);
-            gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sTextures[this->rTexIdx]));
-            gSPDisplayList(POLY_XLU_DISP++, this->gfx);
-        }
+    if (mtx != NULL) {
+        gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        func_80094BC4(gfxCtx);
+        gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 0);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
+                        this->rPrimColorA);
+        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sTextures[this->rTexIdx]));
+        gSPDisplayList(POLY_XLU_DISP++, this->gfx);
     }
 
     CLOSE_DISPS(gfxCtx);

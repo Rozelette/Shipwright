@@ -37,13 +37,9 @@ typedef struct EnOssan {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ EnOssanActionFunc actionFunc;
-    /* 0x0194 */ void (*obj3ToSeg6Func)(struct EnOssan*, GlobalContext*);
     /* 0x0198 */ ColliderCylinder collider; // unused
     /* 0x01E4 */ s16 timer;
     /* 0x01E6 */ s16 delayTimer;
-    /* 0x01E8 */ s8 objBankIndex1;
-    /* 0x01E9 */ s8 objBankIndex2;
-    /* 0x01EA */ s8 objBankIndex3;
     /* 0x01EB */ u8 happyMaskShopState;
     /* 0x01EC */ u8 happyMaskShopkeeperEyeIdx;
     /* 0x01EE */ s16 headRot;

@@ -66,17 +66,7 @@ void BgHakaMegane_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(thisx, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
 
-    if (thisx->params < 3) {
-        this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_HAKACH_OBJECTS);
-    } else {
-        this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_HAKA_OBJECTS);
-    }
-
-    if (this->objBankIndex < 0) {
-        Actor_Kill(thisx);
-    } else {
-        this->actionFunc = func_8087DB24;
-    }
+    this->actionFunc = func_8087DB24;
 }
 
 void BgHakaMegane_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -89,20 +79,16 @@ void func_8087DB24(BgHakaMegane* this, GlobalContext* globalCtx) {
     CollisionHeader* colHeader;
     CollisionHeader* collision;
 
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
-        this->dyna.actor.objBankIndex = this->objBankIndex;
-        this->dyna.actor.draw = BgHakaMegane_Draw;
-        Actor_SetObjectDependency(globalCtx, &this->dyna.actor);
-        if (globalCtx->roomCtx.curRoom.lensMode != LENS_MODE_HIDE_ACTORS) {
-            this->actionFunc = func_8087DBF0;
-            collision = sCollisionHeaders[this->dyna.actor.params];
-            if (collision != NULL) {
-                CollisionHeader_GetVirtual(collision, &colHeader);
-                this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
-            }
-        } else {
-            this->actionFunc = BgHakaMegane_DoNothing;
+    this->dyna.actor.draw = BgHakaMegane_Draw;
+    if (globalCtx->roomCtx.curRoom.lensMode != LENS_MODE_HIDE_ACTORS) {
+        this->actionFunc = func_8087DBF0;
+        collision = sCollisionHeaders[this->dyna.actor.params];
+        if (collision != NULL) {
+            CollisionHeader_GetVirtual(collision, &colHeader);
+            this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
         }
+    } else {
+        this->actionFunc = BgHakaMegane_DoNothing;
     }
 }
 

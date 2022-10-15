@@ -1509,16 +1509,10 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
 
 u32 func_80091738(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime) {
     s16 linkObjectId = gLinkObjectIds[gSaveContext.linkAge];
-    size_t size;
+    size_t size = 0;
     void* ptr;
 
-    size = gObjectTable[OBJECT_GAMEPLAY_KEEP].vromEnd - gObjectTable[OBJECT_GAMEPLAY_KEEP].vromStart;
-    ptr = segment + 0x3800;
-    DmaMgr_SendRequest1(ptr, gObjectTable[OBJECT_GAMEPLAY_KEEP].vromStart, size, __FILE__, __LINE__);
-
-    size = gObjectTable[linkObjectId].vromEnd - gObjectTable[linkObjectId].vromStart;
     ptr = segment + 0x8800;
-    DmaMgr_SendRequest1(ptr, gObjectTable[linkObjectId].vromStart, size, __FILE__, __LINE__);
 
     ptr = (void*)ALIGN16((intptr_t)ptr + size);
 

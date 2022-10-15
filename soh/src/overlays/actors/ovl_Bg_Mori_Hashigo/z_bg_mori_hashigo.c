@@ -166,17 +166,10 @@ void BgMoriHashigo_Init(Actor* thisx, GlobalContext* globalCtx) {
             return;
         }
     }
-    this->moriTexObjIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_TEX);
-    if (this->moriTexObjIndex < 0) {
-        // "Bank danger!"
-        osSyncPrintf("Error : バンク危険！(arg_data 0x%04x)(%s %d)\n", this->dyna.actor.params,
-                     __FILE__, __LINE__);
-        Actor_Kill(&this->dyna.actor);
-    } else {
-        BgMoriHashigo_SetupWaitForMoriTex(this);
-        // "(Forest Temple Ladder and its clasp)"
-        osSyncPrintf("(森の神殿 梯子とその留め金)(arg_data 0x%04x)\n", this->dyna.actor.params);
-    }
+
+    BgMoriHashigo_SetupWaitForMoriTex(this);
+    // "(Forest Temple Ladder and its clasp)"
+    osSyncPrintf("(森の神殿 梯子とその留め金)(arg_data 0x%04x)\n", this->dyna.actor.params);
 }
 
 void BgMoriHashigo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -196,14 +189,12 @@ void BgMoriHashigo_SetupWaitForMoriTex(BgMoriHashigo* this) {
 }
 
 void BgMoriHashigo_WaitForMoriTex(BgMoriHashigo* this, GlobalContext* globalCtx) {
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->moriTexObjIndex)) {
-        if (this->dyna.actor.params == HASHIGO_CLASP) {
-            BgMoriHashigo_SetupClasp(this);
-        } else if (this->dyna.actor.params == HASHIGO_LADDER) {
-            BgMoriHashigo_SetupLadderWait(this);
-        }
-        this->dyna.actor.draw = BgMoriHashigo_Draw;
+    if (this->dyna.actor.params == HASHIGO_CLASP) {
+        BgMoriHashigo_SetupClasp(this);
+    } else if (this->dyna.actor.params == HASHIGO_LADDER) {
+        BgMoriHashigo_SetupLadderWait(this);
     }
+    this->dyna.actor.draw = BgMoriHashigo_Draw;
 }
 
 void BgMoriHashigo_SetupClasp(BgMoriHashigo* this) {
@@ -284,7 +275,6 @@ void BgMoriHashigo_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx);
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, globalCtx->objectCtx.status[this->moriTexObjIndex].segment);
 
     gSPMatrix(POLY_OPA_DISP++, MATRIX_NEWMTX(globalCtx->state.gfxCtx),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

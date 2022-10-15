@@ -483,12 +483,6 @@ void EnIn_Init(Actor* thisx, GlobalContext* globalCtx) {
     RespawnData* respawn = &gSaveContext.respawn[RESPAWN_MODE_DOWN];
     Vec3f respawnPos;
 
-    this->ingoObjBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_IN);
-    if (this->ingoObjBankIndex < 0 && this->actor.params > 0) {
-        this->actionFunc = NULL;
-        Actor_Kill(&this->actor);
-        return;
-    }
     respawnPos = respawn->pos;
     // hardcoded coords for lon lon entrance
     if (D_80A7B998 == 0 && respawnPos.x == 1107.0f && respawnPos.y == 0.0f && respawnPos.z == -3740.0f) {
@@ -509,7 +503,7 @@ void EnIn_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_80A79FB0(EnIn* this, GlobalContext* globalCtx) {
     s32 sp3C = 0;
 
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->ingoObjBankIndex) || this->actor.params <= 0) {
+    if (this->actor.params <= 0) {
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gIngoSkel, NULL, this->jointTable, this->morphTable, 20);
         Collider_InitCylinder(globalCtx, &this->collider);

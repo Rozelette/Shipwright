@@ -3828,7 +3828,6 @@ void func_800418D0(CollisionContext* colCtx, GlobalContext* globalCtx) {
     for (i = 0; i < BG_ACTOR_MAX; i++) {
         flag = dyna->bgActorFlags[i];
         if ((flag & 1) && !(flag & 2)) {
-            Actor_SetObjectDependency(globalCtx, dyna->bgActors[i].actor);
             CollisionHeader_SegmentedToVirtual(dyna->bgActors[i].colHeader);
         }
     }

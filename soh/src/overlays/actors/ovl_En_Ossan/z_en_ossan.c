@@ -84,8 +84,6 @@ void EnOssan_State_SelectMaskItem(EnOssan* this, GlobalContext* globalCtx, Playe
 void EnOssan_State_LendMaskOfTruth(EnOssan* this, GlobalContext* globalCtx, Player* player);
 void EnOssan_State_GiveDiscountDialog(EnOssan* this, GlobalContext* globalCtx, Player* player);
 
-void EnOssan_Obj3ToSeg6(EnOssan* this, GlobalContext* globalCtx);
-
 void EnOssan_StartShopping(GlobalContext* globalCtx, EnOssan* this);
 
 void EnOssan_WaitForBlink(EnOssan* this);
@@ -161,20 +159,6 @@ typedef struct {
     /* 0x02 */ s16 unk_02;
     /* 0x04 */ s16 unk_04;
 } ShopkeeperObjInfo;
-
-static s16 sShopkeeperObjectIds[][3] = {
-    { OBJECT_KM1, OBJECT_MASTERKOKIRIHEAD, OBJECT_MASTERKOKIRI },
-    { OBJECT_DS2, OBJECT_ID_MAX, OBJECT_ID_MAX },
-    { OBJECT_RS, OBJECT_ID_MAX, OBJECT_ID_MAX },
-    { OBJECT_DS2, OBJECT_ID_MAX, OBJECT_ID_MAX },
-    { OBJECT_OSSAN, OBJECT_ID_MAX, OBJECT_ID_MAX },
-    { OBJECT_OSSAN, OBJECT_ID_MAX, OBJECT_ID_MAX },
-    { OBJECT_OSSAN, OBJECT_ID_MAX, OBJECT_ID_MAX },
-    { OBJECT_ZO, OBJECT_ID_MAX, OBJECT_MASTERZOORA },
-    { OBJECT_OF1D_MAP, OBJECT_ID_MAX, OBJECT_MASTERGOLON },
-    { OBJECT_OSSAN, OBJECT_ID_MAX, OBJECT_ID_MAX },
-    { OBJECT_OS, OBJECT_ID_MAX, OBJECT_ID_MAX },
-};
 
 static EnOssanTalkOwnerFunc sShopkeeperTalkOwner[] = {
     EnOssan_TalkKokiriShopkeeper,       EnOssan_TalkKakarikoPotionShopkeeper, EnOssan_TalkBombchuShopkeeper,
@@ -562,30 +546,9 @@ void EnOssan_UpdateCameraDirection(EnOssan* this, GlobalContext* globalCtx, f32 
     Camera_SetCameraData(GET_ACTIVE_CAM(globalCtx), 0xC, NULL, NULL, cameraFaceAngle, 0, 0);
 }
 
-s32 EnOssan_TryGetObjBankIndexes(EnOssan* this, GlobalContext* globalCtx, s16* objectIds) {
-    if (objectIds[1] != OBJECT_ID_MAX) {
-        this->objBankIndex2 = Object_GetIndex(&globalCtx->objectCtx, objectIds[1]);
-        if (this->objBankIndex2 < 0) {
-            return false;
-        }
-    } else {
-        this->objBankIndex2 = -1;
-    }
-    if (objectIds[2] != OBJECT_ID_MAX) {
-        this->objBankIndex3 = Object_GetIndex(&globalCtx->objectCtx, objectIds[2]);
-        if (this->objBankIndex3 < 0) {
-            return false;
-        }
-    } else {
-        this->objBankIndex3 = -1;
-    }
-    return true;
-}
-
 void EnOssan_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnOssan* this = (EnOssan*)thisx;
     s32 pad;
-    s16* objectIds;
 
     if (this->actor.params == OSSAN_TYPE_TALON && (LINK_AGE_IN_YEARS != YEARS_CHILD)) {
         this->actor.params = OSSAN_TYPE_INGO;
@@ -618,27 +581,6 @@ void EnOssan_Init(Actor* thisx, GlobalContext* globalCtx) {
     // gSaveContext.eventChkInf[2] & 0x20 - Completed Dodongo's Cavern
     if (this->actor.params == OSSAN_TYPE_BOMBCHUS && !(gSaveContext.eventChkInf[2] & 0x20) && !gSaveContext.n64ddFlag) {
         Actor_Kill(&this->actor);
-        return;
-    }
-
-    objectIds = sShopkeeperObjectIds[this->actor.params];
-    this->objBankIndex1 = Object_GetIndex(&globalCtx->objectCtx, objectIds[0]);
-
-    if (this->objBankIndex1 < 0) {
-        Actor_Kill(&this->actor);
-        osSyncPrintf(VT_COL(RED, WHITE));
-        osSyncPrintf("バンクが無いよ！！(%s)\n", sShopkeeperPrintName[this->actor.params]);
-        osSyncPrintf(VT_RST);
-        ASSERT(this->objBankIndex1 < 0);
-        return;
-    }
-
-    if (EnOssan_TryGetObjBankIndexes(this, globalCtx, objectIds) == 0) {
-        Actor_Kill(&this->actor);
-        osSyncPrintf(VT_COL(RED, WHITE));
-        osSyncPrintf("予備バンクが無いよ！！(%s)\n", sShopkeeperPrintName[this->actor.params]);
-        osSyncPrintf(VT_RST);
-        ASSERT(EnOssan_TryGetObjBankIndexes(this, globalCtx, objectIds) == 0);
         return;
     }
 
@@ -2048,70 +1990,47 @@ void EnOssan_Blink(EnOssan* this) {
     }
 }
 
-s32 EnOssan_AreShopkeeperObjectsLoaded(EnOssan* this, GlobalContext* globalCtx) {
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex1)) {
-        if (this->objBankIndex2 >= 0 && !Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex2)) {
-            return false;
-        }
-        if (this->objBankIndex3 >= 0 && !Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex3)) {
-            return false;
-        }
-        return true;
-    }
-    return false;
-}
-
 void EnOssan_InitBazaarShopkeeper(EnOssan* this, GlobalContext* globalCtx) {
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gObjectOssanSkel, &gObjectOssanAnim_000338, NULL, NULL, 0);
     this->actor.draw = EnOssan_DrawBazaarShopkeeper;
-    this->obj3ToSeg6Func = NULL;
 }
 
 void EnOssan_InitKokiriShopkeeper(EnOssan* this, GlobalContext* globalCtx) {
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gKm1Skel, NULL, NULL, NULL, 0);
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->objBankIndex3].segment);
     Animation_Change(&this->skelAnime, &object_masterkokiri_Anim_0004A8, 1.0f, 0.0f,
                      Animation_GetLastFrame(&object_masterkokiri_Anim_0004A8), 0, 0.0f);
     this->actor.draw = EnOssan_DrawKokiriShopkeeper;
-    this->obj3ToSeg6Func = EnOssan_Obj3ToSeg6;
     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_ELF, this->actor.world.pos.x,
                        this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, FAIRY_KOKIRI);
 }
 
 void EnOssan_InitGoronShopkeeper(EnOssan* this, GlobalContext* globalCtx) {
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGoronSkel, NULL, NULL, NULL, 0);
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->objBankIndex3].segment);
     Animation_Change(&this->skelAnime, &gGoronShopkeeperAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gGoronShopkeeperAnim),
                      0, 0.0f);
     this->actor.draw = EnOssan_DrawGoronShopkeeper;
-    this->obj3ToSeg6Func = EnOssan_Obj3ToSeg6;
 }
 
 void EnOssan_InitZoraShopkeeper(EnOssan* this, GlobalContext* globalCtx) {
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gZoraSkel, NULL, NULL, NULL, 0);
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->objBankIndex3].segment);
     Animation_Change(&this->skelAnime, &gZoraShopkeeperAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gZoraShopkeeperAnim),
                      0, 0.0f);
     this->actor.draw = EnOssan_DrawZoraShopkeeper;
-    this->obj3ToSeg6Func = EnOssan_Obj3ToSeg6;
 }
 
 void EnOssan_InitPotionShopkeeper(EnOssan* this, GlobalContext* globalCtx) {
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_ds2_Skel_004258, &object_ds2_Anim_0002E4, 0, 0, 0);
     this->actor.draw = EnOssan_DrawPotionShopkeeper;
-    this->obj3ToSeg6Func = NULL;
 }
 
 void EnOssan_InitHappyMaskShopkeeper(EnOssan* this, GlobalContext* globalCtx) {
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_os_Skel_004658, &object_os_Anim_0002E4, NULL, NULL, 0);
     this->actor.draw = EnOssan_DrawHappyMaskShopkeeper;
-    this->obj3ToSeg6Func = NULL;
 }
 
 void EnOssan_InitBombchuShopkeeper(EnOssan* this, GlobalContext* globalCtx) {
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_rs_Skel_004868, &object_rs_Anim_00065C, 0, 0, 0);
     this->actor.draw = EnOssan_DrawBombchuShopkeeper;
-    this->obj3ToSeg6Func = NULL;
 }
 
 u16 EnOssan_SetupHelloDialog(EnOssan* this) {
@@ -2180,99 +2099,91 @@ u16 EnOssan_SetupHelloDialog(EnOssan* this) {
 void EnOssan_InitActionFunc(EnOssan* this, GlobalContext* globalCtx) {
     ShopItem* items;
 
-    if (EnOssan_AreShopkeeperObjectsLoaded(this, globalCtx)) {
-        this->actor.flags &= ~ACTOR_FLAG_4;
-        this->actor.objBankIndex = this->objBankIndex1;
-        Actor_SetObjectDependency(globalCtx, &this->actor);
+    this->actor.flags &= ~ACTOR_FLAG_4;
 
-        this->shelves = (EnTana*)Actor_Find(&globalCtx->actorCtx, ACTOR_EN_TANA, ACTORCAT_PROP);
+    this->shelves = (EnTana*)Actor_Find(&globalCtx->actorCtx, ACTOR_EN_TANA, ACTORCAT_PROP);
 
-        if (this->shelves == NULL) {
-            osSyncPrintf(VT_COL(RED, WHITE));
-            // "Warning!! There are no shelves!!"
-            osSyncPrintf("★★★ 警告！！ 棚がないよ！！ ★★★\n");
-            osSyncPrintf(VT_RST);
-            return;
-        }
-
-        // "Shopkeeper (params) init"
-        osSyncPrintf(VT_FGCOL(YELLOW) "◇◇◇ 店のおやじ( %d ) 初期設定 ◇◇◇" VT_RST "\n", this->actor.params);
-
-        this->actor.world.pos.x += sShopkeeperPositionOffsets[this->actor.params].x;
-        this->actor.world.pos.y += sShopkeeperPositionOffsets[this->actor.params].y;
-        this->actor.world.pos.z += sShopkeeperPositionOffsets[this->actor.params].z;
-
-        items = sShopkeeperStores[this->actor.params];
-
-        ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 20.0f);
-        sInitFuncs[this->actor.params](this, globalCtx);
-        this->actor.textId = EnOssan_SetupHelloDialog(this);
-        this->cursorY = this->cursorX = 100.0f;
-        this->actor.colChkInfo.mass = MASS_IMMOVABLE;
-        this->actor.colChkInfo.cylRadius = 50;
-        this->stateFlag = OSSAN_STATE_IDLE;
-        this->stickAccumX = this->stickAccumY = 0;
-
-        this->cursorIndex = 0;
-        this->cursorZ = 1.5f;
-        this->cursorColorR = 0;
-        this->cursorColorG = 255;
-        this->cursorColorB = 80;
-        this->cursorColorA = 255;
-        this->cursorAnimTween = 0;
-
-        this->cursorAnimState = 0;
-        this->drawCursor = 0;
-        this->happyMaskShopkeeperEyeIdx = 0;
-
-        this->stickLeftPrompt.stickColorR = 200;
-        this->stickLeftPrompt.stickColorG = 200;
-        this->stickLeftPrompt.stickColorB = 200;
-        this->stickLeftPrompt.stickColorA = 180;
-        this->stickLeftPrompt.stickTexX = 49;
-        this->stickLeftPrompt.stickTexY = 95;
-        this->stickLeftPrompt.arrowColorR = 255;
-        this->stickLeftPrompt.arrowColorG = 255;
-        this->stickLeftPrompt.arrowColorB = 0;
-        this->stickLeftPrompt.arrowColorA = 200;
-        this->stickLeftPrompt.arrowTexX = 33;
-        this->stickLeftPrompt.arrowTexY = 91;
-        this->stickLeftPrompt.z = 1;
-        this->stickLeftPrompt.isEnabled = false;
-
-        this->stickRightPrompt.stickColorR = 200;
-        this->stickRightPrompt.stickColorG = 200;
-        this->stickRightPrompt.stickColorB = 200;
-        this->stickRightPrompt.stickColorA = 180;
-        this->stickRightPrompt.stickTexX = 274;
-        this->stickRightPrompt.stickTexY = 95;
-        this->stickRightPrompt.arrowColorR = 255;
-        this->stickRightPrompt.arrowColorG = 255;
-        this->stickRightPrompt.arrowColorB = 0;
-        this->stickRightPrompt.arrowColorA = 200;
-        this->stickRightPrompt.arrowTexX = 290;
-        this->stickRightPrompt.arrowTexY = 91;
-        this->stickRightPrompt.z = 1;
-        this->stickRightPrompt.isEnabled = false;
-
-        this->arrowAnimState = 0;
-        this->stickAnimState = 0;
-        this->arrowAnimTween = 0;
-        this->stickAnimTween = 0;
-        this->shopItemSelectedTween = 0;
-        Actor_SetScale(&this->actor, sShopkeeperScale[this->actor.params]);
-        EnOssan_SpawnItemsOnShelves(this, globalCtx, items);
-        this->headRot = this->headTargetRot = 0;
-        this->blinkTimer = 20;
-        this->eyeTextureIdx = 0;
-        this->blinkFunc = EnOssan_WaitForBlink;
-        this->actor.flags &= ~ACTOR_FLAG_0;
-        EnOssan_SetupAction(this, EnOssan_MainActionFunc);
+    if (this->shelves == NULL) {
+        osSyncPrintf(VT_COL(RED, WHITE));
+        // "Warning!! There are no shelves!!"
+        osSyncPrintf("★★★ 警告！！ 棚がないよ！！ ★★★\n");
+        osSyncPrintf(VT_RST);
+        return;
     }
-}
 
-void EnOssan_Obj3ToSeg6(EnOssan* this, GlobalContext* globalCtx) {
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objBankIndex3].segment);
+    // "Shopkeeper (params) init"
+    osSyncPrintf(VT_FGCOL(YELLOW) "◇◇◇ 店のおやじ( %d ) 初期設定 ◇◇◇" VT_RST "\n", this->actor.params);
+
+    this->actor.world.pos.x += sShopkeeperPositionOffsets[this->actor.params].x;
+    this->actor.world.pos.y += sShopkeeperPositionOffsets[this->actor.params].y;
+    this->actor.world.pos.z += sShopkeeperPositionOffsets[this->actor.params].z;
+
+    items = sShopkeeperStores[this->actor.params];
+
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 20.0f);
+    sInitFuncs[this->actor.params](this, globalCtx);
+    this->actor.textId = EnOssan_SetupHelloDialog(this);
+    this->cursorY = this->cursorX = 100.0f;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
+    this->actor.colChkInfo.cylRadius = 50;
+    this->stateFlag = OSSAN_STATE_IDLE;
+    this->stickAccumX = this->stickAccumY = 0;
+
+    this->cursorIndex = 0;
+    this->cursorZ = 1.5f;
+    this->cursorColorR = 0;
+    this->cursorColorG = 255;
+    this->cursorColorB = 80;
+    this->cursorColorA = 255;
+    this->cursorAnimTween = 0;
+
+    this->cursorAnimState = 0;
+    this->drawCursor = 0;
+    this->happyMaskShopkeeperEyeIdx = 0;
+
+    this->stickLeftPrompt.stickColorR = 200;
+    this->stickLeftPrompt.stickColorG = 200;
+    this->stickLeftPrompt.stickColorB = 200;
+    this->stickLeftPrompt.stickColorA = 180;
+    this->stickLeftPrompt.stickTexX = 49;
+    this->stickLeftPrompt.stickTexY = 95;
+    this->stickLeftPrompt.arrowColorR = 255;
+    this->stickLeftPrompt.arrowColorG = 255;
+    this->stickLeftPrompt.arrowColorB = 0;
+    this->stickLeftPrompt.arrowColorA = 200;
+    this->stickLeftPrompt.arrowTexX = 33;
+    this->stickLeftPrompt.arrowTexY = 91;
+    this->stickLeftPrompt.z = 1;
+    this->stickLeftPrompt.isEnabled = false;
+
+    this->stickRightPrompt.stickColorR = 200;
+    this->stickRightPrompt.stickColorG = 200;
+    this->stickRightPrompt.stickColorB = 200;
+    this->stickRightPrompt.stickColorA = 180;
+    this->stickRightPrompt.stickTexX = 274;
+    this->stickRightPrompt.stickTexY = 95;
+    this->stickRightPrompt.arrowColorR = 255;
+    this->stickRightPrompt.arrowColorG = 255;
+    this->stickRightPrompt.arrowColorB = 0;
+    this->stickRightPrompt.arrowColorA = 200;
+    this->stickRightPrompt.arrowTexX = 290;
+    this->stickRightPrompt.arrowTexY = 91;
+    this->stickRightPrompt.z = 1;
+    this->stickRightPrompt.isEnabled = false;
+
+    this->arrowAnimState = 0;
+    this->stickAnimState = 0;
+    this->arrowAnimTween = 0;
+    this->stickAnimTween = 0;
+    this->shopItemSelectedTween = 0;
+    Actor_SetScale(&this->actor, sShopkeeperScale[this->actor.params]);
+    EnOssan_SpawnItemsOnShelves(this, globalCtx, items);
+    this->headRot = this->headTargetRot = 0;
+    this->blinkTimer = 20;
+    this->eyeTextureIdx = 0;
+    this->blinkFunc = EnOssan_WaitForBlink;
+    this->actor.flags &= ~ACTOR_FLAG_0;
+    EnOssan_SetupAction(this, EnOssan_MainActionFunc);
 }
 
 void EnOssan_MainActionFunc(EnOssan* this, GlobalContext* globalCtx) {
@@ -2293,11 +2204,6 @@ void EnOssan_MainActionFunc(EnOssan* this, GlobalContext* globalCtx) {
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 26.0f, 10.0f, 0.0f, 5);
     Actor_SetFocus(&this->actor, 90.0f);
     Actor_SetScale(&this->actor, sShopkeeperScale[this->actor.params]);
-
-    // use animation object if needed
-    if (this->obj3ToSeg6Func != NULL) {
-        this->obj3ToSeg6Func(this, globalCtx);
-    }
 
     SkelAnime_Update(&this->skelAnime);
 }
@@ -2439,8 +2345,6 @@ s32 EnOssan_OverrideLimbDrawKokiriShopkeeper(GlobalContext* globalCtx, s32 limbI
     OPEN_DISPS(globalCtx->state.gfxCtx);
 
     if (limbIndex == 15) {
-        gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[this->objBankIndex2].segment);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objBankIndex2].segment);
         *dList = gKokiriShopkeeperHeadDL;
         gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(sKokiriShopkeeperEyeTextures[this->eyeTextureIdx]));
     }

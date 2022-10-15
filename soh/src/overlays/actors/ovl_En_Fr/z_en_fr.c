@@ -229,16 +229,6 @@ void EnFr_Init(Actor* thisx, GlobalContext* globalCtx) {
             osSyncPrintf(VT_RST);
             ASSERT((this->actor.params >= 6) || (this->actor.params < 0));
         }
-
-        this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_GAMEPLAY_FIELD_KEEP);
-        if (this->objBankIndex < 0) {
-            Actor_Kill(&this->actor);
-            osSyncPrintf(VT_COL(RED, WHITE));
-            // "There is no bank!!"
-            osSyncPrintf("%s[%d] : バンクが無いよ！！\n", __FILE__, __LINE__);
-            osSyncPrintf(VT_RST);
-            ASSERT(this->objBankIndex < 0);
-        }
     }
 }
 
@@ -257,52 +247,50 @@ void EnFr_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 frogIndex;
     s32 pad2;
 
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
-        this->actor.flags &= ~ACTOR_FLAG_4;
-        frogIndex = this->actor.params - 1;
-        sEnFrPointers.frogs[frogIndex] = this;
-        Actor_ProcessInitChain(&this->actor, sInitChain);
-        // frog
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_fr_Skel_00B498, &object_fr_Anim_001534,
-                           this->jointTable, this->morphTable, 24);
-        // butterfly
-        SkelAnime_Init(globalCtx, &this->skelAnimeButterfly, &gButterflySkel, &gButterflyAnim,
-                       this->jointTableButterfly, this->morphTableButterfly, 8);
-        // When playing the song for the HP, the frog with the next note and the butterfly turns on its lightsource
-        this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
-        Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.home.pos.x, this->actor.home.pos.y,
-                                  this->actor.home.pos.z, 255, 255, 255, -1);
-        // Check to see if the song for a particular frog has been played.
-        // If it has, the frog is larger. If not, the frog is smaller
-        this->scale = gSaveContext.eventChkInf[13] & sSongIndex[sFrogToSongIndex[frogIndex]] ? 270.0f : 150.0f;
-        // When the frogs are not active (link doesn't have his ocarina out),
-        // Then shrink the frogs down by a factor of 10,000
-        Actor_SetScale(&this->actor, this->scale * 0.0001f);
-        this->actor.minVelocityY = -9999.0f;
-        Actor_SetFocus(&this->actor, 10.0f);
-        this->eyeTexIndex = 1;
-        this->blinkTimer = (s16)(Rand_ZeroFloat(60.0f) + 20.0f);
-        this->blinkFunc = EnFr_DecrementBlinkTimerUpdate;
-        this->isBelowWaterSurfacePrevious = this->isBelowWaterSurfaceCurrent = false;
-        this->isJumpingUp = false;
-        this->posLogSpot = this->actor.world.pos;
-        this->actionFunc = EnFr_SetupJumpingOutOfWater;
-        this->isDeactivating = false;
-        this->growingScaleIndex = 0;
-        this->isActive = false;
-        this->isJumpingToFrogSong = false;
-        this->songIndex = FROG_NO_SONG;
-        this->unusedButterflyActor = NULL;
-        EnFr_OrientUnderwater(this);
-        EnFr_DrawIdle(this);
-        this->actor.update = EnFr_UpdateActive;
-        this->isButterflyDrawn = false;
-        this->xyAngleButterfly = 0x1000 * (s16)Rand_ZeroFloat(255.0f);
-        this->posButterflyLight.x = this->posButterfly.x = this->posLogSpot.x;
-        this->posButterflyLight.y = this->posButterfly.y = this->posLogSpot.y + 50.0f;
-        this->posButterflyLight.z = this->posButterfly.z = this->posLogSpot.z;
-        this->actor.flags &= ~ACTOR_FLAG_0;
-    }
+    this->actor.flags &= ~ACTOR_FLAG_4;
+    frogIndex = this->actor.params - 1;
+    sEnFrPointers.frogs[frogIndex] = this;
+    Actor_ProcessInitChain(&this->actor, sInitChain);
+    // frog
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_fr_Skel_00B498, &object_fr_Anim_001534,
+                        this->jointTable, this->morphTable, 24);
+    // butterfly
+    SkelAnime_Init(globalCtx, &this->skelAnimeButterfly, &gButterflySkel, &gButterflyAnim,
+                    this->jointTableButterfly, this->morphTableButterfly, 8);
+    // When playing the song for the HP, the frog with the next note and the butterfly turns on its lightsource
+    this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
+    Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.home.pos.x, this->actor.home.pos.y,
+                                this->actor.home.pos.z, 255, 255, 255, -1);
+    // Check to see if the song for a particular frog has been played.
+    // If it has, the frog is larger. If not, the frog is smaller
+    this->scale = gSaveContext.eventChkInf[13] & sSongIndex[sFrogToSongIndex[frogIndex]] ? 270.0f : 150.0f;
+    // When the frogs are not active (link doesn't have his ocarina out),
+    // Then shrink the frogs down by a factor of 10,000
+    Actor_SetScale(&this->actor, this->scale * 0.0001f);
+    this->actor.minVelocityY = -9999.0f;
+    Actor_SetFocus(&this->actor, 10.0f);
+    this->eyeTexIndex = 1;
+    this->blinkTimer = (s16)(Rand_ZeroFloat(60.0f) + 20.0f);
+    this->blinkFunc = EnFr_DecrementBlinkTimerUpdate;
+    this->isBelowWaterSurfacePrevious = this->isBelowWaterSurfaceCurrent = false;
+    this->isJumpingUp = false;
+    this->posLogSpot = this->actor.world.pos;
+    this->actionFunc = EnFr_SetupJumpingOutOfWater;
+    this->isDeactivating = false;
+    this->growingScaleIndex = 0;
+    this->isActive = false;
+    this->isJumpingToFrogSong = false;
+    this->songIndex = FROG_NO_SONG;
+    this->unusedButterflyActor = NULL;
+    EnFr_OrientUnderwater(this);
+    EnFr_DrawIdle(this);
+    this->actor.update = EnFr_UpdateActive;
+    this->isButterflyDrawn = false;
+    this->xyAngleButterfly = 0x1000 * (s16)Rand_ZeroFloat(255.0f);
+    this->posButterflyLight.x = this->posButterfly.x = this->posLogSpot.x;
+    this->posButterflyLight.y = this->posButterfly.y = this->posLogSpot.y + 50.0f;
+    this->posButterflyLight.z = this->posButterfly.z = this->posLogSpot.z;
+    this->actor.flags &= ~ACTOR_FLAG_0;
 }
 
 void EnFr_Destroy(Actor* thisx, GlobalContext* globalCtx) {

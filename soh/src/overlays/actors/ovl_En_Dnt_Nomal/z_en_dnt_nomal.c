@@ -125,7 +125,6 @@ void EnDntNomal_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.colChkInfo.mass = 0xFF;
-    this->objId = -1;
     if (this->type == ENDNTNOMAL_TARGET) {
         osSyncPrintf("\n\n");
         // "Deku Scrub target"
@@ -133,27 +132,12 @@ void EnDntNomal_Init(Actor* thisx, GlobalContext* globalCtx) {
         Collider_InitQuad(globalCtx, &this->targetQuad);
         Collider_SetQuad(globalCtx, &this->targetQuad, &this->actor, &sTargetQuadInit);
         this->actor.world.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
-        this->objId = OBJECT_HINTNUTS;
     } else {
         osSyncPrintf("\n\n");
         // "Deku Scrub mask show audience"
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ デグナッツお面品評会一般人 ☆☆☆☆☆ \n" VT_RST);
         Collider_InitCylinder(globalCtx, &this->bodyCyl);
         Collider_SetCylinder(globalCtx, &this->bodyCyl, &this->actor, &sBodyCylinderInit);
-        this->objId = OBJECT_DNK;
-    }
-    if (this->objId >= 0) {
-        this->objIndex = Object_GetIndex(&globalCtx->objectCtx, this->objId);
-        if (this->objIndex < 0) {
-            Actor_Kill(&this->actor);
-            // "What?"
-            osSyncPrintf(VT_FGCOL(PURPLE) " なにみの？ %d\n" VT_RST "\n", this->objIndex);
-            // "Bank is funny"
-            osSyncPrintf(VT_FGCOL(CYAN) " バンクおかしいしぞ！%d\n" VT_RST "\n", this->actor.params);
-            return;
-        }
-    } else {
-        Actor_Kill(&this->actor);
     }
     this->actionFunc = EnDntNomal_WaitForObject;
 }
@@ -170,23 +154,19 @@ void EnDntNomal_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDntNomal_WaitForObject(EnDntNomal* this, GlobalContext* globalCtx) {
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->objIndex)) {
-        gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->objIndex].segment);
-        this->actor.objBankIndex = this->objIndex;
-        ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
-        this->actor.gravity = -2.0f;
-        Actor_SetScale(&this->actor, 0.01f);
-        if (this->type == ENDNTNOMAL_TARGET) {
-            SkelAnime_Init(globalCtx, &this->skelAnime, &gHintNutsSkel, &gHintNutsBurrowAnim, this->jointTable,
-                           this->morphTable, 10);
-            this->actor.draw = EnDntNomal_DrawTargetScrub;
-        } else {
-            SkelAnime_Init(globalCtx, &this->skelAnime, &gDntStageSkel, &gDntStageHideAnim, this->jointTable,
-                           this->morphTable, 11);
-            this->actor.draw = EnDntNomal_DrawStageScrub;
-        }
-        this->actionFunc = EnDntNomal_SetFlower;
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
+    this->actor.gravity = -2.0f;
+    Actor_SetScale(&this->actor, 0.01f);
+    if (this->type == ENDNTNOMAL_TARGET) {
+        SkelAnime_Init(globalCtx, &this->skelAnime, &gHintNutsSkel, &gHintNutsBurrowAnim, this->jointTable,
+                        this->morphTable, 10);
+        this->actor.draw = EnDntNomal_DrawTargetScrub;
+    } else {
+        SkelAnime_Init(globalCtx, &this->skelAnime, &gDntStageSkel, &gDntStageHideAnim, this->jointTable,
+                        this->morphTable, 11);
+        this->actor.draw = EnDntNomal_DrawStageScrub;
     }
+    this->actionFunc = EnDntNomal_SetFlower;
 }
 
 void EnDntNomal_SetFlower(EnDntNomal* this, GlobalContext* globalCtx) {

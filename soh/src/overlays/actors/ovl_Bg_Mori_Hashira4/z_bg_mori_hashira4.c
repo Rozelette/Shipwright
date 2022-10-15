@@ -80,14 +80,6 @@ void BgMoriHashira4_Init(Actor* thisx, GlobalContext* globalCtx) {
         BgMoriHashira4_InitDynaPoly(this, globalCtx, &gMoriHashira2Col, DPM_UNK);
     }
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    this->moriTexObjIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_TEX);
-    if (this->moriTexObjIndex < 0) {
-        Actor_Kill(&this->dyna.actor);
-        // "Bank danger!"
-        osSyncPrintf("Error : バンク危険！(arg_data 0x%04x)(%s %d)\n", this->dyna.actor.params,
-                     __FILE__, __LINE__);
-        return;
-    }
     if ((this->dyna.actor.params != 0) && Flags_GetSwitch(globalCtx, this->switchFlag)) {
         Actor_Kill(&this->dyna.actor);
         return;
@@ -111,15 +103,13 @@ void BgMoriHashira4_SetupWaitForMoriTex(BgMoriHashira4* this) {
 }
 
 void BgMoriHashira4_WaitForMoriTex(BgMoriHashira4* this, GlobalContext* globalCtx) {
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->moriTexObjIndex)) {
-        this->gateTimer = 0;
-        if (this->dyna.actor.params == 0) {
-            BgMoriHashira4_SetupPillarsRotate(this);
-        } else {
-            BgMoriHashira4_SetupAction(this, BgMoriHashira4_GateWait);
-        }
-        this->dyna.actor.draw = BgMoriHashira4_Draw;
+    this->gateTimer = 0;
+    if (this->dyna.actor.params == 0) {
+        BgMoriHashira4_SetupPillarsRotate(this);
+    } else {
+        BgMoriHashira4_SetupAction(this, BgMoriHashira4_GateWait);
     }
+    this->dyna.actor.draw = BgMoriHashira4_Draw;
 }
 
 void BgMoriHashira4_SetupPillarsRotate(BgMoriHashira4* this) {
@@ -164,8 +154,6 @@ void BgMoriHashira4_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx);
     func_80093D18(globalCtx->state.gfxCtx);
-
-    gSPSegment(POLY_OPA_DISP++, 0x08, globalCtx->objectCtx.status[this->moriTexObjIndex].segment);
 
     gSPMatrix(POLY_OPA_DISP++, MATRIX_NEWMTX(globalCtx->state.gfxCtx),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

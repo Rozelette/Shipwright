@@ -1179,10 +1179,6 @@ void Actor_SetScale(Actor* actor, f32 scale) {
     actor->scale.x = scale;
 }
 
-void Actor_SetObjectDependency(GlobalContext* globalCtx, Actor* actor) {
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[actor->objBankIndex].segment);
-}
-
 void Actor_Init(Actor* actor, GlobalContext* globalCtx) {
     Actor_SetWorldToHome(actor);
     Actor_SetShapeRotToWorld(actor);
@@ -2531,15 +2527,8 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
             actor->sfx = 0;
 
             if (actor->init != NULL) {
-                if (Object_IsLoaded(&globalCtx->objectCtx, actor->objBankIndex))
-                {
-                    Actor_SetObjectDependency(globalCtx, actor);
-                    actor->init(actor, globalCtx);
-                    actor->init = NULL;
-                }
-                actor = actor->next;
-            } else if (!Object_IsLoaded(&globalCtx->objectCtx, actor->objBankIndex)) {
-                Actor_Kill(actor);
+                actor->init(actor, globalCtx);
+                actor->init = NULL;
                 actor = actor->next;
             } else if ((unkFlag && !(actor->flags & unkFlag)) ||
                        (!unkFlag && unkCondition && (sp74 != actor) && (actor != player->naviActor) &&
@@ -2573,7 +2562,6 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
                         actor->targetPriority = 0;
                     }
 
-                    Actor_SetObjectDependency(globalCtx, actor);
                     if (actor->colorFilterTimer != 0) {
                         actor->colorFilterTimer--;
                     }
@@ -2660,10 +2648,6 @@ void Actor_Draw(GlobalContext* globalCtx, Actor* actor) {
     }
 
     Matrix_Scale(actor->scale.x, actor->scale.y, actor->scale.z, MTXMODE_APPLY);
-    Actor_SetObjectDependency(globalCtx, actor);
-
-    gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[actor->objBankIndex].segment);
-    gSPSegment(POLY_XLU_DISP++, 0x06, globalCtx->objectCtx.status[actor->objBankIndex].segment);
 
     if (actor->colorFilterTimer != 0) {
         Color_RGBA8 color = { 0, 0, 0, 255 };
@@ -2959,21 +2943,6 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx);
 }
 
-void func_80031A28(GlobalContext* globalCtx, ActorContext* actorCtx) {
-    Actor* actor;
-    s32 i;
-
-    for (i = 0; i < ARRAY_COUNT(actorCtx->actorLists); i++) {
-        actor = actorCtx->actorLists[i].head;
-        while (actor != NULL) {
-            if (!Object_IsLoaded(&globalCtx->objectCtx, actor->objBankIndex)) {
-                Actor_Kill(actor);
-            }
-            actor = actor->next;
-        }
-    }
-}
-
 u8 sEnemyActorCategories[] = { ACTORCAT_ENEMY, ACTORCAT_BOSS };
 
 void Actor_FreezeAllEnemies(GlobalContext* globalCtx, ActorContext* actorCtx, s32 duration) {
@@ -3145,7 +3114,6 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
     s32 pad;
     Actor* actor;
     ActorInit* actorInit;
-    s32 objBankIndex;
     ActorOverlay* overlayEntry;
     u32 temp;
     char* name;
@@ -3224,16 +3192,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
                                      : NULL);
     }
 
-    objBankIndex = Object_GetIndex(&globalCtx->objectCtx, actorInit->objectId);
-
-    if (objBankIndex < 0 && !gMapLoading)
-        objBankIndex = 0;
-
-    if ((objBankIndex < 0) ||
-        ((actorInit->category == ACTORCAT_ENEMY) && Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num))) {
-        // "No data bank!! <data bank＝%d> (profilep->bank=%d)"
-        osSyncPrintf(VT_COL(RED, WHITE) "データバンク無し！！<データバンク＝%d>(profilep->bank=%d)\n" VT_RST,
-                     objBankIndex, actorInit->objectId);
+    if ((actorInit->category == ACTORCAT_ENEMY) && Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num)) {
         Actor_FreeOverlay(overlayEntry);
         return NULL;
     }
@@ -3265,8 +3224,6 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
     if (actorInit->id == ACTOR_EN_PART) {
         actor->objBankIndex = rotZ;
         rotZ = 0;
-    } else {
-        actor->objBankIndex = objBankIndex;
     }
 
     actor->init = actorInit->init;

@@ -57,10 +57,6 @@ static ColliderCylinderInit sCylinderInit = {
     { 30, 40, 0, { 0, 0, 0 } },
 };
 
-static s16 sObjectIds[6] = {
-    OBJECT_AHG, OBJECT_BOJ, OBJECT_BOJ, OBJECT_BOJ, OBJECT_BOJ, OBJECT_BOJ,
-};
-
 static FlexSkeletonHeader* sSkeletons[6] = {
     &object_ahg_Skel_0000F0,
     &object_boj_Skel_0000F0,
@@ -100,9 +96,7 @@ void EnSth_SetupAction(EnSth* this, EnSthActionFunc actionFunc) {
 void EnSth_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnSth* this = (EnSth*)thisx;
 
-    s16 objectId;
     s32 params = this->actor.params;
-    s32 objectBankIdx;
 
     osSyncPrintf(VT_FGCOL(BLUE) "金スタル屋 no = %d\n" VT_RST, params); // "Gold Skulltula Shop"
     if (this->actor.params == 0) {
@@ -119,18 +113,6 @@ void EnSth_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
 
-    objectId = sObjectIds[params];
-    if (objectId != 1) {
-        objectBankIdx = Object_GetIndex(&globalCtx->objectCtx, objectId);
-    } else {
-        objectBankIdx = 0;
-    }
-
-    osSyncPrintf("bank_ID = %d\n", objectBankIdx);
-    if (objectBankIdx < 0) {
-        ASSERT(objectBankIdx < 0);
-    }
-    this->objectBankIdx = objectBankIdx;
     this->drawFunc = EnSth_Draw;
     Actor_SetScale(&this->actor, 0.01f);
     EnSth_SetupAction(this, EnSth_WaitForObjectLoaded);
@@ -155,7 +137,6 @@ void EnSth_SetupAfterObjectLoaded(EnSth* this, GlobalContext* globalCtx) {
     s16* params;
 
     EnSth_SetupShapeColliderUpdate2AndDraw(this, globalCtx);
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->objectBankIdx].segment);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, sSkeletons[this->actor.params], NULL, this->jointTable,
                        this->morphTable, 16);
     Animation_PlayLoop(&this->skelAnime, sAnimations[this->actor.params]);
@@ -176,10 +157,7 @@ void EnSth_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnSth_WaitForObjectLoaded(EnSth* this, GlobalContext* globalCtx) {
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->objectBankIdx)) {
-        this->actor.objBankIndex = this->objectBankIdx;
-        this->actionFunc = EnSth_SetupAfterObjectLoaded;
-    }
+    this->actionFunc = EnSth_SetupAfterObjectLoaded;
 }
 
 void EnSth_FacePlayer(EnSth* this, GlobalContext* globalCtx) {
@@ -422,7 +400,6 @@ void EnSth_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx);
 
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->objectBankIdx].segment);
     func_800943C8(globalCtx->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x08,

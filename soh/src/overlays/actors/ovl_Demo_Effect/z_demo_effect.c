@@ -78,36 +78,6 @@ const ActorInit Demo_Effect_InitVars = {
 // This variable assures only one jewel will play SFX
 static s16 sSfxJewelId[] = { 0 };
 
-// The object used by the effectType
-static s16 sEffectTypeObjects[] = {
-    /* 0x00 */ OBJECT_EFC_CRYSTAL_LIGHT,
-    /* 0x01 */ OBJECT_EFC_FIRE_BALL,
-    /* 0x02 */ OBJECT_GAMEPLAY_KEEP,
-    /* 0x03 */ OBJECT_EFC_LGT_SHOWER,
-    /* 0x04 */ OBJECT_GOD_LGT,
-    /* 0x05 */ OBJECT_GOD_LGT,
-    /* 0x06 */ OBJECT_GOD_LGT,
-    /* 0x07 */ OBJECT_LIGHT_RING,
-    /* 0x08 */ OBJECT_TRIFORCE_SPOT,
-    /* 0x09 */ OBJECT_GI_MEDAL,
-    /* 0x0A */ OBJECT_GI_MEDAL,
-    /* 0x0B */ OBJECT_GI_MEDAL,
-    /* 0x0C */ OBJECT_GI_MEDAL,
-    /* 0x0D */ OBJECT_GI_MEDAL,
-    /* 0x0E */ OBJECT_GI_MEDAL,
-    /* 0x0F */ OBJECT_EFC_TW,
-    /* 0x10 */ OBJECT_LIGHT_RING,
-    /* 0x11 */ OBJECT_LIGHT_RING,
-    /* 0x12 */ OBJECT_GAMEPLAY_KEEP,
-    /* 0x13 */ OBJECT_GI_JEWEL,
-    /* 0x14 */ OBJECT_GI_JEWEL,
-    /* 0x15 */ OBJECT_GI_JEWEL,
-    /* 0x16 */ OBJECT_GI_JEWEL,
-    /* 0x17 */ OBJECT_GI_M_ARROW,
-    /* 0x18 */ OBJECT_EFC_TW,
-    /* 0x19 */ OBJECT_EFC_TW,
-};
-
 static u8 sTimewarpVertexSizeIndices[] = { 1, 1, 2, 0, 1, 1, 2, 0, 1, 2, 0, 2, 1, 0, 1, 0, 2, 0, 2, 2, 0 };
 
 static Color_RGB8 sJewelSparkleColors[5][2] = {
@@ -183,7 +153,6 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx2) {
     DemoEffect* this = (DemoEffect*)thisx;
     s32 effectType;
     s32 lightEffect;
-    s32 objectIndex;
     DemoEffect* crystalLight;
     DemoEffect* lightRing;
 
@@ -191,18 +160,6 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx2) {
     lightEffect = ((this->actor.params & 0xF000) >> 12);
 
     osSyncPrintf(VT_FGCOL(CYAN) " no = %d\n" VT_RST, effectType);
-
-    objectIndex = sEffectTypeObjects[effectType] == OBJECT_GAMEPLAY_KEEP
-                      ? 0
-                      : Object_GetIndex(&globalCtx->objectCtx, sEffectTypeObjects[effectType]);
-
-    osSyncPrintf(VT_FGCOL(CYAN) " bank_ID = %d\n" VT_RST, objectIndex);
-
-    if (objectIndex < 0) {
-        ASSERT(objectIndex < 0);
-    } else {
-        this->initObjectBankIndex = objectIndex;
-    }
 
     this->effectFlags = 0;
     Actor_SetScale(&this->actor, 0.2f);
@@ -537,13 +494,10 @@ void DemoEffect_Destroy(Actor* thisx, GlobalContext* globalCtx) {
  * initUpdateFunc/initDrawFunc are set during initialization and are NOT executed.
  */
 void DemoEffect_Wait(DemoEffect* this, GlobalContext* globalCtx) {
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->initObjectBankIndex)) {
-        this->actor.objBankIndex = this->initObjectBankIndex;
-        this->actor.draw = this->initDrawFunc;
-        this->updateFunc = this->initUpdateFunc;
+    this->actor.draw = this->initDrawFunc;
+    this->updateFunc = this->initUpdateFunc;
 
-        osSyncPrintf(VT_FGCOL(CYAN) " 転送終了 move_wait " VT_RST);
-    }
+    osSyncPrintf(VT_FGCOL(CYAN) " 転送終了 move_wait " VT_RST);
 }
 
 /**

@@ -761,17 +761,6 @@ void EnHorse_Init(Actor* thisx, GlobalContext* globalCtx2) {
     if (this->actor.params & 0x8000) {
         this->actor.params &= ~0x8000;
         this->type = HORSE_HNI;
-
-        if ((this->bankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_HNI)) < 0) {
-            Actor_Kill(&this->actor);
-            return;
-        }
-
-        do {
-        } while (!Object_IsLoaded(&globalCtx->objectCtx, this->bankIndex));
-
-        this->actor.objBankIndex = this->bankIndex;
-        Actor_SetObjectDependency(globalCtx, &this->actor);
         this->boostSpeed = 12;
     } else {
         this->type = HORSE_EPONA;

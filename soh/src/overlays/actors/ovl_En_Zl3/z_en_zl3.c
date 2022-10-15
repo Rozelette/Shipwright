@@ -2616,19 +2616,9 @@ void func_80B59B6C(EnZl3* this, GlobalContext* globalCtx) {
 void func_80B59DB8(EnZl3* this, GlobalContext* globalCtx) {
     s32 pad;
     ObjectContext* objCtx = &globalCtx->objectCtx;
-    s32 objIndex = Object_GetIndex(objCtx, OBJECT_ZL2_ANIME2);
-    s32 pad2;
 
-    if (objIndex < 0) {
-        osSyncPrintf(VT_FGCOL(RED) "En_Zl3_main_bankアニメーションのバンクを読めない!!!!!!!!!!!!\n" VT_RST);
-        return;
-    }
-
-    if (Object_IsLoaded(objCtx, objIndex)) {
-        this->unk_318 = objIndex;
-        func_80B54DE0(this, globalCtx);
-        func_80B59B6C(this, globalCtx);
-    }
+    func_80B54DE0(this, globalCtx);
+    func_80B59B6C(this, globalCtx);
 }
 
 static EnZl3ActionFunc sActionFuncs[] = {

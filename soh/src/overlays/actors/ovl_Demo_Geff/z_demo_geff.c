@@ -23,10 +23,6 @@ void func_80978308(DemoGeff* this, GlobalContext* globalCtx);
 void func_809784D4(DemoGeff* this, GlobalContext* globalCtx);
 void func_80978344(DemoGeff* this, GlobalContext* globalCtx);
 
-static s16 sObjectIDs[] = {
-    OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF, OBJECT_GEFF,
-};
-
 static DemoGeffInitFunc sInitFuncs[] = {
     func_80978030, func_80978030, func_80978030, func_80978030, func_80978030,
     func_80978030, func_80978030, func_80978030, func_80978030,
@@ -81,19 +77,6 @@ void func_80977EA8(GlobalContext* globalCtx, Gfx* dlist) {
               G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, dlist);
     gSPPopMatrix(POLY_OPA_DISP++, G_MTX_MODELVIEW);
-
-    CLOSE_DISPS(gfxCtx);
-}
-
-void func_80977F80(DemoGeff* this, GlobalContext* globalCtx) {
-    s32 pad[2];
-    s32 objBankIndex = this->objBankIndex;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-
-    OPEN_DISPS(gfxCtx);
-
-    gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[objBankIndex].segment);
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[objBankIndex].segment);
 
     CLOSE_DISPS(gfxCtx);
 }
@@ -183,22 +166,7 @@ void func_80978370(DemoGeff* this, GlobalContext* globalCtx) {
 }
 
 void func_809783D4(DemoGeff* this, GlobalContext* globalCtx) {
-    ObjectContext* objCtx = &globalCtx->objectCtx;
-    Actor* thisx = &this->actor;
-    s32 params = thisx->params;
-    s16 objectId = sObjectIDs[params];
-    s32 objBankIndex = Object_GetIndex(objCtx, objectId);
-    s32 pad;
-
-    if (objBankIndex < 0) {
-        osSyncPrintf(VT_FGCOL(RED) "Demo_Geff_main_bank:バンクを読めない arg_data = %d!\n" VT_RST, params);
-        Actor_Kill(thisx);
-        return;
-    }
-    if (Object_IsLoaded(objCtx, objBankIndex)) {
-        this->objBankIndex = objBankIndex;
-        func_80978370(this, globalCtx);
-    }
+    func_80978370(this, globalCtx);
 }
 
 void DemoGeff_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -221,9 +189,6 @@ void DemoGeff_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (drawConfig < 0 || drawConfig >= 2 || sDrawFuncs[drawConfig] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
-    }
-    if (drawConfig != 0) {
-        func_80977F80(this, globalCtx);
     }
     sDrawFuncs[drawConfig](this, globalCtx);
 }

@@ -76,7 +76,6 @@ static void* sEyeTexturesBOJ2[] = { object_boj_Tex_0005FC, object_boj_Tex_0006FC
 static void* sEyeTexturesBOB[] = { object_bob_Tex_0007C8, object_bob_Tex_000FC8, object_bob_Tex_0017C8, NULL };
 
 typedef struct {
-    /* 0x00 */ s16 objectId;
     /* 0x04 */ Gfx* headDList;
     /* 0x08 */ void** eyeTextures;
 } EnHyHeadInfo; // size = 0xC
@@ -101,26 +100,25 @@ typedef enum {
 } EnHyHeadIndex;
 
 static EnHyHeadInfo sHeadInfo[] = {
-    /* ENHY_HEAD_AOB */ { OBJECT_AOB, gDogLadyHeadDL, sEyeTexturesAOB },
-    /* ENHY_HEAD_BOB */ { OBJECT_BOB, object_bob_DL_003B78, sEyeTexturesBOB },
-    /* ENHY_HEAD_BOJ_2 */ { OBJECT_BOJ, object_boj_DL_0026F0, sEyeTexturesBOJ2 },
-    /* ENHY_HEAD_BOJ_3 */ { OBJECT_BOJ, object_boj_DL_0052E0, NULL },
-    /* ENHY_HEAD_BOJ_4 */ { OBJECT_BOJ, object_boj_DL_005528, NULL },
-    /* ENHY_HEAD_BOJ_5 */ { OBJECT_BOJ, object_boj_DL_005738, NULL },
-    /* ENHY_HEAD_BOJ_6 */ { OBJECT_BOJ, object_boj_DL_0059B0, NULL },
-    /* ENHY_HEAD_AHG_7 */ { OBJECT_AHG, object_ahg_DL_0030F0, sEyeTexturesAHG7 },
-    /* ENHY_HEAD_AHG_8 */ { OBJECT_AHG, object_ahg_DL_005508, NULL },
-    /* ENHY_HEAD_AHG_9 */ { OBJECT_AHG, object_ahg_DL_005728, NULL },
-    /* ENHY_HEAD_BBA */ { OBJECT_BBA, object_bba_DL_002948, sEyeTexturesBBA },
-    /* ENHY_HEAD_CNE_11 */ { OBJECT_CNE, gCneHeadBrownHairDL, NULL },
-    /* ENHY_HEAD_CNE_12 */ { OBJECT_CNE, gCneHeadOrangeHairDL, NULL },
-    /* ENHY_HEAD_BJI_13 */ { OBJECT_BJI, object_bji_DL_002560, sEyeTexturesBJI13 },
-    /* ENHY_HEAD_BJI_14 */ { OBJECT_BJI, object_bji_DL_003F68, NULL },
-    /* ENHY_HEAD_COB */ { OBJECT_COB, object_cob_DL_001300, NULL },
+    /* ENHY_HEAD_AOB */ { gDogLadyHeadDL, sEyeTexturesAOB },
+    /* ENHY_HEAD_BOB */ { object_bob_DL_003B78, sEyeTexturesBOB },
+    /* ENHY_HEAD_BOJ_2 */ { object_boj_DL_0026F0, sEyeTexturesBOJ2 },
+    /* ENHY_HEAD_BOJ_3 */ { object_boj_DL_0052E0, NULL },
+    /* ENHY_HEAD_BOJ_4 */ { object_boj_DL_005528, NULL },
+    /* ENHY_HEAD_BOJ_5 */ { object_boj_DL_005738, NULL },
+    /* ENHY_HEAD_BOJ_6 */ { object_boj_DL_0059B0, NULL },
+    /* ENHY_HEAD_AHG_7 */ { object_ahg_DL_0030F0, sEyeTexturesAHG7 },
+    /* ENHY_HEAD_AHG_8 */ { object_ahg_DL_005508, NULL },
+    /* ENHY_HEAD_AHG_9 */ { object_ahg_DL_005728, NULL },
+    /* ENHY_HEAD_BBA */ { object_bba_DL_002948, sEyeTexturesBBA },
+    /* ENHY_HEAD_CNE_11 */ { gCneHeadBrownHairDL, NULL },
+    /* ENHY_HEAD_CNE_12 */ { gCneHeadOrangeHairDL, NULL },
+    /* ENHY_HEAD_BJI_13 */ { object_bji_DL_002560, sEyeTexturesBJI13 },
+    /* ENHY_HEAD_BJI_14 */ { object_bji_DL_003F68, NULL },
+    /* ENHY_HEAD_COB */ { object_cob_DL_001300, NULL },
 };
 
 typedef struct {
-    /* 0x00 */ s16 objectId;
     /* 0x04 */ FlexSkeletonHeader* skeleton;
 } EnHySkeletonInfo; // size = 0x8
 
@@ -136,14 +134,14 @@ typedef enum {
 } EnHySkeletonIndex;
 
 static EnHySkeletonInfo sSkeletonInfo[] = {
-    /* ENHY_SKEL_AOB */ { OBJECT_AOB, &gDogLadySkel },
-    /* ENHY_SKEL_BOB */ { OBJECT_BOB, &object_bob_Skel_0000F0 },
-    /* ENHY_SKEL_BOJ */ { OBJECT_BOJ, &object_boj_Skel_0000F0 },
-    /* ENHY_SKEL_AHG */ { OBJECT_AHG, &object_ahg_Skel_0000F0 },
-    /* ENHY_SKEL_BBA */ { OBJECT_BBA, &object_bba_Skel_0000F0 },
-    /* ENHY_SKEL_CNE */ { OBJECT_CNE, &gCneSkel },
-    /* ENHY_SKEL_BJI */ { OBJECT_BJI, &object_bji_Skel_0000F0 },
-    /* ENHY_SKEL_COB */ { OBJECT_COB, &object_cob_Skel_0021F8 },
+    /* ENHY_SKEL_AOB */ { &gDogLadySkel },
+    /* ENHY_SKEL_BOB */ { &object_bob_Skel_0000F0 },
+    /* ENHY_SKEL_BOJ */ { &object_boj_Skel_0000F0 },
+    /* ENHY_SKEL_AHG */ { &object_ahg_Skel_0000F0 },
+    /* ENHY_SKEL_BBA */ { &object_bba_Skel_0000F0 },
+    /* ENHY_SKEL_CNE */ { &gCneSkel },
+    /* ENHY_SKEL_BJI */ { &object_bji_Skel_0000F0 },
+    /* ENHY_SKEL_COB */ { &object_cob_Skel_0021F8 },
 };
 
 typedef enum {
@@ -351,63 +349,6 @@ static EnHyInit2Info sInit2Info[] = {
     /* ENHY_TYPE_BJI_19 */ { 17.0f, { 0.0f, 0.0f, 700.0f }, 0.01f, 0x06, 30.0f },
     /* ENHY_TYPE_AHG_20 */ { 20.0f, { 0.0f, 0.0f, -200.0f }, 0.01f, 0x06, 30.0f },
 };
-
-s32 EnHy_FindSkelAndHeadObjects(EnHy* this, GlobalContext* globalCtx) {
-    u8 headInfoIndex = sModelInfo[this->actor.params & 0x7F].headInfoIndex;
-    u8 skelInfoIndex2 = sModelInfo[this->actor.params & 0x7F].skelInfoIndex2;
-    u8 skelInfoIndex1 = sModelInfo[this->actor.params & 0x7F].skelInfoIndex1;
-
-    this->objBankIndexSkel1 = Object_GetIndex(&globalCtx->objectCtx, sSkeletonInfo[skelInfoIndex1].objectId);
-    if (this->objBankIndexSkel1 < 0) {
-        return false;
-    }
-
-    this->objBankIndexSkel2 = Object_GetIndex(&globalCtx->objectCtx, sSkeletonInfo[skelInfoIndex2].objectId);
-    if (this->objBankIndexSkel2 < 0) {
-        return false;
-    }
-
-    this->objBankIndexHead = Object_GetIndex(&globalCtx->objectCtx, sHeadInfo[headInfoIndex].objectId);
-    if (this->objBankIndexHead < 0) {
-        return false;
-    }
-
-    return true;
-}
-
-s32 EnHy_AreSkelAndHeadObjectsLoaded(EnHy* this, GlobalContext* globalCtx) {
-    if (!Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndexSkel1)) {
-        return false;
-    }
-
-    if (!Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndexSkel2)) {
-        return false;
-    }
-
-    if (!Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndexHead)) {
-        return false;
-    }
-
-    return true;
-}
-
-s32 EnHy_FindOsAnimeObject(EnHy* this, GlobalContext* globalCtx) {
-    this->objBankIndexOsAnime = Object_GetIndex(&globalCtx->objectCtx, OBJECT_OS_ANIME);
-
-    if (this->objBankIndexOsAnime < 0) {
-        return false;
-    }
-
-    return true;
-}
-
-s32 EnHy_IsOsAnimeObjectLoaded(EnHy* this, GlobalContext* globalCtx) {
-    if (!Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndexOsAnime)) {
-        return false;
-    }
-
-    return true;
-}
 
 void func_80A6F7CC(EnHy* this, GlobalContext* globalCtx, s32 getItemId) {
     this->unkGetItemId = getItemId;
@@ -885,8 +826,7 @@ s32 EnHy_ShouldSpawn(EnHy* this, GlobalContext* globalCtx) {
 void EnHy_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnHy* this = (EnHy*)thisx;
 
-    if ((this->actor.params & 0x7F) >= ENHY_TYPE_MAX || !EnHy_FindOsAnimeObject(this, globalCtx) ||
-        !EnHy_FindSkelAndHeadObjects(this, globalCtx)) {
+    if ((this->actor.params & 0x7F) >= ENHY_TYPE_MAX) {
         Actor_Kill(&this->actor);
     }
 
@@ -905,75 +845,70 @@ void EnHy_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnHy_InitImpl(EnHy* this, GlobalContext* globalCtx) {
-    if (EnHy_IsOsAnimeObjectLoaded(this, globalCtx) && EnHy_AreSkelAndHeadObjectsLoaded(this, globalCtx)) {
-        this->actor.objBankIndex = this->objBankIndexSkel1;
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime,
-                           sSkeletonInfo[sModelInfo[this->actor.params & 0x7F].skelInfoIndex1].skeleton, NULL,
-                           this->jointTable, this->morphTable, 16);
-        ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objBankIndexOsAnime].segment);
-        Collider_InitCylinder(globalCtx, &this->collider);
-        Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sColCylInit);
-        EnHy_InitCollider(this);
-        CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
-        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, sModelInfo[this->actor.params & 0x7F].animInfoIndex);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime,
+                        sSkeletonInfo[sModelInfo[this->actor.params & 0x7F].skelInfoIndex1].skeleton, NULL,
+                        this->jointTable, this->morphTable, 16);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
+    Collider_InitCylinder(globalCtx, &this->collider);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sColCylInit);
+    EnHy_InitCollider(this);
+    CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
+    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, sModelInfo[this->actor.params & 0x7F].animInfoIndex);
 
-        if ((globalCtx->sceneNum == SCENE_MARKET_ALLEY) || (globalCtx->sceneNum == SCENE_MARKET_DAY)) {
-            this->actor.flags &= ~ACTOR_FLAG_4;
-            this->actor.uncullZoneScale = 0.0f;
-        }
+    if ((globalCtx->sceneNum == SCENE_MARKET_ALLEY) || (globalCtx->sceneNum == SCENE_MARKET_DAY)) {
+        this->actor.flags &= ~ACTOR_FLAG_4;
+        this->actor.uncullZoneScale = 0.0f;
+    }
 
-        if (globalCtx->sceneNum == SCENE_KAKARIKO) {
-            this->unk_330 = gSaveContext.eventChkInf[6];
-        }
+    if (globalCtx->sceneNum == SCENE_KAKARIKO) {
+        this->unk_330 = gSaveContext.eventChkInf[6];
+    }
 
-        EnHy_InitSetProperties(this);
-        this->path = Path_GetByIndex(globalCtx, (this->actor.params & 0x780) >> 7, 15);
+    EnHy_InitSetProperties(this);
+    this->path = Path_GetByIndex(globalCtx, (this->actor.params & 0x780) >> 7, 15);
 
-        switch (this->actor.params & 0x7F) {
-            case ENHY_TYPE_BOJ_3:
-                if (this->path != NULL) {
-                    this->actor.speedXZ = 3.0f;
-                }
-                this->actionFunc = func_80A711B4;
+    switch (this->actor.params & 0x7F) {
+        case ENHY_TYPE_BOJ_3:
+            if (this->path != NULL) {
+                this->actor.speedXZ = 3.0f;
+            }
+            this->actionFunc = func_80A711B4;
+            break;
+        case ENHY_TYPE_BJI_7:
+            this->pathReverse = false;
+            this->actionFunc = func_80A712C0;
+            break;
+        case ENHY_TYPE_AOB:
+            if (globalCtx->sceneNum == SCENE_MARKET_DAY) {
+                this->actionFunc = func_80A710F8;
                 break;
-            case ENHY_TYPE_BJI_7:
-                this->pathReverse = false;
-                this->actionFunc = func_80A712C0;
-                break;
-            case ENHY_TYPE_AOB:
-                if (globalCtx->sceneNum == SCENE_MARKET_DAY) {
-                    this->actionFunc = func_80A710F8;
-                    break;
-                }
-                // fall-through
-            case ENHY_TYPE_COB:
-            case ENHY_TYPE_AHG_2:
-            case ENHY_TYPE_AHG_4:
-            case ENHY_TYPE_BBA:
-            case ENHY_TYPE_CNE_8:
-            case ENHY_TYPE_AHG_13:
-            case ENHY_TYPE_BOJ_14:
-            case ENHY_TYPE_BJI_15:
-            case ENHY_TYPE_BOJ_16:
-            case ENHY_TYPE_AHG_17:
-            case ENHY_TYPE_BOB_18:
-            case ENHY_TYPE_BJI_19:
-            case ENHY_TYPE_AHG_20:
-                this->actionFunc = func_80A7127C;
-                break;
-            case ENHY_TYPE_BOJ_5:
-            case ENHY_TYPE_BOJ_9:
-            case ENHY_TYPE_BOJ_10:
-            case ENHY_TYPE_CNE_11:
-            case ENHY_TYPE_BOJ_12:
-                this->actionFunc = EnHy_DoNothing;
-                break;
-            default:
-                Actor_Kill(&this->actor);
-                break;
-        }
+            }
+            // fall-through
+        case ENHY_TYPE_COB:
+        case ENHY_TYPE_AHG_2:
+        case ENHY_TYPE_AHG_4:
+        case ENHY_TYPE_BBA:
+        case ENHY_TYPE_CNE_8:
+        case ENHY_TYPE_AHG_13:
+        case ENHY_TYPE_BOJ_14:
+        case ENHY_TYPE_BJI_15:
+        case ENHY_TYPE_BOJ_16:
+        case ENHY_TYPE_AHG_17:
+        case ENHY_TYPE_BOB_18:
+        case ENHY_TYPE_BJI_19:
+        case ENHY_TYPE_AHG_20:
+            this->actionFunc = func_80A7127C;
+            break;
+        case ENHY_TYPE_BOJ_5:
+        case ENHY_TYPE_BOJ_9:
+        case ENHY_TYPE_BOJ_10:
+        case ENHY_TYPE_CNE_11:
+        case ENHY_TYPE_BOJ_12:
+            this->actionFunc = EnHy_DoNothing;
+            break;
+        default:
+            Actor_Kill(&this->actor);
+            break;
     }
 }
 
@@ -1100,7 +1035,6 @@ void EnHy_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnHy* this = (EnHy*)thisx;
 
     if (this->actionFunc != EnHy_InitImpl) {
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objBankIndexOsAnime].segment);
         SkelAnime_Update(&this->skelAnime);
         EnHy_UpdateEyes(this);
 
@@ -1126,8 +1060,6 @@ s32 EnHy_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     OPEN_DISPS(globalCtx->state.gfxCtx);
 
     if (limbIndex == 15) {
-        gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[this->objBankIndexHead].segment);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objBankIndexHead].segment);
         i = sModelInfo[this->actor.params & 0x7F].headInfoIndex;
         *dList = sHeadInfo[i].headDList;
 
@@ -1135,8 +1067,6 @@ s32 EnHy_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
             ptr = sHeadInfo[i].eyeTextures[this->curEyeIndex];
             gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(ptr));
         }
-
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objBankIndexSkel1].segment);
     }
 
     if (limbIndex == 15) {
@@ -1169,11 +1099,6 @@ void EnHy_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     Vec3f sp3C = { 400.0f, 0.0f, 0.0f };
 
     OPEN_DISPS(globalCtx->state.gfxCtx);
-
-    if (limbIndex == 7) {
-        gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[this->objBankIndexSkel2].segment);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objBankIndexSkel2].segment);
-    }
 
     if ((this->actor.params & 0x7F) == ENHY_TYPE_BOJ_3 && limbIndex == 8) {
         gSPDisplayList(POLY_OPA_DISP++, object_boj_DL_005BC8);

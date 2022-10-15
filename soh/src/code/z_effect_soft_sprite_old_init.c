@@ -817,7 +817,6 @@ void EffectSsKakera_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity,
     initParams.unk_32 = arg11;
     initParams.life = life;
     initParams.colorIdx = colorIdx;
-    initParams.objId = objId;
     initParams.dList = dList;
 
     EffectSs_Spawn(globalCtx, EFFECT_SS_KAKERA, 101, &initParams);

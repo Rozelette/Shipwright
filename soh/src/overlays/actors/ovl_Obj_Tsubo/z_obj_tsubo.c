@@ -137,14 +137,8 @@ void ObjTsubo_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
         return;
     }
-    this->objTsuboBankIndex = Object_GetIndex(&globalCtx->objectCtx, sObjectIds[(this->actor.params >> 8) & 1]);
-    if (this->objTsuboBankIndex < 0) {
-        osSyncPrintf("Error : バンク危険！ (arg_data 0x%04x)(%s %d)\n", this->actor.params, __FILE__, __LINE__);
-        Actor_Kill(&this->actor);
-    } else {
-        ObjTsubo_SetupWaitForObject(this);
-        osSyncPrintf("(dungeon keep 壷)(arg_data 0x%04x)\n", this->actor.params);
-    }
+    ObjTsubo_SetupWaitForObject(this);
+    osSyncPrintf("(dungeon keep 壷)(arg_data 0x%04x)\n", this->actor.params);
 }
 
 void ObjTsubo_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
@@ -223,12 +217,9 @@ void ObjTsubo_SetupWaitForObject(ObjTsubo* this) {
 }
 
 void ObjTsubo_WaitForObject(ObjTsubo* this, GlobalContext* globalCtx) {
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->objTsuboBankIndex)) {
-        this->actor.draw = ObjTsubo_Draw;
-        this->actor.objBankIndex = this->objTsuboBankIndex;
-        ObjTsubo_SetupIdle(this);
-        this->actor.flags &= ~ACTOR_FLAG_4;
-    }
+    this->actor.draw = ObjTsubo_Draw;
+    ObjTsubo_SetupIdle(this);
+    this->actor.flags &= ~ACTOR_FLAG_4;
 }
 
 void ObjTsubo_SetupIdle(ObjTsubo* this) {

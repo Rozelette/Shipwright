@@ -257,15 +257,6 @@ void EnKusa_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
 
-    this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, sObjectIds[thisx->params & 3]);
-
-    if (this->objBankIndex < 0) {
-        // "Bank danger!"
-        osSyncPrintf("Error : バンク危険！ (arg_data 0x%04x)(%s %d)\n", thisx->params, __FILE__, __LINE__);
-        Actor_Kill(&this->actor);
-        return;
-    }
-
     EnKusa_SetupWaitObject(this);
 }
 
@@ -281,17 +272,14 @@ void EnKusa_SetupWaitObject(EnKusa* this) {
 }
 
 void EnKusa_WaitObject(EnKusa* this, GlobalContext* globalCtx) {
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
-        if (this->actor.flags & ACTOR_FLAG_ENKUSA_CUT) {
-            EnKusa_SetupCut(this);
-        } else {
-            EnKusa_SetupMain(this);
-        }
-
-        this->actor.draw = EnKusa_Draw;
-        this->actor.objBankIndex = this->objBankIndex;
-        this->actor.flags &= ~ACTOR_FLAG_4;
+    if (this->actor.flags & ACTOR_FLAG_ENKUSA_CUT) {
+        EnKusa_SetupCut(this);
+    } else {
+        EnKusa_SetupMain(this);
     }
+
+    this->actor.draw = EnKusa_Draw;
+    this->actor.flags &= ~ACTOR_FLAG_4;
 }
 
 void EnKusa_SetupMain(EnKusa* this) {

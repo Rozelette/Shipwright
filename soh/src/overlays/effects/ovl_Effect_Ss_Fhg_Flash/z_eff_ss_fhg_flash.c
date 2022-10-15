@@ -9,7 +9,6 @@
 #include "objects/object_fhg/object_fhg.h"
 
 #define rAlpha regs[0]
-#define rObjBankIdx regs[2]
 #define rXZRot regs[3]
 #define rParam regs[4]
 #define rScale regs[8]
@@ -30,34 +29,20 @@ static Gfx D_809A5100[15];
 
 u32 EffectSsFhgFlash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsFhgFlashInitParams* initParams = (EffectSsFhgFlashInitParams*)initParamsx;
-    s32 pad;
-    s32 objBankIdx;
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     Vec3f sp34 = { 0.0f, -1000.0f, 0.0f };
-    void* oldSeg6;
 
     if (initParams->type == FHGFLASH_LIGHTBALL) {
-        objBankIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_FHG);
-
-        if ((objBankIdx > -1) && Object_IsLoaded(&globalCtx->objectCtx, objBankIdx)) {
-            oldSeg6 = gSegments[6];
-            gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[objBankIdx].segment);
-            this->rObjBankIdx = objBankIdx;
-            this->pos = initParams->pos;
-            this->velocity = initParams->velocity;
-            this->accel = initParams->accel;
-            this->rParam = initParams->param;
-            this->life = 100;
-            this->rScale = initParams->scale;
-            this->rAlpha = 255;
-            this->draw = EffectSsFhgFlash_DrawLightBall;
-            this->update = EffectSsFhgFlash_UpdateLightBall;
-            this->gfx = SEGMENTED_TO_VIRTUAL(gPhantomEnergyBallDL);
-            gSegments[6] = oldSeg6;
-        } else {
-            osSyncPrintf("Effect_Ss_Fhg_Flash_ct():pffd->modeエラー\n");
-            return 0;
-        }
+        this->pos = initParams->pos;
+        this->velocity = initParams->velocity;
+        this->accel = initParams->accel;
+        this->rParam = initParams->param;
+        this->life = 100;
+        this->rScale = initParams->scale;
+        this->rAlpha = 255;
+        this->draw = EffectSsFhgFlash_DrawLightBall;
+        this->update = EffectSsFhgFlash_UpdateLightBall;
+        this->gfx = SEGMENTED_TO_VIRTUAL(gPhantomEnergyBallDL);
     } else {
         this->actor = initParams->actor;
         this->velocity = this->accel = zeroVec;
@@ -88,17 +73,13 @@ void EffectSsFhgFlash_DrawLightBall(GlobalContext* globalCtx, u32 index, EffectS
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s32 pad;
     f32 scale;
-    void* object;
 
     scale = this->rScale / 100.0f;
-    object = globalCtx->objectCtx.status[this->rObjBankIdx].segment;
 
     OPEN_DISPS(gfxCtx);
 
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(object);
-    gSPSegment(POLY_XLU_DISP++, 0x06, object);
     func_80093D84(globalCtx->state.gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, this->rAlpha);
     gDPSetEnvColor(POLY_XLU_DISP++, sColors[this->rParam].r, sColors[this->rParam].g, sColors[this->rParam].b, 0);

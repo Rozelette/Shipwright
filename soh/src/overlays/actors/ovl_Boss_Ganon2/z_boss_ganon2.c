@@ -99,22 +99,6 @@ void func_808FD080(s32 idx, ColliderJntSph* collider, Vec3f* arg2) {
         collider->elements[idx].dim.modelSphere.radius * collider->elements[idx].dim.scale;
 }
 
-void BossGanon2_SetObjectSegment(BossGanon2* this, GlobalContext* globalCtx, s32 objectId, u8 setRSPSegment) {
-    s32 pad;
-    s32 objectIdx = Object_GetIndex(&globalCtx->objectCtx, objectId);
-
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[objectIdx].segment);
-
-    if (setRSPSegment) {
-        OPEN_DISPS(globalCtx->state.gfxCtx);
-
-        gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[objectIdx].segment);
-        gSPSegment(POLY_XLU_DISP++, 0x06, globalCtx->objectCtx.status[objectIdx].segment);
-
-        CLOSE_DISPS(globalCtx->state.gfxCtx);
-    }
-}
-
 void func_808FD210(GlobalContext* globalCtx, Vec3f* arg1) {
     BossGanon2Effect* effect = globalCtx->specialEffects;
 
@@ -168,7 +152,6 @@ void BossGanon2_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetJntSph(globalCtx, &this->unk_424, &this->actor, &sJntSphInit1, this->unk_464);
     Collider_InitJntSph(globalCtx, &this->unk_444);
     Collider_SetJntSph(globalCtx, &this->unk_444, &this->actor, &sJntSphInit2, this->unk_864);
-    BossGanon2_SetObjectSegment(this, globalCtx, OBJECT_GANON, false);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGanondorfSkel, NULL, NULL, NULL, 0);
     func_808FD5C4(this, globalCtx);
     this->actor.naviEnemyId = 0x3E;
@@ -206,9 +189,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
     s16 pad;
     u8 sp8D;
     Player* player;
-    s32 objectIdx;
     s32 zero = 0;
-    s32 pad2;
 
     sp8D = false;
     player = GET_PLAYER(globalCtx);
@@ -216,40 +197,35 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
 
     switch (this->unk_39C) {
         case 0:
-            objectIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_GANON_ANIME3);
-            if (Object_IsLoaded(&globalCtx->objectCtx, objectIdx)) {
-                func_80064520(globalCtx, &globalCtx->csCtx);
-                func_8002DF54(globalCtx, &this->actor, 8);
-                this->unk_39E = Gameplay_CreateSubCamera(globalCtx);
-                Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
-                Gameplay_ChangeCameraStatus(globalCtx, this->unk_39E, CAM_STAT_ACTIVE);
-                this->unk_39C = 1;
-                sBossGanon2Zelda = (EnZl3*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_ZL3, 970.0f,
-                                                    1086.0f, -200.0f, 0, 0, 0, 1);
-                sBossGanon2Zelda->unk_3C8 = 0;
-                sBossGanon2Zelda->actor.world.pos.x = 970.0f;
-                sBossGanon2Zelda->actor.world.pos.y = 1086.0f;
-                sBossGanon2Zelda->actor.world.pos.z = -214.0f;
-                sBossGanon2Zelda->actor.shape.rot.y = -0x7000;
-                this->unk_3BC.x = 0.0f;
-                this->unk_3BC.y = 1.0f;
-                this->unk_3BC.z = 0.0f;
-                this->unk_398 = 0;
-                this->unk_3A4.x = 0.0f;
-                this->unk_3A4.y = 1400.0f;
-                this->unk_3A4.z = 1600.0f;
-                player->actor.world.pos.x = 970.0f;
-                player->actor.world.pos.y = 1086.0f;
-                player->actor.world.pos.z = -186.0f;
-                player->actor.shape.rot.y = -0x5000;
-                Animation_MorphToLoop(&this->skelAnime, &gGanondorfBurstOutAnim, 0.0f);
-                globalCtx->envCtx.unk_D8 = 0.0f;
-                // fake, tricks the compiler into allocating more stack
-                if (zero) {
-                    this->unk_3A4.x *= 2.0;
-                }
-            } else {
-                break;
+            func_80064520(globalCtx, &globalCtx->csCtx);
+            func_8002DF54(globalCtx, &this->actor, 8);
+            this->unk_39E = Gameplay_CreateSubCamera(globalCtx);
+            Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
+            Gameplay_ChangeCameraStatus(globalCtx, this->unk_39E, CAM_STAT_ACTIVE);
+            this->unk_39C = 1;
+            sBossGanon2Zelda = (EnZl3*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_ZL3, 970.0f,
+                                                1086.0f, -200.0f, 0, 0, 0, 1);
+            sBossGanon2Zelda->unk_3C8 = 0;
+            sBossGanon2Zelda->actor.world.pos.x = 970.0f;
+            sBossGanon2Zelda->actor.world.pos.y = 1086.0f;
+            sBossGanon2Zelda->actor.world.pos.z = -214.0f;
+            sBossGanon2Zelda->actor.shape.rot.y = -0x7000;
+            this->unk_3BC.x = 0.0f;
+            this->unk_3BC.y = 1.0f;
+            this->unk_3BC.z = 0.0f;
+            this->unk_398 = 0;
+            this->unk_3A4.x = 0.0f;
+            this->unk_3A4.y = 1400.0f;
+            this->unk_3A4.z = 1600.0f;
+            player->actor.world.pos.x = 970.0f;
+            player->actor.world.pos.y = 1086.0f;
+            player->actor.world.pos.z = -186.0f;
+            player->actor.shape.rot.y = -0x5000;
+            Animation_MorphToLoop(&this->skelAnime, &gGanondorfBurstOutAnim, 0.0f);
+            globalCtx->envCtx.unk_D8 = 0.0f;
+            // fake, tricks the compiler into allocating more stack
+            if (zero) {
+                this->unk_3A4.x *= 2.0;
             }
         case 1:
             if (this->unk_398 < 70) {
@@ -571,10 +547,8 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 this->unk_39C = 17;
                 this->unk_398 = 0;
                 this->unk_337 = 2;
-                BossGanon2_SetObjectSegment(this, globalCtx, OBJECT_GANON2, false);
                 SkelAnime_Free(&this->skelAnime, globalCtx);
                 SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGanonSkel, NULL, NULL, NULL, 0);
-                BossGanon2_SetObjectSegment(this, globalCtx, OBJECT_GANON_ANIME3, false);
                 func_8002DF54(globalCtx, &this->actor, 0x54);
                 this->unk_314 = 3;
             }
@@ -689,7 +663,6 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 this->unk_336 = 2;
             }
             if (this->unk_398 == 80) {
-                BossGanon2_SetObjectSegment(this, globalCtx, OBJECT_GANON2, false);
                 TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
                                        SEGMENTED_TO_VIRTUAL(gGanonTitleCardTex), 160, 180, 128, 40, true);
                                        //It has translation but they are all the same. they all say "GANON" only
@@ -1054,27 +1027,19 @@ void func_808FFCFC(BossGanon2* this, GlobalContext* globalCtx) {
 }
 
 void func_808FFDB0(BossGanon2* this, GlobalContext* globalCtx) {
-    s32 sp28;
-    s32 objectIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_GANON2);
+    Animation_MorphToLoop(&this->skelAnime, &gGanonGuardIdleAnim, -10.0f);
+    this->actionFunc = func_808FFEBC;
 
-    if (Object_IsLoaded(&globalCtx->objectCtx, objectIdx)) {
-        gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[objectIdx].segment);
-        Animation_MorphToLoop(&this->skelAnime, &gGanonGuardIdleAnim, -10.0f);
-        this->actionFunc = func_808FFEBC;
-
-        if (this->unk_334 != 0) {
-            this->unk_1A2[0] = Rand_ZeroFloat(30.0f);
-        } else {
-            this->unk_1A2[0] = 40;
-        }
-
-        this->unk_336 = 1;
-        this->actor.flags |= ACTOR_FLAG_0;
-        this->unk_228 = 1.0f;
-        this->unk_224 = 1.0f;
+    if (this->unk_334 != 0) {
+        this->unk_1A2[0] = Rand_ZeroFloat(30.0f);
     } else {
-        this->actionFunc = func_808FFDB0;
+        this->unk_1A2[0] = 40;
     }
+
+    this->unk_336 = 1;
+    this->actor.flags |= ACTOR_FLAG_0;
+    this->unk_228 = 1.0f;
+    this->unk_224 = 1.0f;
 }
 
 void func_808FFEBC(BossGanon2* this, GlobalContext* globalCtx) {
@@ -1991,9 +1956,7 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
     f32 sp44;
 
     if ((this->unk_337 == 0) || (this->unk_337 == 2)) {
-        BossGanon2_SetObjectSegment(this, globalCtx, OBJECT_GANON_ANIME3, false);
     } else {
-        BossGanon2_SetObjectSegment(this, globalCtx, OBJECT_GANON2, false);
         Math_ApproachZeroF(&this->unk_30C, 1.0f, 0.5f);
     }
     func_808FFC84(this);
@@ -2794,7 +2757,6 @@ void BossGanon2_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (this->unk_337) {
         case 0:
-            BossGanon2_SetObjectSegment(this, globalCtx, OBJECT_GANON, true);
             gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gGanondorfEmptyEyeTex));
             gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(gGanondorfEmptyEyeTex));
             SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
@@ -2802,7 +2764,6 @@ void BossGanon2_Draw(Actor* thisx, GlobalContext* globalCtx) {
             break;
         case 1:
         case 2:
-            BossGanon2_SetObjectSegment(this, globalCtx, OBJECT_GANON2, true);
             gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->unk_310]));
             func_808FD080(0, &this->unk_444, &D_8090717C);
             func_808FD080(1, &this->unk_444, &D_8090717C);
@@ -2824,7 +2785,6 @@ void BossGanon2_Draw(Actor* thisx, GlobalContext* globalCtx) {
             break;
     }
 
-    BossGanon2_SetObjectSegment(this, globalCtx, OBJECT_GANON2, true);
     func_80904340(this, globalCtx);
     func_80904108(this, globalCtx);
     func_80904D88(this, globalCtx);
@@ -2983,7 +2943,6 @@ void func_809060E8(GlobalContext* globalCtx) {
             FrameInterpolation_RecordOpenChild("Ganon 809060E8 1", i);
 
             if (!usingObjectGEff) {
-                BossGanon2_SetObjectSegment(NULL, globalCtx, OBJECT_GEFF, true);
                 usingObjectGEff++;
             }
             Matrix_Translate(effect->position.x, effect->position.y, effect->position.z, MTXMODE_NEW);

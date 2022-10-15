@@ -523,39 +523,34 @@ void EnMm_Draw(Actor* thisx, GlobalContext* globalCtx) {
                           EnMm_OverrideLimbDraw, EnMm_PostLimbDraw, this);
 
     if (gSaveContext.itemGetInf[3] & 0x800) {
-        s32 linkChildObjBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_LINK_CHILD);
+        Mtx* mtx;
+        Vec3s sp50;
+        Mtx* mtx2;
 
-        if (linkChildObjBankIndex >= 0) {
-            Mtx* mtx;
-            Vec3s sp50;
-            Mtx* mtx2;
+        mtx = Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Mtx) * 2);
 
-            mtx = Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Mtx) * 2);
+        Matrix_Put(&this->unk_208);
+        mtx2 = MATRIX_NEWMTX(globalCtx->state.gfxCtx);
 
-            Matrix_Put(&this->unk_208);
-            mtx2 = MATRIX_NEWMTX(globalCtx->state.gfxCtx);
+        gSPSegment(POLY_OPA_DISP++, 0x0B, mtx);
+        gSPSegment(POLY_OPA_DISP++, 0x0D, mtx2 - 7);
 
-            gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[linkChildObjBankIndex].segment);
-            gSPSegment(POLY_OPA_DISP++, 0x0B, mtx);
-            gSPSegment(POLY_OPA_DISP++, 0x0D, mtx2 - 7);
+        sp50.x = 994;
+        sp50.y = 3518;
+        sp50.z = -13450;
 
-            sp50.x = 994;
-            sp50.y = 3518;
-            sp50.z = -13450;
+        Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, -240.0f, &sp50);
+        MATRIX_TOMTX(mtx++);
 
-            Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, -240.0f, &sp50);
-            MATRIX_TOMTX(mtx++);
+        sp50.x = -994;
+        sp50.y = -3518;
+        sp50.z = -13450;
 
-            sp50.x = -994;
-            sp50.y = -3518;
-            sp50.z = -13450;
+        Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, 240.0f, &sp50);
+        MATRIX_TOMTX(mtx);
 
-            Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, 240.0f, &sp50);
-            MATRIX_TOMTX(mtx);
-
-            gSPDisplayList(POLY_OPA_DISP++, gLinkChildBunnyHoodDL);
-            gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
-        }
+        gSPDisplayList(POLY_OPA_DISP++, gLinkChildBunnyHoodDL);
+        gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx);

@@ -7,7 +7,6 @@
 #include "z_eff_ss_extra.h"
 #include "objects/object_yabusame_point/object_yabusame_point.h"
 
-#define rObjBankIdx regs[0]
 #define rTimer regs[1]
 #define rScoreIdx regs[2]
 #define rScale regs[3]
@@ -25,31 +24,18 @@ EffectSsInit Effect_Ss_Extra_InitVars = {
 
 u32 EffectSsExtra_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsExtraInitParams* initParams = (EffectSsExtraInitParams*)initParamsx;
-    s32 pad;
-    s32 objBankIndex;
-    u32 oldSeg6;
 
-    objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_YABUSAME_POINT);
+    this->pos = initParams->pos;
+    this->velocity = initParams->velocity;
+    this->accel = initParams->accel;
+    this->draw = EffectSsExtra_Draw;
+    this->update = EffectSsExtra_Update;
+    this->life = 50;
+    this->rScoreIdx = initParams->scoreIdx;
+    this->rScale = initParams->scale;
+    this->rTimer = 5;
 
-    if ((objBankIndex >= 0) && Object_IsLoaded(&globalCtx->objectCtx, objBankIndex)) {
-        oldSeg6 = gSegments[6];
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[objBankIndex].segment);
-        this->pos = initParams->pos;
-        this->velocity = initParams->velocity;
-        this->accel = initParams->accel;
-        this->draw = EffectSsExtra_Draw;
-        this->update = EffectSsExtra_Update;
-        this->life = 50;
-        this->rScoreIdx = initParams->scoreIdx;
-        this->rScale = initParams->scale;
-        this->rTimer = 5;
-        this->rObjBankIdx = objBankIndex;
-        gSegments[6] = oldSeg6;
-
-        return 1;
-    }
-
-    return 0;
+    return 1;
 }
 
 static void* sTextures[] = {
@@ -61,12 +47,9 @@ static void* sTextures[] = {
 void EffectSsExtra_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     s32 pad;
     f32 scale = this->rScale / 100.0f;
-    void* object = globalCtx->objectCtx.status[this->rObjBankIdx].segment;
 
     OPEN_DISPS(globalCtx->state.gfxCtx);
 
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(object);
-    gSPSegment(POLY_XLU_DISP++, 0x06, object);
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
     func_80093D84(globalCtx->state.gfxCtx);

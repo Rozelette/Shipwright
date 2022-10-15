@@ -46,30 +46,6 @@ static Gfx* D_808AC510[] = {
 void BgSpot01Objects2_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot01Objects2* this = (BgSpot01Objects2*)thisx;
 
-    switch (this->dyna.actor.params & 7) {
-        case 0:
-        case 1:
-        case 2:
-            this->objectId = OBJECT_SPOT01_MATOYA;
-            break;
-        case 3:
-            this->objectId = OBJECT_SPOT01_MATOYAB;
-            break;
-        case 4:
-            this->objectId = OBJECT_SPOT01_MATOYA;
-    }
-
-    if (this->objectId >= 0) {
-        this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, this->objectId);
-        if (this->objBankIndex < 0) {
-            // "There was no bank setting."
-            osSyncPrintf("-----------------------------バンク設定ありませんでした.");
-            Actor_Kill(&this->dyna.actor);
-            return;
-        }
-    } else {
-        Actor_Kill(&this->dyna.actor);
-    }
     this->actionFunc = func_808AC2BC;
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 }
@@ -92,38 +68,34 @@ void func_808AC2BC(BgSpot01Objects2* this, GlobalContext* globalCtx) {
     s32 pad;
     Vec3f position;
 
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
-        // "---- Successful bank switching!!"
-        osSyncPrintf("-----バンク切り換え成功！！\n");
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objBankIndex].segment);
+    // "---- Successful bank switching!!"
+    osSyncPrintf("-----バンク切り換え成功！！\n");
 
-        this->dyna.actor.objBankIndex = this->objBankIndex;
-        DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
 
-        switch (this->dyna.actor.params & 7) {
-            case 4: // Shooting gallery
-                CollisionHeader_GetVirtual(&gKakarikoShootingGalleryCol, &colHeader);
-                this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
-                break;
-            case 3: // Shooting Gallery, spawns Carpenter Sabooro during the day
-                CollisionHeader_GetVirtual(&object_spot01_matoyab_col, &colHeader);
-                this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
-                if (IS_DAY) {
-                    func_808AC22C(globalCtx->setupPathList, &position, ((s32)thisx->params >> 8) & 0xFF, 0);
-                    Actor_SpawnAsChild(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_EN_DAIKU_KAKARIKO, position.x,
-                                       position.y, position.z, thisx->world.rot.x, thisx->world.rot.y,
-                                       thisx->world.rot.z, ((((s32)thisx->params >> 8) & 0xFF) << 8) + 1);
-                }
-                break;
-            case 0: // Potion Shop Poster
-            case 1: // Shooting gallery Poster
-            case 2: // Bazaar Poster
-                break;
-        }
-
-        this->dyna.actor.draw = func_808AC4A4;
-        this->actionFunc = func_808AC474;
+    switch (this->dyna.actor.params & 7) {
+        case 4: // Shooting gallery
+            CollisionHeader_GetVirtual(&gKakarikoShootingGalleryCol, &colHeader);
+            this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+            break;
+        case 3: // Shooting Gallery, spawns Carpenter Sabooro during the day
+            CollisionHeader_GetVirtual(&object_spot01_matoyab_col, &colHeader);
+            this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+            if (IS_DAY) {
+                func_808AC22C(globalCtx->setupPathList, &position, ((s32)thisx->params >> 8) & 0xFF, 0);
+                Actor_SpawnAsChild(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_EN_DAIKU_KAKARIKO, position.x,
+                                    position.y, position.z, thisx->world.rot.x, thisx->world.rot.y,
+                                    thisx->world.rot.z, ((((s32)thisx->params >> 8) & 0xFF) << 8) + 1);
+            }
+            break;
+        case 0: // Potion Shop Poster
+        case 1: // Shooting gallery Poster
+        case 2: // Bazaar Poster
+            break;
     }
+
+    this->dyna.actor.draw = func_808AC4A4;
+    this->actionFunc = func_808AC474;
 }
 
 void func_808AC474(BgSpot01Objects2* this, GlobalContext* globalCtx) {

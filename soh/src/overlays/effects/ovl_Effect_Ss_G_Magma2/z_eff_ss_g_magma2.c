@@ -17,7 +17,6 @@
 #define rTimer regs[7]
 #define rUpdateRate regs[8]
 #define rDrawMode regs[9]
-#define rObjBankIdx regs[10]
 #define rScale regs[11]
 
 u32 EffectSsGMagma2_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
@@ -38,54 +37,41 @@ EffectSsInit Effect_Ss_G_Magma2_InitVars = {
 };
 
 u32 EffectSsGMagma2_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
-    s32 objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_KINGDODONGO);
-    s32 pad;
+    Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
+    EffectSsGMagma2InitParams* initParams = (EffectSsGMagma2InitParams*)initParamsx;
 
-    if ((objBankIndex >= 0) && Object_IsLoaded(&globalCtx->objectCtx, objBankIndex)) {
-        Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
-        EffectSsGMagma2InitParams* initParams = (EffectSsGMagma2InitParams*)initParamsx;
+    this->pos = initParams->pos;
+    this->velocity = zeroVec;
+    this->accel = zeroVec;
+    this->life = 100;
+    this->draw = EffectSsGMagma2_Draw;
+    this->update = EffectSsGMagma2_Update;
+    this->gfx = SEGMENTED_TO_VIRTUAL(object_kingdodongo_DL_025A90);
+    this->rTexIdx = 0;
+    this->rDrawMode = initParams->drawMode;
+    this->rUpdateRate = initParams->updateRate;
+    this->rScale = initParams->scale;
+    this->rPrimColorR = initParams->primColor.r;
+    this->rPrimColorG = initParams->primColor.g;
+    this->rPrimColorA = initParams->primColor.a;
+    this->rEnvColorR = initParams->envColor.r;
+    this->rEnvColorG = initParams->envColor.g;
+    this->rEnvColorA = initParams->envColor.a;
 
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[objBankIndex].segment);
-        this->rObjBankIdx = objBankIndex;
-        this->pos = initParams->pos;
-        this->velocity = zeroVec;
-        this->accel = zeroVec;
-        this->life = 100;
-        this->draw = EffectSsGMagma2_Draw;
-        this->update = EffectSsGMagma2_Update;
-        this->gfx = SEGMENTED_TO_VIRTUAL(object_kingdodongo_DL_025A90);
-        this->rTexIdx = 0;
-        this->rDrawMode = initParams->drawMode;
-        this->rUpdateRate = initParams->updateRate;
-        this->rScale = initParams->scale;
-        this->rPrimColorR = initParams->primColor.r;
-        this->rPrimColorG = initParams->primColor.g;
-        this->rPrimColorA = initParams->primColor.a;
-        this->rEnvColorR = initParams->envColor.r;
-        this->rEnvColorG = initParams->envColor.g;
-        this->rEnvColorA = initParams->envColor.a;
-
-        return 1;
-    }
-
-    return 0;
+    return 1;
 }
 
 void EffectSsGMagma2_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s32 pad;
     f32 scale;
-    void* object;
 
     scale = this->rScale / 100.0f;
-    object = globalCtx->objectCtx.status[this->rObjBankIdx].segment;
 
     OPEN_DISPS(gfxCtx);
 
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(object);
-    gSPSegment(POLY_XLU_DISP++, 0x06, object);
     gSPMatrix(POLY_XLU_DISP++, MATRIX_NEWMTX(gfxCtx),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 

@@ -16,15 +16,11 @@
 #define rScale regs[7]
 #define rReg8 regs[8]
 #define rReg9 regs[9]
-#define rObjId regs[10]
-#define rObjBankIdx regs[11]
 #define rColorIdx regs[12]
 
 u32 EffectSsKakera_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsKakera_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
 void EffectSsKakera_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
-
-void func_809A9BA8(EffectSs* this, GlobalContext* globalCtx);
 
 EffectSsInit Effect_Ss_Kakera_InitVars = {
     EFFECT_SS_KAKERA,
@@ -33,7 +29,6 @@ EffectSsInit Effect_Ss_Kakera_InitVars = {
 
 u32 EffectSsKakera_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsKakeraInitParams* initParams = (EffectSsKakeraInitParams*)initParamsx;
-    s32 objId;
 
     this->pos = initParams->pos;
     this->velocity = initParams->velocity;
@@ -42,16 +37,6 @@ u32 EffectSsKakera_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
 
     if (initParams->dList != NULL) {
         this->gfx = initParams->dList;
-        objId = initParams->objId;
-
-        if (objId == OBJECT_GAMEPLAY_KEEP || objId == OBJECT_GAMEPLAY_FIELD_KEEP ||
-            objId == OBJECT_GAMEPLAY_DANGEON_KEEP) {
-            this->rObjId = KAKERA_OBJECT_DEFAULT;
-        } else {
-            this->rObjId = initParams->objId;
-            func_809A9BA8(this, globalCtx);
-        }
-
     } else {
         osSyncPrintf("shape_modelがNULL\n");
         LOG_HUNGUP_THREAD();
@@ -98,14 +83,6 @@ void EffectSsKakera_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
     OPEN_DISPS(gfxCtx);
 
-    if (this->rObjId != KAKERA_OBJECT_DEFAULT) {
-        if ((((this->rReg4 >> 7) & 1) << 7) == 0x80) {
-            gSPSegment(POLY_XLU_DISP++, 0x06, globalCtx->objectCtx.status[this->rObjBankIdx].segment);
-        } else {
-            gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[this->rObjBankIdx].segment);
-        }
-    }
-
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
     Matrix_RotateY(this->rYaw * 0.01f, MTXMODE_APPLY);
     Matrix_RotateX(this->rPitch * 0.01f, MTXMODE_APPLY);
@@ -134,15 +111,6 @@ void EffectSsKakera_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     }
 
     CLOSE_DISPS(gfxCtx);
-}
-
-void func_809A9BA8(EffectSs* this, GlobalContext* globalCtx) {
-    this->rObjBankIdx = Object_GetIndex(&globalCtx->objectCtx, this->rObjId);
-
-    if ((this->rObjBankIdx < 0) || !Object_IsLoaded(&globalCtx->objectCtx, this->rObjBankIdx)) {
-        this->life = 0;
-        this->draw = NULL;
-    }
 }
 
 void func_809A9C10(EffectSs* this) {
@@ -414,8 +382,4 @@ void EffectSsKakera_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) 
     }
 
     func_809AA230(this, globalCtx);
-
-    if (this->rObjId != KAKERA_OBJECT_DEFAULT) {
-        func_809A9BA8(this, globalCtx);
-    }
 }

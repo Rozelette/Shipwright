@@ -77,14 +77,6 @@ void BgMoriBigst_Init(Actor* thisx, GlobalContext* globalCtx) {
                  GET_PLAYER(globalCtx)->actor.world.pos.y);
     BgMoriBigst_InitDynapoly(this, globalCtx, &gMoriBigstCol, DPM_UNK);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    this->moriTexObjIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_TEX);
-    if (this->moriTexObjIndex < 0) {
-        // "【Big Stalfos key ceiling】 bank danger!"
-        osSyncPrintf("【ビッグスタルフォス鍵型天井】 バンク危険！\n");
-        osSyncPrintf("%s %d\n", __FILE__, __LINE__);
-        Actor_Kill(&this->dyna.actor);
-        return;
-    }
     if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F)) {
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y;
     } else {
@@ -108,17 +100,15 @@ void BgMoriBigst_SetupWaitForMoriTex(BgMoriBigst* this, GlobalContext* globalCtx
 void BgMoriBigst_WaitForMoriTex(BgMoriBigst* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->moriTexObjIndex)) {
-        thisx->draw = BgMoriBigst_Draw;
-        if (Flags_GetClear(globalCtx, thisx->room) && (GET_PLAYER(globalCtx)->actor.world.pos.y > 700.0f)) {
-            if (Flags_GetSwitch(globalCtx, (thisx->params >> 8) & 0x3F)) {
-                BgMoriBigst_SetupDone(this, globalCtx);
-            } else {
-                BgMoriBigst_SetupStalfosFight(this, globalCtx);
-            }
+    thisx->draw = BgMoriBigst_Draw;
+    if (Flags_GetClear(globalCtx, thisx->room) && (GET_PLAYER(globalCtx)->actor.world.pos.y > 700.0f)) {
+        if (Flags_GetSwitch(globalCtx, (thisx->params >> 8) & 0x3F)) {
+            BgMoriBigst_SetupDone(this, globalCtx);
         } else {
-            BgMoriBigst_SetupNoop(this, globalCtx);
+            BgMoriBigst_SetupStalfosFight(this, globalCtx);
         }
+    } else {
+        BgMoriBigst_SetupNoop(this, globalCtx);
     }
 }
 
@@ -246,8 +236,6 @@ void BgMoriBigst_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx);
     func_80093D18(globalCtx->state.gfxCtx);
-
-    gSPSegment(POLY_OPA_DISP++, 0x08, globalCtx->objectCtx.status[this->moriTexObjIndex].segment);
 
     gSPMatrix(POLY_OPA_DISP++, MATRIX_NEWMTX(globalCtx->state.gfxCtx),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

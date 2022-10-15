@@ -12,7 +12,6 @@
 #define rUnused regs[2]
 #define rScale regs[3]
 #define rObjId regs[4]
-#define rObjBankIdx regs[5]
 #define rMinLife regs[6]
 
 u32 EffectSsHahen_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
@@ -25,14 +24,6 @@ EffectSsInit Effect_Ss_Hahen_InitVars = {
     EffectSsHahen_Init,
 };
 
-void EffectSsHahen_CheckForObject(EffectSs* this, GlobalContext* globalCtx) {
-    if (((this->rObjBankIdx = Object_GetIndex(&globalCtx->objectCtx, this->rObjId)) < 0) ||
-        !Object_IsLoaded(&globalCtx->objectCtx, this->rObjBankIdx)) {
-        this->life = -1;
-        this->draw = NULL;
-    }
-}
-
 u32 EffectSsHahen_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsHahenInitParams* initParams = (EffectSsHahenInitParams*)initParamsx;
 
@@ -44,7 +35,6 @@ u32 EffectSsHahen_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
     if (initParams->dList != NULL) {
         this->gfx = initParams->dList;
         this->rObjId = initParams->objId;
-        EffectSsHahen_CheckForObject(this, globalCtx);
     } else {
         this->gfx = SEGMENTED_TO_VIRTUAL(gEffFragments1DL);
         this->rObjId = -1;
@@ -73,10 +63,6 @@ void EffectSsHahen_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
     OPEN_DISPS(gfxCtx);
 
-    if (this->rObjId != -1) {
-        gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[this->rObjBankIdx].segment);
-    }
-
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
     Matrix_RotateY(this->rYaw * 0.01f, MTXMODE_APPLY);
     Matrix_RotateX(this->rPitch * 0.01f, MTXMODE_APPLY);
@@ -96,10 +82,6 @@ void EffectSsHahen_DrawGray(GlobalContext* globalCtx, u32 index, EffectSs* this)
     f32 scale = this->rScale * 0.001f;
 
     OPEN_DISPS(gfxCtx);
-
-    if (this->rObjId != -1) {
-        gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[this->rObjBankIdx].segment);
-    }
 
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
     Matrix_RotateY(this->rYaw * 0.01f, MTXMODE_APPLY);
@@ -124,9 +106,5 @@ void EffectSsHahen_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
     if ((this->pos.y <= player->actor.floorHeight) && (this->life < this->rMinLife)) {
         this->life = 0;
-    }
-
-    if (this->rObjId != -1) {
-        EffectSsHahen_CheckForObject(this, globalCtx);
     }
 }

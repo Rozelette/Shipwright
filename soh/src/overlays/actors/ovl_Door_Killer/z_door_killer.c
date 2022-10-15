@@ -100,18 +100,23 @@ void DoorKiller_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     f32 randF;
     DoorKiller* this = (DoorKiller*)thisx;
-    s32 bankIndex;
-    s32 i;
 
-    // Look in the object bank for one of the four objects containing door textures
-    bankIndex = -1;
-    for (i = 0; bankIndex < 0; i++) {
-        bankIndex = Object_GetIndex(&globalCtx->objectCtx, sDoorTextures[i].objectId);
-        this->textureEntryIndex = i;
+    // Sicne we no longer use objects, base the door texture on the current scene
+    switch (globalCtx->sceneNum) {
+        case SCENE_HIDAN:
+            this->textureEntryIndex = 0;
+            break;
+        case SCENE_MIZUSIN:
+            this->textureEntryIndex = 1;
+            break;
+        case SCENE_HAKADAN:
+        case SCENE_HAKADANCH:
+            this->textureEntryIndex = 2;
+            break;
+        default:
+            this->textureEntryIndex = 3;
     }
-    osSyncPrintf("bank_ID = %d\n", bankIndex);
     osSyncPrintf("status = %d\n", this->textureEntryIndex);
-    this->doorObjBankIndex = bankIndex;
     this->texture = sDoorTextures[this->textureEntryIndex].texture;
 
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
@@ -460,9 +465,7 @@ void DoorKiller_Wait(DoorKiller* this, GlobalContext* globalCtx) {
 void DoorKiller_UpdateTexture(Actor* thisx, GlobalContext* globalCtx) {
     DoorKiller* this = (DoorKiller*)thisx;
 
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->doorObjBankIndex].segment);
     this->texture = SEGMENTED_TO_VIRTUAL(this->texture);
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[thisx->objBankIndex].segment);
 }
 
 /**
@@ -470,21 +473,19 @@ void DoorKiller_UpdateTexture(Actor* thisx, GlobalContext* globalCtx) {
  * (door or rubble).
  */
 void DoorKiller_SetProperties(DoorKiller* this, GlobalContext* globalCtx) {
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->doorObjBankIndex)) {
-        DoorKiller_UpdateTexture(&this->actor, globalCtx);
-        switch (this->actor.params & 0xFF) {
-            case DOOR_KILLER_DOOR:
-                this->actionFunc = DoorKiller_Wait;
-                this->actor.draw = DoorKiller_DrawDoor;
-                break;
-            case DOOR_KILLER_RUBBLE_PIECE_1:
-            case DOOR_KILLER_RUBBLE_PIECE_2:
-            case DOOR_KILLER_RUBBLE_PIECE_3:
-            case DOOR_KILLER_RUBBLE_PIECE_4:
-                this->actionFunc = DoorKiller_FallAsRubble;
-                this->actor.draw = DoorKiller_DrawRubble;
-                break;
-        }
+    DoorKiller_UpdateTexture(&this->actor, globalCtx);
+    switch (this->actor.params & 0xFF) {
+        case DOOR_KILLER_DOOR:
+            this->actionFunc = DoorKiller_Wait;
+            this->actor.draw = DoorKiller_DrawDoor;
+            break;
+        case DOOR_KILLER_RUBBLE_PIECE_1:
+        case DOOR_KILLER_RUBBLE_PIECE_2:
+        case DOOR_KILLER_RUBBLE_PIECE_3:
+        case DOOR_KILLER_RUBBLE_PIECE_4:
+            this->actionFunc = DoorKiller_FallAsRubble;
+            this->actor.draw = DoorKiller_DrawRubble;
+            break;
     }
 }
 

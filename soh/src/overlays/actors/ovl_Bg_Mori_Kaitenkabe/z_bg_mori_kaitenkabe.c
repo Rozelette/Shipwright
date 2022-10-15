@@ -57,14 +57,7 @@ void BgMoriKaitenkabe_Init(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
     CollisionHeader_GetVirtual(&gMoriKaitenkabeCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
-    this->moriTexObjIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_TEX);
-    if (this->moriTexObjIndex < 0) {
-        Actor_Kill(&this->dyna.actor);
-        // "【Rotating wall】 Bank danger!"
-        osSyncPrintf("【回転壁】 バンク危険！(%s %d)\n", __FILE__, __LINE__);
-    } else {
-        this->actionFunc = BgMoriKaitenkabe_WaitForMoriTex;
-    }
+    this->actionFunc = BgMoriKaitenkabe_WaitForMoriTex;
 }
 
 void BgMoriKaitenkabe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -75,10 +68,8 @@ void BgMoriKaitenkabe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgMoriKaitenkabe_WaitForMoriTex(BgMoriKaitenkabe* this, GlobalContext* globalCtx) {
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->moriTexObjIndex)) {
-        BgMoriKaitenkabe_SetupWait(this);
-        this->dyna.actor.draw = BgMoriKaitenkabe_Draw;
-    }
+    BgMoriKaitenkabe_SetupWait(this);
+    this->dyna.actor.draw = BgMoriKaitenkabe_Draw;
 }
 
 void BgMoriKaitenkabe_SetupWait(BgMoriKaitenkabe* this) {
@@ -163,8 +154,6 @@ void BgMoriKaitenkabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx);
     func_80093D18(globalCtx->state.gfxCtx);
-
-    gSPSegment(POLY_OPA_DISP++, 0x08, globalCtx->objectCtx.status[this->moriTexObjIndex].segment);
 
     gSPMatrix(POLY_OPA_DISP++, MATRIX_NEWMTX(globalCtx->state.gfxCtx),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

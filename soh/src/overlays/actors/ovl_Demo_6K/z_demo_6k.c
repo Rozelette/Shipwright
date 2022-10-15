@@ -53,12 +53,6 @@ const ActorInit Demo_6K_InitVars = {
     Demo6K_Reset,
 };
 
-static s16 sObjectIds[] = {
-    OBJECT_GAMEPLAY_KEEP, OBJECT_DEMO_6K,       OBJECT_DEMO_6K,       OBJECT_GAMEPLAY_KEEP, OBJECT_GAMEPLAY_KEEP,
-    OBJECT_GAMEPLAY_KEEP, OBJECT_GAMEPLAY_KEEP, OBJECT_GAMEPLAY_KEEP, OBJECT_GAMEPLAY_KEEP, OBJECT_GAMEPLAY_KEEP,
-    OBJECT_GAMEPLAY_KEEP, OBJECT_GAMEPLAY_KEEP, OBJECT_GND_MAGIC,     OBJECT_GAMEPLAY_KEEP, OBJECT_GAMEPLAY_KEEP,
-    OBJECT_GAMEPLAY_KEEP, OBJECT_GAMEPLAY_KEEP, OBJECT_GAMEPLAY_KEEP, OBJECT_GAMEPLAY_KEEP, OBJECT_GAMEPLAY_KEEP,
-};
 static Color_RGB8 sEnvColors[] = {
     { 255, 50, 0 }, { 0, 200, 0 }, { 200, 255, 0 }, { 200, 50, 255 }, { 255, 150, 0 }, { 0, 150, 255 },
 };
@@ -73,24 +67,9 @@ void Demo6K_Init(Actor* thisx, GlobalContext* globalCtx) {
     Demo6K* this = (Demo6K*)thisx;
     s32 pad;
     s32 params = this->actor.params;
-    s32 objBankIndex;
     s32 i;
 
     osSyncPrintf("no = %d\n", params);
-
-    if (sObjectIds[params] != OBJECT_GAMEPLAY_KEEP) {
-        objBankIndex = Object_GetIndex(&globalCtx->objectCtx, sObjectIds[params]);
-    } else {
-        objBankIndex = 0;
-    }
-
-    osSyncPrintf("bank_ID = %d\n", objBankIndex);
-
-    if (objBankIndex < 0) {
-        ASSERT(objBankIndex < 0);
-    } else {
-        this->objBankIndex = objBankIndex;
-    }
 
     Demo6K_SetupAction(this, func_80966DB0);
     this->timer1 = 0;
@@ -202,11 +181,8 @@ void Demo6K_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80966DB0(Demo6K* this, GlobalContext* globalCtx) {
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
-        this->actor.objBankIndex = this->objBankIndex;
-        this->actor.draw = this->drawFunc;
-        this->actionFunc = this->initActionFunc;
-    }
+    this->actor.draw = this->drawFunc;
+    this->actionFunc = this->initActionFunc;
 }
 
 void func_80966E04(Demo6K* this, GlobalContext* globalCtx) {

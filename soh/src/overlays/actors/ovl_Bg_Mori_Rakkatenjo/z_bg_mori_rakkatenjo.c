@@ -64,13 +64,6 @@ void BgMoriRakkatenjo_Init(Actor* thisx, GlobalContext* globalCtx) {
         // "The set Angle has changed. Let's fix the program."
         osSyncPrintf("Warning : セット Angle が変更されています。プログラムを修正しましょう。\n");
     }
-    this->moriTexObjIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_TEX);
-    if (this->moriTexObjIndex < 0) {
-        // "Forest Temple obj Falling Ceiling Bank Danger!"
-        osSyncPrintf("Error : 森の神殿 obj 落下天井 バンク危険！(%s %d)\n", __FILE__, __LINE__);
-        Actor_Kill(&this->dyna.actor);
-        return;
-    }
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     CollisionHeader_GetVirtual(&gMoriRakkatenjoCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
@@ -102,10 +95,8 @@ void BgMoriRakkatenjo_SetupWaitForMoriTex(BgMoriRakkatenjo* this) {
 }
 
 void BgMoriRakkatenjo_WaitForMoriTex(BgMoriRakkatenjo* this, GlobalContext* globalCtx) {
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->moriTexObjIndex)) {
-        BgMoriRakkatenjo_SetupWait(this);
-        this->dyna.actor.draw = BgMoriRakkatenjo_Draw;
-    }
+    BgMoriRakkatenjo_SetupWait(this);
+    this->dyna.actor.draw = BgMoriRakkatenjo_Draw;
 }
 
 void BgMoriRakkatenjo_SetupWait(BgMoriRakkatenjo* this) {
@@ -224,8 +215,6 @@ void BgMoriRakkatenjo_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx);
     func_80093D18(globalCtx->state.gfxCtx);
-
-    gSPSegment(POLY_OPA_DISP++, 0x08, globalCtx->objectCtx.status[this->moriTexObjIndex].segment);
 
     gSPMatrix(POLY_OPA_DISP++, MATRIX_NEWMTX(globalCtx->state.gfxCtx),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

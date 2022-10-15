@@ -231,18 +231,13 @@ void EnPoh_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
     if (this->actor.params < EN_POH_SHARP) {
-        this->objectIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_POH);
         this->infoIdx = EN_POH_INFO_NORMAL;
         this->actor.naviEnemyId = 0x44;
     } else {
-        this->objectIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_PO_COMPOSER);
         this->infoIdx = EN_POH_INFO_COMPOSER;
         this->actor.naviEnemyId = 0x43;
     }
     this->info = &sPoeInfo[this->infoIdx];
-    if (this->objectIdx < 0) {
-        Actor_Kill(&this->actor);
-    }
 }
 
 void EnPoh_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -909,28 +904,24 @@ void EnPoh_UpdateVisibility(EnPoh* this) {
 void EnPoh_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnPoh* this = (EnPoh*)thisx;
 
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->objectIdx)) {
-        this->actor.objBankIndex = this->objectIdx;
-        this->actor.update = EnPoh_UpdateLiving;
-        Actor_SetObjectDependency(globalCtx, &this->actor);
-        if (this->infoIdx == EN_POH_INFO_NORMAL) {
-            SkelAnime_Init(globalCtx, &this->skelAnime, &gPoeSkel, &gPoeFloatAnim, this->jointTable, this->morphTable,
-                           21);
-            this->actor.draw = EnPoh_DrawRegular;
-        } else {
-            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gPoeComposerSkel, &gPoeComposerFloatAnim, this->jointTable,
-                               this->morphTable, 12);
-            this->actor.draw = EnPoh_DrawComposer;
-            this->colliderSph.elements[0].dim.limb = 9;
-            this->colliderSph.elements[0].dim.modelSphere.center.y *= -1;
-            this->actor.shape.rot.y = this->actor.world.rot.y = -0x4000;
-            this->colliderCyl.dim.radius = 20;
-            this->colliderCyl.dim.height = 55;
-            this->colliderCyl.dim.yShift = 15;
-        }
-        this->actor.flags &= ~ACTOR_FLAG_4;
-        EnPoh_SetupInitialAction(this);
+    this->actor.update = EnPoh_UpdateLiving;
+    if (this->infoIdx == EN_POH_INFO_NORMAL) {
+        SkelAnime_Init(globalCtx, &this->skelAnime, &gPoeSkel, &gPoeFloatAnim, this->jointTable, this->morphTable,
+                        21);
+        this->actor.draw = EnPoh_DrawRegular;
+    } else {
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gPoeComposerSkel, &gPoeComposerFloatAnim, this->jointTable,
+                            this->morphTable, 12);
+        this->actor.draw = EnPoh_DrawComposer;
+        this->colliderSph.elements[0].dim.limb = 9;
+        this->colliderSph.elements[0].dim.modelSphere.center.y *= -1;
+        this->actor.shape.rot.y = this->actor.world.rot.y = -0x4000;
+        this->colliderCyl.dim.radius = 20;
+        this->colliderCyl.dim.height = 55;
+        this->colliderCyl.dim.yShift = 15;
     }
+    this->actor.flags &= ~ACTOR_FLAG_4;
+    EnPoh_SetupInitialAction(this);
 }
 
 void func_80AE067C(EnPoh* this) {

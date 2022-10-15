@@ -49,14 +49,7 @@ bool Scene_CommandSpawnList(GlobalContext* globalCtx, Ship::SceneCommand* cmd)
 
     ActorEntry* linkEntry = globalCtx->linkActorEntry = linkSpawnEntry;
 
-    s16 linkObjectId;
-
     globalCtx->linkAgeOnLoad = ((void)0, gSaveContext.linkAge);
-
-    linkObjectId = gLinkObjectIds[((void)0, gSaveContext.linkAge)];
-
-    //gActorOverlayTable[linkEntry->id].initInfo->objectId = linkObjectId;
-    Object_Spawn(&globalCtx->objectCtx, linkObjectId);
 
     return false;
 }
@@ -248,9 +241,6 @@ bool Scene_CommandSpecialFiles(GlobalContext* globalCtx, Ship::SceneCommand* cmd
 {
     Ship::SetSpecialObjects* otrSpecial = (Ship::SetSpecialObjects*)cmd;
 
-    if (otrSpecial->globalObject != 0)
-        globalCtx->objectCtx.subKeepIndex = Object_Spawn(&globalCtx->objectCtx, otrSpecial->globalObject);
-
     if (otrSpecial->elfMessage != 0)
     {
         auto res = (Ship::Blob*)OTRGameplay_LoadFile(globalCtx, sNaviMsgFiles[otrSpecial->elfMessage - 1].fileName);
@@ -427,63 +417,6 @@ extern "C" void* func_800982FC(ObjectContext * objectCtx, s32 bankIndex, s16 obj
 
 bool Scene_CommandObjectList(GlobalContext* globalCtx, Ship::SceneCommand* cmd)
 {
-    Ship::SetObjectList* cmdObj = (Ship::SetObjectList*)cmd;
-
-    s32 i;
-    s32 j;
-    s32 k;
-    ObjectStatus* status;
-    ObjectStatus* status2;
-    ObjectStatus* firstStatus;
-    //s16* objectEntry = SEGMENTED_TO_VIRTUAL(cmd->objectList.segment);
-    s16* objectEntry = (s16*)cmdObj->objects.data();
-    void* nextPtr;
-
-    k = 0;
-    //i = globalCtx->objectCtx.unk_09;
-    i = 0;
-    firstStatus = &globalCtx->objectCtx.status[0];
-    status = &globalCtx->objectCtx.status[i];
-
-    for (int i = 0; i < cmdObj->objects.size(); i++) {
-        bool alreadyIncluded = false;
-
-        for (int j = 0; j < globalCtx->objectCtx.num; j++) {
-            if (globalCtx->objectCtx.status[j].id == cmdObj->objects[i]) {
-                alreadyIncluded = true;
-                break;
-            }
-        }
-
-        if (!alreadyIncluded) {
-            globalCtx->objectCtx.status[globalCtx->objectCtx.num++].id = cmdObj->objects[i];
-            func_80031A28(globalCtx, &globalCtx->actorCtx);
-        }
-    }
-
-    /*
-    while (i < globalCtx->objectCtx.num) {
-        if (status->id != *objectEntry) {
-            status2 = &globalCtx->objectCtx.status[i];
-            for (j = i; j < globalCtx->objectCtx.num; j++) {
-                status2->id = OBJECT_INVALID;
-                status2++;
-            }
-            globalCtx->objectCtx.num = i;
-            func_80031A28(globalCtx, &globalCtx->actorCtx);
-
-            continue;
-        }
-
-        i++;
-        k++;
-        objectEntry++;
-        status++;
-    }
-
-    globalCtx->objectCtx.num = i;
-    */
-
     return false;
 }
 

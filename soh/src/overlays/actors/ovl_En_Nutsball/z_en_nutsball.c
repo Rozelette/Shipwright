@@ -75,13 +75,8 @@ void EnNutsball_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 400.0f, ActorShadow_DrawCircle, 13.0f);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, sObjectIDs[this->actor.params]);
 
-    if (this->objBankIndex < 0) {
-        Actor_Kill(&this->actor);
-    } else {
-        this->actionFunc = func_80ABBB34;
-    }
+    this->actionFunc = func_80ABBB34;
 }
 
 void EnNutsball_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -91,14 +86,11 @@ void EnNutsball_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80ABBB34(EnNutsball* this, GlobalContext* globalCtx) {
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
-        this->actor.objBankIndex = this->objBankIndex;
-        this->actor.draw = EnNutsball_Draw;
-        this->actor.shape.rot.y = 0;
-        this->timer = 30;
-        this->actionFunc = func_80ABBBA8;
-        this->actor.speedXZ = 10.0f;
-    }
+    this->actor.draw = EnNutsball_Draw;
+    this->actor.shape.rot.y = 0;
+    this->timer = 30;
+    this->actionFunc = func_80ABBBA8;
+    this->actor.speedXZ = 10.0f;
 }
 
 void func_80ABBBA8(EnNutsball* this, GlobalContext* globalCtx) {

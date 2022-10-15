@@ -183,14 +183,8 @@ void DemoKankyo_SetupAction(DemoKankyo* this, DemoKankyoActionFunc actionFunc) {
 void DemoKankyo_Init(Actor* thisx, GlobalContext* globalCtx) {
     DemoKankyo* this = (DemoKankyo*)thisx;
     s16 i;
-    s32 objBankIndex = Object_GetIndex(&globalCtx->objectCtx, sObjIds[this->actor.params]);
 
-    osSyncPrintf("bank_ID = %d\n", objBankIndex);
-    if (objBankIndex < 0) {
-        ASSERT(objBankIndex < 0);
-    } else {
-        this->objBankIndex = objBankIndex;
-    }
+    this->objBankIndex = 0;
 
     switch (this->actor.params) {
         case DEMOKANKYO_BLUE_RAIN:
@@ -281,7 +275,7 @@ void DemoKankyo_SetupType(DemoKankyo* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
     f32 temp;
 
-    if (this->actor.objBankIndex == this->objBankIndex) {
+    if (this->objBankIndex != 0) {
         switch (this->actor.params) {
             case DEMOKANKYO_ROCK_1:
             case DEMOKANKYO_ROCK_2:
@@ -430,7 +424,7 @@ void DemoKankyo_Update(Actor* thisx, GlobalContext* globalCtx) {
 void DemoKankyo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     DemoKankyo* this = (DemoKankyo*)thisx;
 
-    if (this->actor.objBankIndex == this->objBankIndex) {
+    if (this->objBankIndex != 0) {
         switch (this->actor.params) {
             case DEMOKANKYO_BLUE_RAIN:
             case DEMOKANKYO_BLUE_RAIN_2:
@@ -478,9 +472,10 @@ void DemoKankyo_Draw(Actor* thisx, GlobalContext* globalCtx) {
                 break;
         }
     }
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
-        this->actor.objBankIndex = this->objBankIndex;
-    }
+
+    // It is at this point that the actor checked that the object is loaded, allowing the rest of the code to run.
+    // This results in a 1 frame delay. While objects are no longer a thing, this simulates that delay.
+    this->objBankIndex = 1;
 }
 
 // transform relating to blue rain

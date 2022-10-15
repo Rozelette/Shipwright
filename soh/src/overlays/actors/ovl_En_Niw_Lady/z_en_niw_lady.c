@@ -71,12 +71,6 @@ void EnNiwLady_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnNiwLady* this = (EnNiwLady*)thisx;
 
-    this->objectAneIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_ANE);
-    this->objectOsAnimeIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_OS_ANIME);
-    if ((this->objectOsAnimeIndex < 0) || (this->objectAneIndex < 0)) {
-        Actor_Kill(thisx);
-        return;
-    }
     this->unk_278 = 0;
     if (globalCtx->sceneNum == SCENE_LABO) {
         this->unk_278 = 1;
@@ -152,43 +146,37 @@ void EnNiwLady_ChoseAnimation(EnNiwLady* this, GlobalContext* globalCtx, s32 arg
 
 void func_80AB9F24(EnNiwLady* this, GlobalContext* globalCtx) {
     f32 frames;
-    s32 pad;
 
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->objectAneIndex) &&
-        Object_IsLoaded(&globalCtx->objectCtx, this->objectOsAnimeIndex)) {
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objectAneIndex].segment);
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gCuccoLadySkel, NULL, this->jointTable, this->morphTable, 16);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objectOsAnimeIndex].segment);
-        this->unk_27E = 1;
-        this->actor.gravity = -3.0f;
-        Actor_SetScale(&this->actor, 0.01f);
-        ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 20.0f);
-        Collider_InitCylinder(globalCtx, &this->collider);
-        Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-        this->unk_272 = 0;
-        this->actor.targetMode = 6;
-        this->actor.draw = EnNiwLady_Draw;
-        switch (this->unk_278) {
-            case 0:
-                if (!(gSaveContext.itemGetInf[0] & 0x1000) && !LINK_IS_ADULT) {
-                    frames = Animation_GetLastFrame(&gObjOsAnim_A630);
-                    Animation_Change(&this->skelAnime, &gObjOsAnim_A630, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, 0.0f);
-                } else {
-                    frames = Animation_GetLastFrame(&gObjOsAnim_07D0);
-                    Animation_Change(&this->skelAnime, &gObjOsAnim_07D0, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, 0.0f);
-                }
-                if (LINK_IS_ADULT) {
-                    this->actionFunc = func_80ABA778;
-                } else {
-                    this->actionFunc = func_80ABA21C;
-                }
-                return;
-            case 1:
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gCuccoLadySkel, NULL, this->jointTable, this->morphTable, 16);
+    this->unk_27E = 1;
+    this->actor.gravity = -3.0f;
+    Actor_SetScale(&this->actor, 0.01f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 20.0f);
+    Collider_InitCylinder(globalCtx, &this->collider);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+    this->unk_272 = 0;
+    this->actor.targetMode = 6;
+    this->actor.draw = EnNiwLady_Draw;
+    switch (this->unk_278) {
+        case 0:
+            if (!(gSaveContext.itemGetInf[0] & 0x1000) && !LINK_IS_ADULT) {
+                frames = Animation_GetLastFrame(&gObjOsAnim_A630);
+                Animation_Change(&this->skelAnime, &gObjOsAnim_A630, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, 0.0f);
+            } else {
                 frames = Animation_GetLastFrame(&gObjOsAnim_07D0);
                 Animation_Change(&this->skelAnime, &gObjOsAnim_07D0, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, 0.0f);
-                this->actionFunc = func_80ABAD38;
-                return;
-        }
+            }
+            if (LINK_IS_ADULT) {
+                this->actionFunc = func_80ABA778;
+            } else {
+                this->actionFunc = func_80ABA21C;
+            }
+            return;
+        case 1:
+            frames = Animation_GetLastFrame(&gObjOsAnim_07D0);
+            Animation_Change(&this->skelAnime, &gObjOsAnim_07D0, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, 0.0f);
+            this->actionFunc = func_80ABAD38;
+            return;
     }
 }
 
@@ -534,38 +522,32 @@ void EnNiwLady_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->unk_276 == 0) {
         Math_SmoothStepToS(&this->unk_254.y, 0, 5, 3000, 0);
     }
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objectOsAnimeIndex].segment);
-    if (this->objectOsAnimeIndex >= 0) {
-        if (this->unk_27E != 0) {
-            if (this->unk_26E != 0) {
-                this->unk_26E--;
-                EnNiwLady_ChoseAnimation(this, globalCtx, this->unk_26E);
-                this->unk_26E = 0;
-            }
-            SkelAnime_Update(&this->skelAnime);
+    if (this->unk_27E != 0) {
+        if (this->unk_26E != 0) {
+            this->unk_26E--;
+            EnNiwLady_ChoseAnimation(this, globalCtx, this->unk_26E);
+            this->unk_26E = 0;
         }
-        this->objectAneIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_ANE);
-        if (this->objectAneIndex >= 0) {
-            this->actionFunc(this, globalCtx);
-            if (this->unusedTimer2 != 0) {
-                this->unusedTimer2--;
-            }
-            if (this->unusedRandomTimer != 0) {
-                this->unusedRandomTimer--;
-            }
-            this->unusedTimer++;
-            if (this->unusedRandomTimer == 0) {
-                this->faceState++;
-                if (this->faceState >= 3) {
-                    this->faceState = 0;
-                    this->unusedRandomTimer = ((s16)Rand_ZeroFloat(60.0f) + 0x14);
-                }
-            }
-            Actor_UpdateBgCheckInfo(globalCtx, thisx, 20.0f, 20.0f, 60.0f, 0x1D);
-            Collider_UpdateCylinder(thisx, &this->collider);
-            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+        SkelAnime_Update(&this->skelAnime);
+    }
+    this->actionFunc(this, globalCtx);
+    if (this->unusedTimer2 != 0) {
+        this->unusedTimer2--;
+    }
+    if (this->unusedRandomTimer != 0) {
+        this->unusedRandomTimer--;
+    }
+    this->unusedTimer++;
+    if (this->unusedRandomTimer == 0) {
+        this->faceState++;
+        if (this->faceState >= 3) {
+            this->faceState = 0;
+            this->unusedRandomTimer = ((s16)Rand_ZeroFloat(60.0f) + 0x14);
         }
     }
+    Actor_UpdateBgCheckInfo(globalCtx, thisx, 20.0f, 20.0f, 60.0f, 0x1D);
+    Collider_UpdateCylinder(thisx, &this->collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
 Gfx* func_80ABB0A0(GraphicsContext* gfxCtx) {

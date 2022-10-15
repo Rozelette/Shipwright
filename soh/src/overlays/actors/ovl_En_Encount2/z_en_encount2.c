@@ -345,34 +345,28 @@ void EnEncount2_ParticleDraw(Actor* thisx, GlobalContext* globalCtx) {
     EnEncount2Particle* particle = this->particles;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s16 i;
-    s32 objBankIndex;
 
     OPEN_DISPS(gfxCtx);
 
-    objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_EFC_STAR_FIELD);
+    gDPPipeSync(POLY_XLU_DISP++);
 
-    if (objBankIndex >= 0) {
-        gDPPipeSync(POLY_XLU_DISP++);
-        gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[objBankIndex].segment);
+    for (i = 0; i < ARRAY_COUNT(this->particles); particle++, i++) {
+        FrameInterpolation_RecordOpenChild(particle, particle->epoch);
 
-        for (i = 0; i < ARRAY_COUNT(this->particles); particle++, i++) {
-            FrameInterpolation_RecordOpenChild(particle, particle->epoch);
-
-            if (particle->isAlive) {
-                Matrix_Translate(particle->pos.x, particle->pos.y, particle->pos.z, MTXMODE_NEW);
-                Matrix_RotateX(particle->rot.x * (M_PI / 180.0f), MTXMODE_APPLY);
-                Matrix_RotateY(particle->rot.y * (M_PI / 180.0f), MTXMODE_APPLY);
-                Matrix_RotateZ(particle->rot.z * (M_PI / 180.0f), MTXMODE_APPLY);
-                Matrix_Scale(particle->scale, particle->scale, particle->scale, MTXMODE_APPLY);
-                gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 155, 55, 255);
-                gDPSetEnvColor(POLY_OPA_DISP++, 155, 255, 55, 255);
-                gSPMatrix(POLY_OPA_DISP++, MATRIX_NEWMTX(globalCtx->state.gfxCtx),
-                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_OPA_DISP++, object_efc_star_field_DL_000DE0);
-            }
-
-            FrameInterpolation_RecordCloseChild();
+        if (particle->isAlive) {
+            Matrix_Translate(particle->pos.x, particle->pos.y, particle->pos.z, MTXMODE_NEW);
+            Matrix_RotateX(particle->rot.x * (M_PI / 180.0f), MTXMODE_APPLY);
+            Matrix_RotateY(particle->rot.y * (M_PI / 180.0f), MTXMODE_APPLY);
+            Matrix_RotateZ(particle->rot.z * (M_PI / 180.0f), MTXMODE_APPLY);
+            Matrix_Scale(particle->scale, particle->scale, particle->scale, MTXMODE_APPLY);
+            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 155, 55, 255);
+            gDPSetEnvColor(POLY_OPA_DISP++, 155, 255, 55, 255);
+            gSPMatrix(POLY_OPA_DISP++, MATRIX_NEWMTX(globalCtx->state.gfxCtx),
+                        G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPDisplayList(POLY_OPA_DISP++, object_efc_star_field_DL_000DE0);
         }
+
+        FrameInterpolation_RecordCloseChild();
     }
 
     CLOSE_DISPS(gfxCtx);

@@ -82,29 +82,14 @@ void BgMoriHineri_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
     this->boxObjIdx = -1;
     if (this->dyna.actor.params == 0) {
-        this->moriHineriObjIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_HINERI1);
         if (t6 == 0) {
-            this->boxObjIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_BOX);
+            this->boxObjIdx = 1;
         }
-    } else {
-        if (this->dyna.actor.params == 1) {
-            moriHineriObjIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_HINERI1A);
-        } else {
-            moriHineriObjIdx = (this->dyna.actor.params == 2)
-                                   ? Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_HINERI2)
-                                   : Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_HINERI2A);
-        }
-        this->moriHineriObjIdx = moriHineriObjIdx;
     }
-    this->moriTexObjIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_TEX);
     if (t6 != 0) {
         this->dyna.actor.params += 4;
     }
-    if ((this->moriHineriObjIdx < 0) || (this->moriTexObjIdx < 0)) {
-        Actor_Kill(&this->dyna.actor);
-    } else {
-        this->actionFunc = func_808A39FC;
-    }
+    this->actionFunc = func_808A39FC;
 }
 
 void BgMoriHineri_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -115,45 +100,26 @@ void BgMoriHineri_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_808A39FC(BgMoriHineri* this, GlobalContext* globalCtx) {
     CollisionHeader* colHeader;
 
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->moriHineriObjIdx) &&
-        Object_IsLoaded(&globalCtx->objectCtx, this->moriTexObjIdx) &&
-        ((this->boxObjIdx < 0) || Object_IsLoaded(&globalCtx->objectCtx, this->boxObjIdx))) {
-        this->dyna.actor.objBankIndex = this->moriHineriObjIdx;
-        if (this->dyna.actor.params >= 4) {
-            this->dyna.actor.params -= 4;
-            if (this->dyna.actor.params == 0) {
-                this->moriHineriObjIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_HINERI1A);
-            } else if (this->dyna.actor.params == 1) {
-                this->moriHineriObjIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_HINERI1);
-            } else {
-                this->moriHineriObjIdx = (this->dyna.actor.params == 2)
-                                             ? Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_HINERI2A)
-                                             : Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_HINERI2);
-            }
-            if (this->moriHineriObjIdx < 0) {
-                Actor_Kill(&this->dyna.actor);
-            } else {
-                this->actionFunc = func_808A3D58;
-            }
+    if (this->dyna.actor.params >= 4) {
+        this->dyna.actor.params -= 4;
+        this->actionFunc = func_808A3D58;
+    } else {
+        colHeader = NULL;
+        this->dyna.actor.draw = BgMoriHineri_DrawHallAndRoom;
+        if (this->dyna.actor.params == 0) {
+            this->actionFunc = func_808A3C8C;
+            CollisionHeader_GetVirtual(&object_mori_hineri1_Col_0054B8, &colHeader);
+        } else if (this->dyna.actor.params == 1) {
+            this->actionFunc = BgMoriHineri_SpawnBossKeyChest;
+            CollisionHeader_GetVirtual(&object_mori_hineri1a_Col_003490, &colHeader);
+        } else if (this->dyna.actor.params == 2) {
+            this->actionFunc = BgMoriHineri_DoNothing;
+            CollisionHeader_GetVirtual(&object_mori_hineri2_Col_0043D0, &colHeader);
         } else {
-            Actor_SetObjectDependency(globalCtx, &this->dyna.actor);
-            colHeader = NULL;
-            this->dyna.actor.draw = BgMoriHineri_DrawHallAndRoom;
-            if (this->dyna.actor.params == 0) {
-                this->actionFunc = func_808A3C8C;
-                CollisionHeader_GetVirtual(&object_mori_hineri1_Col_0054B8, &colHeader);
-            } else if (this->dyna.actor.params == 1) {
-                this->actionFunc = BgMoriHineri_SpawnBossKeyChest;
-                CollisionHeader_GetVirtual(&object_mori_hineri1a_Col_003490, &colHeader);
-            } else if (this->dyna.actor.params == 2) {
-                this->actionFunc = BgMoriHineri_DoNothing;
-                CollisionHeader_GetVirtual(&object_mori_hineri2_Col_0043D0, &colHeader);
-            } else {
-                this->actionFunc = func_808A3C8C;
-                CollisionHeader_GetVirtual(&object_mori_hineri2a_Col_006078, &colHeader);
-            }
-            this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+            this->actionFunc = func_808A3C8C;
+            CollisionHeader_GetVirtual(&object_mori_hineri2a_Col_006078, &colHeader);
         }
+        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     }
 }
 
@@ -199,13 +165,8 @@ void func_808A3D58(BgMoriHineri* this, GlobalContext* globalCtx) {
 }
 
 void func_808A3E54(BgMoriHineri* this, GlobalContext* globalCtx) {
-    s8 objBankIndex;
-
     if (globalCtx->activeCamera == sBgMoriHineriNextCamIdx) {
         if (sBgMoriHineriNextCamIdx != MAIN_CAM) {
-            objBankIndex = this->dyna.actor.objBankIndex;
-            this->dyna.actor.objBankIndex = this->moriHineriObjIdx;
-            this->moriHineriObjIdx = objBankIndex;
             this->dyna.actor.params ^= 1;
             sBgMoriHineriNextCamIdx = MAIN_CAM;
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
@@ -235,7 +196,6 @@ void BgMoriHineri_DrawHallAndRoom(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, globalCtx->objectCtx.status[this->moriTexObjIdx].segment);
     gSPMatrix(POLY_OPA_DISP++, MATRIX_NEWMTX(globalCtx->state.gfxCtx),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, sDLists[this->dyna.actor.params]);
@@ -255,9 +215,7 @@ void BgMoriHineri_DrawHallAndRoom(Actor* thisx, GlobalContext* globalCtx) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, gDungeonDoorDL);
     }
-    if ((this->boxObjIdx > 0) && ((this->boxObjIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_BOX)) > 0) &&
-        Object_IsLoaded(&globalCtx->objectCtx, this->boxObjIdx)) {
-        gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[this->boxObjIdx].segment);
+    if (this->boxObjIdx > 0) {
         gSPSegment(POLY_OPA_DISP++, 0x08, &D_80116280[2]);
         Matrix_Put(&mtx);
         Matrix_Translate(147.0f, -245.0f, -453.0f, MTXMODE_APPLY);

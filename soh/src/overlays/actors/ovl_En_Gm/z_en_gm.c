@@ -71,16 +71,6 @@ void EnGm_Init(Actor* thisx, GlobalContext* globalCtx) {
     // "Medi Goron"
     osSyncPrintf(VT_FGCOL(GREEN) "%s[%d] : 中ゴロン[%d]" VT_RST "\n", __FILE__, __LINE__, this->actor.params);
 
-    this->objGmBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_GM);
-
-    if (this->objGmBankIndex < 0) {
-        osSyncPrintf(VT_COL(RED, WHITE));
-        // "There is no model bank! !! (Medi Goron)"
-        osSyncPrintf("モデル バンクが無いよ！！（中ゴロン）\n");
-        osSyncPrintf(VT_RST);
-        ASSERT(this->objGmBankIndex < 0);
-    }
-
     this->updateFunc = func_80A3D838;
 }
 
@@ -103,27 +93,24 @@ s32 func_80A3D7C8(void) {
 }
 
 void func_80A3D838(EnGm* this, GlobalContext* globalCtx) {
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->objGmBankIndex)) {
-        this->actor.flags &= ~ACTOR_FLAG_4;
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGoronSkel, NULL, this->jointTable, this->morphTable, 18);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objGmBankIndex].segment);
-        Animation_Change(&this->skelAnime, &object_gm_Anim_0002B8, 1.0f, 0.0f,
-                         Animation_GetLastFrame(&object_gm_Anim_0002B8), ANIMMODE_LOOP, 0.0f);
-        this->actor.draw = EnGm_Draw;
-        Collider_InitCylinder(globalCtx, &this->collider);
-        Collider_SetCylinderType1(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-        ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 35.0f);
-        Actor_SetScale(&this->actor, 0.05f);
-        this->actor.colChkInfo.mass = MASS_IMMOVABLE;
-        this->eyeTexIndex = 0;
-        this->blinkTimer = 20;
-        this->actor.textId = 0x3049;
-        this->updateFunc = func_80A3DFBC;
-        this->actionFunc = func_80A3DB04;
-        this->actor.speedXZ = 0.0f;
-        this->actor.gravity = -1.0f;
-        this->actor.velocity.y = 0.0f;
-    }
+    this->actor.flags &= ~ACTOR_FLAG_4;
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGoronSkel, NULL, this->jointTable, this->morphTable, 18);
+    Animation_Change(&this->skelAnime, &object_gm_Anim_0002B8, 1.0f, 0.0f,
+                        Animation_GetLastFrame(&object_gm_Anim_0002B8), ANIMMODE_LOOP, 0.0f);
+    this->actor.draw = EnGm_Draw;
+    Collider_InitCylinder(globalCtx, &this->collider);
+    Collider_SetCylinderType1(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 35.0f);
+    Actor_SetScale(&this->actor, 0.05f);
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
+    this->eyeTexIndex = 0;
+    this->blinkTimer = 20;
+    this->actor.textId = 0x3049;
+    this->updateFunc = func_80A3DFBC;
+    this->actionFunc = func_80A3DB04;
+    this->actor.speedXZ = 0.0f;
+    this->actor.gravity = -1.0f;
+    this->actor.velocity.y = 0.0f;
 }
 
 void EnGm_UpdateEye(EnGm* this) {
@@ -272,7 +259,6 @@ void func_80A3DF60(EnGm* this, GlobalContext* globalCtx) {
 }
 
 void func_80A3DFBC(EnGm* this, GlobalContext* globalCtx) {
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objGmBankIndex].segment);
     this->timer++;
     this->actionFunc(this, globalCtx);
     this->actor.focus.rot.x = this->actor.world.rot.x;

@@ -103,13 +103,7 @@ void BgHakaZou_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    this->requiredObjBankIndex = (thisx->params == STA_BOMBABLE_RUBBLE)
-                                     ? Object_GetIndex(&globalCtx->objectCtx, OBJECT_HAKACH_OBJECTS)
-                                     : Object_GetIndex(&globalCtx->objectCtx, OBJECT_HAKA_OBJECTS);
-
-    if (this->requiredObjBankIndex < 0) {
-        Actor_Kill(thisx);
-    } else if ((thisx->params != STA_UNKNOWN) && Flags_GetSwitch(globalCtx, this->switchFlag)) {
+    if ((thisx->params != STA_UNKNOWN) && Flags_GetSwitch(globalCtx, this->switchFlag)) {
         if (thisx->params != STA_GIANT_BIRD_STATUE) {
             Actor_Kill(thisx);
         } else {
@@ -159,41 +153,36 @@ void func_808828F4(BgHakaZou* this, GlobalContext* globalCtx) {
 void BgHakaZou_Wait(BgHakaZou* this, GlobalContext* globalCtx) {
     CollisionHeader* colHeader;
 
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->requiredObjBankIndex)) {
-        this->dyna.actor.objBankIndex = this->requiredObjBankIndex;
-        this->dyna.actor.draw = BgHakaZou_Draw;
+    this->dyna.actor.draw = BgHakaZou_Draw;
 
-        if (this->dyna.actor.params == STA_UNKNOWN) {
-            this->actionFunc = func_80882BDC;
+    if (this->dyna.actor.params == STA_UNKNOWN) {
+        this->actionFunc = func_80882BDC;
+    } else {
+        colHeader = NULL;
+
+        if (this->dyna.actor.params == STA_GIANT_BIRD_STATUE) {
+            CollisionHeader_GetVirtual(&object_haka_objects_Col_006F70, &colHeader);
+            this->collider.dim.radius = 80;
+            this->collider.dim.height = 100;
+            this->collider.dim.yShift = -30;
+            this->collider.dim.pos.x -= 56;
+            this->collider.dim.pos.z += 56;
+            this->dyna.actor.uncullZoneScale = 1500.0f;
+        } else if (this->dyna.actor.params == STA_BOMBABLE_SKULL_WALL) {
+            CollisionHeader_GetVirtual(&object_haka_objects_Col_005E30, &colHeader);
+            this->collider.dim.yShift = -50;
         } else {
-            Actor_SetObjectDependency(globalCtx, &this->dyna.actor);
+            CollisionHeader_GetVirtual(&gBotwBombSpotCol, &colHeader);
+            this->collider.dim.radius = 55;
+            this->collider.dim.height = 20;
+        }
 
-            colHeader = NULL;
+        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
-            if (this->dyna.actor.params == STA_GIANT_BIRD_STATUE) {
-                CollisionHeader_GetVirtual(&object_haka_objects_Col_006F70, &colHeader);
-                this->collider.dim.radius = 80;
-                this->collider.dim.height = 100;
-                this->collider.dim.yShift = -30;
-                this->collider.dim.pos.x -= 56;
-                this->collider.dim.pos.z += 56;
-                this->dyna.actor.uncullZoneScale = 1500.0f;
-            } else if (this->dyna.actor.params == STA_BOMBABLE_SKULL_WALL) {
-                CollisionHeader_GetVirtual(&object_haka_objects_Col_005E30, &colHeader);
-                this->collider.dim.yShift = -50;
-            } else {
-                CollisionHeader_GetVirtual(&gBotwBombSpotCol, &colHeader);
-                this->collider.dim.radius = 55;
-                this->collider.dim.height = 20;
-            }
-
-            this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
-
-            if ((this->dyna.actor.params == STA_GIANT_BIRD_STATUE) && Flags_GetSwitch(globalCtx, this->switchFlag)) {
-                this->actionFunc = BgHakaZou_DoNothing;
-            } else {
-                this->actionFunc = func_80883000;
-            }
+        if ((this->dyna.actor.params == STA_GIANT_BIRD_STATUE) && Flags_GetSwitch(globalCtx, this->switchFlag)) {
+            this->actionFunc = BgHakaZou_DoNothing;
+        } else {
+            this->actionFunc = func_80883000;
         }
     }
 }

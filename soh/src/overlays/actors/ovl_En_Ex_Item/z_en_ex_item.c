@@ -104,16 +104,7 @@ void EnExItem_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->getItemObjId >= 0) {
-        this->objectIdx = Object_GetIndex(&globalCtx->objectCtx, this->getItemObjId);
         this->actor.draw = NULL;
-        if (this->objectIdx < 0) {
-            Actor_Kill(&this->actor);
-            // "What?"
-            osSyncPrintf("なにみの？ %d\n", this->actor.params);
-            // "bank is funny"
-            osSyncPrintf(VT_FGCOL(PURPLE) " バンクおかしいしぞ！%d\n" VT_RST "\n", this->actor.params);
-            return;
-        }
         this->actionFunc = EnExItem_WaitForObject;
     }
 }
@@ -121,152 +112,149 @@ void EnExItem_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnExItem_WaitForObject(EnExItem* this, GlobalContext* globalCtx) {
     s32 onCounter;
 
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->objectIdx)) {
-        // "End of transfer"
-        osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
-        osSyncPrintf(VT_FGCOL(BLUE) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
-        osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
-        osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n\n" VT_RST, this->actor.params, this);
-        this->actor.objBankIndex = this->objectIdx;
-        this->actor.draw = EnExItem_Draw;
-        this->stopRotate = false;
-        onCounter = false;
-        switch (this->type) {
-            case EXITEM_BOMB_BAG_COUNTER:
-                onCounter = true;
-            case EXITEM_BOMB_BAG_BOWLING:
-                this->unk_17C = func_8002EBCC;
-                if (gSaveContext.n64ddFlag) {
-                    this->giDrawId =
-                        Randomizer_GetItemFromKnownCheck(RC_MARKET_BOMBCHU_BOWLING_FIRST_PRIZE, GI_BOMB_BAG_20).gid;
-                } else {
-                    this->giDrawId = GID_BOMB_BAG_30;
+    // "End of transfer"
+    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
+    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
+    osSyncPrintf(VT_FGCOL(BLUE) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
+    osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
+    osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n\n" VT_RST, this->actor.params, this);
+    this->actor.draw = EnExItem_Draw;
+    this->stopRotate = false;
+    onCounter = false;
+    switch (this->type) {
+        case EXITEM_BOMB_BAG_COUNTER:
+            onCounter = true;
+        case EXITEM_BOMB_BAG_BOWLING:
+            this->unk_17C = func_8002EBCC;
+            if (gSaveContext.n64ddFlag) {
+                this->giDrawId =
+                    Randomizer_GetItemFromKnownCheck(RC_MARKET_BOMBCHU_BOWLING_FIRST_PRIZE, GI_BOMB_BAG_20).gid;
+            } else {
+                this->giDrawId = GID_BOMB_BAG_30;
+            }
+            this->timer = 65;
+            this->prizeRotateTimer = 35;
+            this->scale = 0.5f;
+            if (onCounter == 0) {
+                this->actionFunc = EnExItem_BowlPrize;
+            } else {
+                this->actionFunc = EnExItem_SetupBowlCounter;
+                this->actor.shape.yOffset = gSaveContext.n64ddFlag ? -10.0f : -18.0f;
+            }
+            break;
+        case EXITEM_HEART_PIECE_COUNTER:
+            onCounter = true;
+        case EXITEM_HEART_PIECE_BOWLING:
+            this->unk_17C = func_8002ED80;
+            this->timer = 65;
+            this->prizeRotateTimer = 35;
+            this->scale = 0.5f;
+            if (!onCounter) {
+                func_80078884(NA_SE_SY_PIECE_OF_HEART);
+                this->actionFunc = EnExItem_BowlPrize;
+            } else {
+                this->actionFunc = EnExItem_SetupBowlCounter;
+                this->actor.shape.yOffset = -10.0f;
+            }
+            break;
+        case EXITEM_BOMBCHUS_COUNTER:
+            onCounter = true;
+        case EXITEM_BOMBCHUS_BOWLING:
+            this->unk_17C = func_8002EBCC;
+            if (gSaveContext.n64ddFlag) {
+                this->giDrawId = Randomizer_GetItemFromKnownCheck(RC_MARKET_BOMBCHU_BOWLING_BOMBCHUS, GI_BOMBCHUS_10).gid;
+            } else {
+                this->giDrawId = GID_BOMBCHU;
+            }
+            this->timer = 65;
+            this->prizeRotateTimer = 35;
+            this->scale = 0.5f;
+            if (!onCounter) {
+                this->actionFunc = EnExItem_BowlPrize;
+            } else {
+                this->actionFunc = EnExItem_SetupBowlCounter;
+            }
+            break;
+        case EXITEM_BOMBS_BOWLING:
+        case EXITEM_BOMBS_COUNTER:
+            this->unk_17C = func_8002EBCC;
+            this->giDrawId = GID_BOMB;
+            this->timer = 65;
+            this->prizeRotateTimer = 35;
+            this->scale = 0.5f;
+            this->unkFloat = 0.5f;
+            if (this->type == EXITEM_BOMBS_BOWLING) {
+                this->actionFunc = EnExItem_BowlPrize;
+            } else {
+                this->actionFunc = EnExItem_SetupBowlCounter;
+                this->actor.shape.yOffset = 10.0f;
+            }
+            break;
+        case EXITEM_PURPLE_RUPEE_BOWLING:
+        case EXITEM_PURPLE_RUPEE_COUNTER:
+            this->unk_17C = func_8002EBCC;
+            this->unk_180 = func_8002ED80;
+            this->giDrawId = GID_RUPEE_PURPLE;
+            this->timer = 65;
+            this->prizeRotateTimer = 35;
+            this->scale = 0.5f;
+            this->unkFloat = 0.5f;
+            if (this->type == EXITEM_PURPLE_RUPEE_BOWLING) {
+                this->actionFunc = EnExItem_BowlPrize;
+            } else {
+                this->actionFunc = EnExItem_SetupBowlCounter;
+                this->actor.shape.yOffset = 40.0f;
+            }
+            break;
+        case EXITEM_GREEN_RUPEE_CHEST:
+        case EXITEM_BLUE_RUPEE_CHEST:
+        case EXITEM_RED_RUPEE_CHEST:
+        case EXITEM_13:
+        case EXITEM_14:
+            this->unk_17C = func_8002EBCC;
+            this->unk_180 = func_8002ED80;
+            this->timer = 7;
+            this->scale = 0.5f;
+            this->unkFloat = 0.5f;
+            this->actor.velocity.y = 10.0f;
+            if (!gSaveContext.n64ddFlag || !Randomizer_GetSettingValue(RSK_SHUFFLE_CHEST_MINIGAME)) {
+                switch (this->type) {
+                    case EXITEM_GREEN_RUPEE_CHEST:
+                        this->giDrawId = GID_RUPEE_GREEN;
+                        break;
+                    case EXITEM_BLUE_RUPEE_CHEST:
+                        this->giDrawId = GID_RUPEE_BLUE;
+                        break;
+                    case EXITEM_RED_RUPEE_CHEST:
+                        this->giDrawId = GID_RUPEE_RED;
+                        break;
+                    case EXITEM_14:
+                        this->giDrawId = GID_RUPEE_PURPLE;
+                        break;
                 }
-                this->timer = 65;
-                this->prizeRotateTimer = 35;
-                this->scale = 0.5f;
-                if (onCounter == 0) {
-                    this->actionFunc = EnExItem_BowlPrize;
-                } else {
-                    this->actionFunc = EnExItem_SetupBowlCounter;
-                    this->actor.shape.yOffset = gSaveContext.n64ddFlag ? -10.0f : -18.0f;
+            } else {
+                if (globalCtx->sceneNum == 16) {
+                    this->giDrawId = GetChestGameRandoGiDrawId(globalCtx->roomCtx.curRoom.num, GID_RUPEE_GREEN, globalCtx);
                 }
-                break;
-            case EXITEM_HEART_PIECE_COUNTER:
-                onCounter = true;
-            case EXITEM_HEART_PIECE_BOWLING:
-                this->unk_17C = func_8002ED80;
-                this->timer = 65;
-                this->prizeRotateTimer = 35;
-                this->scale = 0.5f;
-                if (!onCounter) {
-                    func_80078884(NA_SE_SY_PIECE_OF_HEART);
-                    this->actionFunc = EnExItem_BowlPrize;
-                } else {
-                    this->actionFunc = EnExItem_SetupBowlCounter;
-                    this->actor.shape.yOffset = -10.0f;
-                }
-                break;
-            case EXITEM_BOMBCHUS_COUNTER:
-                onCounter = true;
-            case EXITEM_BOMBCHUS_BOWLING:
-                this->unk_17C = func_8002EBCC;
-                if (gSaveContext.n64ddFlag) {
-                    this->giDrawId = Randomizer_GetItemFromKnownCheck(RC_MARKET_BOMBCHU_BOWLING_BOMBCHUS, GI_BOMBCHUS_10).gid;
-                } else {
-                    this->giDrawId = GID_BOMBCHU;
-                }
-                this->timer = 65;
-                this->prizeRotateTimer = 35;
-                this->scale = 0.5f;
-                if (!onCounter) {
-                    this->actionFunc = EnExItem_BowlPrize;
-                } else {
-                    this->actionFunc = EnExItem_SetupBowlCounter;
-                }
-                break;
-            case EXITEM_BOMBS_BOWLING:
-            case EXITEM_BOMBS_COUNTER:
-                this->unk_17C = func_8002EBCC;
-                this->giDrawId = GID_BOMB;
-                this->timer = 65;
-                this->prizeRotateTimer = 35;
-                this->scale = 0.5f;
-                this->unkFloat = 0.5f;
-                if (this->type == EXITEM_BOMBS_BOWLING) {
-                    this->actionFunc = EnExItem_BowlPrize;
-                } else {
-                    this->actionFunc = EnExItem_SetupBowlCounter;
-                    this->actor.shape.yOffset = 10.0f;
-                }
-                break;
-            case EXITEM_PURPLE_RUPEE_BOWLING:
-            case EXITEM_PURPLE_RUPEE_COUNTER:
-                this->unk_17C = func_8002EBCC;
-                this->unk_180 = func_8002ED80;
-                this->giDrawId = GID_RUPEE_PURPLE;
-                this->timer = 65;
-                this->prizeRotateTimer = 35;
-                this->scale = 0.5f;
-                this->unkFloat = 0.5f;
-                if (this->type == EXITEM_PURPLE_RUPEE_BOWLING) {
-                    this->actionFunc = EnExItem_BowlPrize;
-                } else {
-                    this->actionFunc = EnExItem_SetupBowlCounter;
-                    this->actor.shape.yOffset = 40.0f;
-                }
-                break;
-            case EXITEM_GREEN_RUPEE_CHEST:
-            case EXITEM_BLUE_RUPEE_CHEST:
-            case EXITEM_RED_RUPEE_CHEST:
-            case EXITEM_13:
-            case EXITEM_14:
-                this->unk_17C = func_8002EBCC;
-                this->unk_180 = func_8002ED80;
-                this->timer = 7;
-                this->scale = 0.5f;
-                this->unkFloat = 0.5f;
-                this->actor.velocity.y = 10.0f;
-                if (!gSaveContext.n64ddFlag || !Randomizer_GetSettingValue(RSK_SHUFFLE_CHEST_MINIGAME)) {
-                    switch (this->type) {
-                        case EXITEM_GREEN_RUPEE_CHEST:
-                            this->giDrawId = GID_RUPEE_GREEN;
-                            break;
-                        case EXITEM_BLUE_RUPEE_CHEST:
-                            this->giDrawId = GID_RUPEE_BLUE;
-                            break;
-                        case EXITEM_RED_RUPEE_CHEST:
-                            this->giDrawId = GID_RUPEE_RED;
-                            break;
-                        case EXITEM_14:
-                            this->giDrawId = GID_RUPEE_PURPLE;
-                            break;
-                    }
-                } else {
-                    if (globalCtx->sceneNum == 16) {
-                        this->giDrawId = GetChestGameRandoGiDrawId(globalCtx->roomCtx.curRoom.num, GID_RUPEE_GREEN, globalCtx);
-                    }
-                }
-                this->actionFunc = EnExItem_ExitChest;
-                break;
-            case EXITEM_MAGIC_FIRE:
-            case EXITEM_MAGIC_WIND:
-            case EXITEM_MAGIC_DARK:
-                this->scale = 0.35f;
-                this->actionFunc = EnExItem_FairyMagic;
-                break;
-            case EXITEM_BULLET_BAG:
-                this->unk_17C = func_8002EBCC;
-                this->giDrawId = GID_BULLET_BAG;
-                this->scale = 0.1f;
-                this->timer = 80;
-                this->prizeRotateTimer = 35;
-                this->actionFunc = EnExItem_TargetPrizeApproach;
-                break;
-            case EXITEM_SMALL_KEY_CHEST:
-                break;
-        }
+            }
+            this->actionFunc = EnExItem_ExitChest;
+            break;
+        case EXITEM_MAGIC_FIRE:
+        case EXITEM_MAGIC_WIND:
+        case EXITEM_MAGIC_DARK:
+            this->scale = 0.35f;
+            this->actionFunc = EnExItem_FairyMagic;
+            break;
+        case EXITEM_BULLET_BAG:
+            this->unk_17C = func_8002EBCC;
+            this->giDrawId = GID_BULLET_BAG;
+            this->scale = 0.1f;
+            this->timer = 80;
+            this->prizeRotateTimer = 35;
+            this->actionFunc = EnExItem_TargetPrizeApproach;
+            break;
+        case EXITEM_SMALL_KEY_CHEST:
+            break;
     }
 }
 

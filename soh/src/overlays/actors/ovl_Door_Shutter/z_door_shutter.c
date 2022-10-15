@@ -61,29 +61,28 @@ const ActorInit Door_Shutter_InitVars = {
 };
 
 typedef struct {
-    s16 objectId;
     u8 index1;
     u8 index2;
 } ShutterObjectInfo;
 
 static ShutterObjectInfo sObjectInfo[] = {
-    { OBJECT_GND, 4, 4 },
-    { OBJECT_GOMA, 5, 5 },
-    { OBJECT_YDAN_OBJECTS, 0, 1 },
-    { OBJECT_DDAN_OBJECTS, 2, 2 },
-    { OBJECT_BDAN_OBJECTS, 3, 3 },
-    { OBJECT_GAMEPLAY_KEEP, 8, 8 },
-    { OBJECT_BDOOR, 7, 7 },
-    { OBJECT_GAMEPLAY_KEEP, 8, 8 },
-    { OBJECT_HIDAN_OBJECTS, 9, 10 },
-    { OBJECT_GANON_OBJECTS, 11, 11 },
-    { OBJECT_JYA_DOOR, 6, 6 },
-    { OBJECT_MIZU_OBJECTS, 12, 13 },
-    { OBJECT_HAKA_DOOR, 14, 15 },
-    { OBJECT_ICE_OBJECTS, 16, 16 },
-    { OBJECT_MENKURI_OBJECTS, 17, 17 },
-    { OBJECT_DEMO_KEKKAI, 18, 18 },
-    { OBJECT_OUKE_HAKA, 19, 19 },
+    { 4, 4 },
+    { 5, 5 },
+    { 0, 1 },
+    { 2, 2 },
+    { 3, 3 },
+    { 8, 8 },
+    { 7, 7 },
+    { 8, 8 },
+    { 9, 10 },
+    { 11, 11 },
+    { 6, 6 },
+    { 12, 13 },
+    { 14, 15 },
+    { 16, 16 },
+    { 17, 17 },
+    { 18, 18 },
+    { 19, 19 },
 };
 
 typedef struct {
@@ -223,7 +222,6 @@ void DoorShutter_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     s32 phi_a3;
     s32 pad;
-    s32 objectIndex;
     s32 i;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -252,11 +250,7 @@ void DoorShutter_Init(Actor* thisx, GlobalContext* globalCtx2) {
     } else {
         this->dyna.actor.room = -1;
     }
-    if (this->requiredObjBankIndex = objectIndex = Object_GetIndex(&globalCtx->objectCtx, sObjectInfo[phi_a3].objectId),
-        (s8)objectIndex < 0) {
-        Actor_Kill(&this->dyna.actor);
-        return;
-    }
+    this->initialized = false;
     DoorShutter_SetupAction(this, DoorShutter_SetupType);
     this->unk_16B = phi_a3;
     if (this->doorType == SHUTTER_KEY_LOCKED || this->doorType == SHUTTER_BOSS) {
@@ -286,29 +280,26 @@ void DoorShutter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DoorShutter_SetupType(DoorShutter* this, GlobalContext* globalCtx) {
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->requiredObjBankIndex)) {
-        this->dyna.actor.objBankIndex = this->requiredObjBankIndex;
-        if (this->doorType == SHUTTER_PG_BARS || this->doorType == SHUTTER_GOHMA_BLOCK) {
-            // Init dynapoly for shutters of the type that uses it
-            CollisionHeader* colHeader = NULL;
+    if (this->doorType == SHUTTER_PG_BARS || this->doorType == SHUTTER_GOHMA_BLOCK) {
+        // Init dynapoly for shutters of the type that uses it
+        CollisionHeader* colHeader = NULL;
 
-            Actor_SetObjectDependency(globalCtx, &this->dyna.actor);
-            this->unk_16C = sObjectInfo[this->unk_16B].index1;
-            CollisionHeader_GetVirtual((this->doorType == SHUTTER_GOHMA_BLOCK) ? &gGohmaDoorCol : &gPhantomGanonBarsCol,
-                                       &colHeader);
-            this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
-            if (this->doorType == SHUTTER_GOHMA_BLOCK) {
-                this->dyna.actor.velocity.y = 0.0f;
-                this->dyna.actor.gravity = -2.0f;
-                Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_SLIDE_DOOR_CLOSE);
-                DoorShutter_SetupAction(this, func_809975C0);
-            } else {
-                DoorShutter_SetupAction(this, func_80997744);
-                this->unk_164 = 7;
-            }
+        this->initialized = true;
+        this->unk_16C = sObjectInfo[this->unk_16B].index1;
+        CollisionHeader_GetVirtual((this->doorType == SHUTTER_GOHMA_BLOCK) ? &gGohmaDoorCol : &gPhantomGanonBarsCol,
+                                    &colHeader);
+        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+        if (this->doorType == SHUTTER_GOHMA_BLOCK) {
+            this->dyna.actor.velocity.y = 0.0f;
+            this->dyna.actor.gravity = -2.0f;
+            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_SLIDE_DOOR_CLOSE);
+            DoorShutter_SetupAction(this, func_809975C0);
         } else {
-            DoorShutter_SetupDoor(this, globalCtx);
+            DoorShutter_SetupAction(this, func_80997744);
+            this->unk_164 = 7;
         }
+    } else {
+        DoorShutter_SetupDoor(this, globalCtx);
     }
 }
 
@@ -690,19 +681,7 @@ s32 func_80997A34(DoorShutter* this, GlobalContext* globalCtx) {
 void DoorShutter_Draw(Actor* thisx, GlobalContext* globalCtx) {
     DoorShutter* this = (DoorShutter*)thisx;
 
-    //! @bug This actor is not fully initialized until the required object dependency is loaded.
-    //! In most cases, the check for objBankIndex to equal requiredObjBankIndex prevents the actor
-    //! from drawing until initialization is complete. However if the required object is the same as the
-    //! object dependency listed in init vars (gameplay_keep in this case), the check will pass even though
-    //! initialization has not completed. When this happens, it will try to draw the display list of the
-    //! first entry in `sShutterInfo`, which will likely crash the game.
-    //! This only matters in very specific scenarios, when the door is unculled on the first possible frame
-    //! after spawning. It will try to draw without having run update yet.
-    //!
-    //! The best way to fix this issue (and what was done in Majora's Mask) is to null out the draw function in
-    //! the init vars for the actor, and only set draw after initialization is complete.
-
-    if (this->dyna.actor.objBankIndex == this->requiredObjBankIndex &&
+    if (this->initialized &&
         (this->unk_16B == 0 || func_80997A34(this, globalCtx) != 0)) {
         s32 pad[2];
         ShutterInfo* sp70 = &sShutterInfo[this->unk_16C];

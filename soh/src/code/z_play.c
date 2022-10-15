@@ -534,19 +534,6 @@ void Gameplay_Update(GlobalContext* globalCtx) {
         ZeldaArena_Display();
     }
 
-    if ((HREG(80) == 18) && (HREG(81) < 0)) {
-        HREG(81) = 0;
-        osSyncPrintf("object_exchange_rom_address %u\n", gObjectTableSize);
-        osSyncPrintf("RomStart RomEnd   Size\n");
-        for (i = 0; i < gObjectTableSize; i++) {
-            ptrdiff_t size = gObjectTable[i].vromEnd - gObjectTable[i].vromStart;
-
-            osSyncPrintf("%08x-%08x %08x(%8.3fKB)\n", gObjectTable[i].vromStart, gObjectTable[i].vromEnd, size,
-                         size / 1024.0f);
-        }
-        osSyncPrintf("\n");
-    }
-
     if ((HREG(81) == 18) && (HREG(82) < 0)) {
         HREG(82) = 0;
         ActorOverlayTable_LogPrint();
@@ -556,8 +543,6 @@ void Gameplay_Update(GlobalContext* globalCtx) {
         globalCtx->manualCamera = false;
     }
 
-    gSegments[4] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
-    gSegments[5] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
     gSegments[2] = VIRTUAL_TO_PHYSICAL(globalCtx->sceneSegment);
 
     if (FrameAdvance_Update(&globalCtx->frameAdvCtx, &input[1])) {
@@ -918,8 +903,6 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 LOG_NUM("1", 1);
             }
 
-            Object_UpdateBank(&globalCtx->objectCtx);
-
             if (1 && HREG(63)) {
                 LOG_NUM("1", 1);
             }
@@ -1191,21 +1174,11 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
     OPEN_DISPS(gfxCtx);
 
-    gSegments[4] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
-    gSegments[5] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
     gSegments[2] = VIRTUAL_TO_PHYSICAL(globalCtx->sceneSegment);
 
     gSPSegment(POLY_OPA_DISP++, 0x00, NULL);
     gSPSegment(POLY_XLU_DISP++, 0x00, NULL);
     gSPSegment(OVERLAY_DISP++, 0x00, NULL);
-
-    gSPSegment(POLY_OPA_DISP++, 0x04, globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
-    gSPSegment(POLY_XLU_DISP++, 0x04, globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
-    gSPSegment(OVERLAY_DISP++, 0x04, globalCtx->objectCtx.status[globalCtx->objectCtx.mainKeepIndex].segment);
-
-    gSPSegment(POLY_OPA_DISP++, 0x05, globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
-    gSPSegment(POLY_XLU_DISP++, 0x05, globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
-    gSPSegment(OVERLAY_DISP++, 0x05, globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
 
     gSPSegment(POLY_OPA_DISP++, 0x02, globalCtx->sceneSegment);
     gSPSegment(POLY_XLU_DISP++, 0x02, globalCtx->sceneSegment);
@@ -1647,7 +1620,6 @@ void Gameplay_InitScene(GlobalContext* globalCtx, s32 spawn)
     globalCtx->cUpElfMsgs = NULL;
     globalCtx->setupPathList = NULL;
     globalCtx->numSetupActors = 0;
-    Object_InitBank(globalCtx, &globalCtx->objectCtx);
     LightContext_Init(globalCtx, &globalCtx->lightCtx);
     TransitionActor_InitContext(&globalCtx->state, &globalCtx->transiActorCtx);
     func_80096FD4(globalCtx, &globalCtx->roomCtx.curRoom);

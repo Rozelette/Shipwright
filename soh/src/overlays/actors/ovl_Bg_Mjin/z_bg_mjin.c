@@ -61,13 +61,7 @@ void BgMjin_Init(Actor* thisx, GlobalContext* globalCtx) {
     s8 objBankIndex;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    objBankIndex = Object_GetIndex(&globalCtx->objectCtx, (thisx->params != 0 ? OBJECT_MJIN : OBJECT_MJIN_OKA));
-    this->objBankIndex = objBankIndex;
-    if (objBankIndex < 0) {
-        Actor_Kill(thisx);
-    } else {
-        BgMjin_SetupAction(this, func_808A0850);
-    }
+    BgMjin_SetupAction(this, func_808A0850);
 }
 
 void BgMjin_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -80,18 +74,14 @@ void func_808A0850(BgMjin* this, GlobalContext* globalCtx) {
     CollisionHeader* colHeader;
     CollisionHeader* collision;
 
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
-        colHeader = NULL;
-        this->dyna.actor.flags &= ~ACTOR_FLAG_4;
-        this->dyna.actor.objBankIndex = this->objBankIndex;
-        Actor_SetObjectDependency(globalCtx, &this->dyna.actor);
-        DynaPolyActor_Init(&this->dyna, 0);
-        collision = this->dyna.actor.params != 0 ? &gWarpPadCol : &gOcarinaWarpPadCol;
-        CollisionHeader_GetVirtual(collision, &colHeader);
-        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
-        BgMjin_SetupAction(this, BgMjin_DoNothing);
-        this->dyna.actor.draw = BgMjin_Draw;
-    }
+    colHeader = NULL;
+    this->dyna.actor.flags &= ~ACTOR_FLAG_4;
+    DynaPolyActor_Init(&this->dyna, 0);
+    collision = this->dyna.actor.params != 0 ? &gWarpPadCol : &gOcarinaWarpPadCol;
+    CollisionHeader_GetVirtual(collision, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    BgMjin_SetupAction(this, BgMjin_DoNothing);
+    this->dyna.actor.draw = BgMjin_Draw;
 }
 
 void BgMjin_DoNothing(BgMjin* this, GlobalContext* globalCtx) {
@@ -110,12 +100,6 @@ void BgMjin_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx);
 
     if (thisx->params != 0) {
-        s32 objBankIndex = Object_GetIndex(&globalCtx->objectCtx, sObjectIDs[thisx->params - 1]);
-
-        if (objBankIndex >= 0) {
-            gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[objBankIndex].segment);
-        }
-
         gSPSegment(POLY_OPA_DISP++, 0x08, gPedestalEmblems[thisx->params - 1]);
         dlist = gWarpPadBaseDL;
     } else {

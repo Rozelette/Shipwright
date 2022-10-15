@@ -4903,22 +4903,6 @@ s32 func_8083ADD4(GlobalContext* globalCtx, Player* this) {
 }
 
 void func_8083AE40(Player* this, s16 objectId) {
-    s32 pad;
-    size_t size;
-
-    if (objectId != OBJECT_INVALID) {
-        this->giObjectLoading = true;
-        osCreateMesgQueue(&this->giObjectLoadQueue, &this->giObjectLoadMsg, 1);
-
-        size = gObjectTable[objectId].vromEnd - gObjectTable[objectId].vromStart;
-
-        LOG_HEX("size", size);
-        ASSERT(size <= 1024 * 8);
-
-        DmaMgr_SendRequest2(&this->giObjectDmaRequest, (uintptr_t)this->giObjectSegment,
-                            gObjectTable[objectId].vromStart, size, 0, &this->giObjectLoadQueue, OS_MESG_PTR(NULL),
-                            __FILE__, __LINE__);
-    }
 }
 
 void func_8083AF44(GlobalContext* globalCtx, Player* this, s32 magicSpell) {
@@ -10877,18 +10861,14 @@ void Player_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (func_8084FCAC(this, globalCtx)) {
         if (gSaveContext.dogParams < 0) {
-            if (Object_GetIndex(&globalCtx->objectCtx, OBJECT_DOG) < 0) {
-                gSaveContext.dogParams = 0;
-            } else {
-                gSaveContext.dogParams &= 0x7FFF;
-                func_808395DC(this, &this->actor.world.pos, &D_80854838, &sDogSpawnPos);
-                dogParams = gSaveContext.dogParams;
+            gSaveContext.dogParams &= 0x7FFF;
+            func_808395DC(this, &this->actor.world.pos, &D_80854838, &sDogSpawnPos);
+            dogParams = gSaveContext.dogParams;
 
-                dog = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_DOG, sDogSpawnPos.x, sDogSpawnPos.y,
-                                  sDogSpawnPos.z, 0, this->actor.shape.rot.y, 0, dogParams | 0x8000);
-                if (dog != NULL) {
-                    dog->room = 0;
-                }
+            dog = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_DOG, sDogSpawnPos.x, sDogSpawnPos.y,
+                                sDogSpawnPos.z, 0, this->actor.shape.rot.y, 0, dogParams | 0x8000);
+            if (dog != NULL) {
+                dog->room = 0;
             }
         }
 

@@ -410,9 +410,7 @@ void EnGirlA_InitItem(EnGirlA* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (!gSaveContext.n64ddFlag || !Randomizer_GetSettingValue(RSK_SHOPSANITY)) {
-        this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, shopItemEntries[params].objID);
-    } else {
+    if (gSaveContext.n64ddFlag && Randomizer_GetSettingValue(RSK_SHOPSANITY)) {
         s16 objectId = shopItemEntries[params].objID;
 
         if (params == SI_RANDOMIZED_ITEM) {
@@ -421,22 +419,6 @@ void EnGirlA_InitItem(EnGirlA* this, GlobalContext* globalCtx) {
 
             objectId = getItemEntry.objectId;
         }
-
-        // Weird edge case here, sold out object reports as loaded for Kokiri shop but doesn't render so we force it to load here
-        if (Object_IsLoaded(&globalCtx->objectCtx, objectId) && (params != SI_SOLD_OUT && globalCtx->sceneNum == SCENE_KOKIRI_SHOP)) {
-            this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, objectId);
-        } else {
-            this->objBankIndex = Object_Spawn(&globalCtx->objectCtx, objectId);
-        }
-    }
-
-    if (this->objBankIndex < 0) {
-        Actor_Kill(&this->actor);
-        osSyncPrintf(VT_COL(RED, WHITE));
-        osSyncPrintf("バンクが無いよ！！(%s)\n", sShopItemDescriptions[params]);
-        osSyncPrintf(VT_RST);
-        ASSERT(this->objBankIndex < 0);
-        return;
     }
 
     this->actor.params = params;
@@ -1105,115 +1087,112 @@ void EnGirlA_InitializeItemAction(EnGirlA* this, GlobalContext* globalCtx) {
     s16 params = this->actor.params;
     ShopItemEntry* itemEntry = &shopItemEntries[params];
 
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
-        this->actor.flags &= ~ACTOR_FLAG_4;
-        this->actor.objBankIndex = this->objBankIndex;
-        switch (this->actor.params) {
-            case SI_KEATON_MASK:
-                if (gSaveContext.itemGetInf[3] & 0x100) {
-                    this->actor.textId = 0x70B6;
-                } else {
-                    this->actor.textId = itemEntry->itemDescTextId;
-                }
-                this->itemBuyPromptTextId = itemEntry->itemBuyPromptTextId;
-                break;
-            case SI_SPOOKY_MASK:
-                if (gSaveContext.itemGetInf[3] & 0x400) {
-                    this->actor.textId = 0x70B5;
-                } else {
-                    this->actor.textId = itemEntry->itemDescTextId;
-                }
-                this->itemBuyPromptTextId = itemEntry->itemBuyPromptTextId;
-                break;
-            case SI_SKULL_MASK:
-                if (gSaveContext.itemGetInf[3] & 0x200) {
-                    this->actor.textId = 0x70B4;
-                } else {
-                    this->actor.textId = itemEntry->itemDescTextId;
-                }
-                this->itemBuyPromptTextId = itemEntry->itemBuyPromptTextId;
-                break;
-            case SI_BUNNY_HOOD:
-                if (gSaveContext.itemGetInf[3] & 0x800) {
-                    this->actor.textId = 0x70B7;
-                } else {
-                    this->actor.textId = itemEntry->itemDescTextId;
-                }
-                this->itemBuyPromptTextId = itemEntry->itemBuyPromptTextId;
-                break;
-            case SI_MASK_OF_TRUTH:
-                if (gSaveContext.itemGetInf[3] & 0x800) {
-                    this->actor.textId = 0x70BB;
-                    this->itemBuyPromptTextId = itemEntry->itemBuyPromptTextId;
-                } else {
-                    this->actor.textId = itemEntry->itemDescTextId;
-                    this->itemBuyPromptTextId = 0xEB;
-                }
-                break;
-            case SI_ZORA_MASK:
+    this->actor.flags &= ~ACTOR_FLAG_4;
+    switch (this->actor.params) {
+        case SI_KEATON_MASK:
+            if (gSaveContext.itemGetInf[3] & 0x100) {
+                this->actor.textId = 0x70B6;
+            } else {
                 this->actor.textId = itemEntry->itemDescTextId;
-                this->itemBuyPromptTextId = itemEntry->itemBuyPromptTextId;
-                break;
-            case SI_GORON_MASK:
-                this->actor.textId = itemEntry->itemDescTextId;
-                this->itemBuyPromptTextId = itemEntry->itemBuyPromptTextId;
-                break;
-            case SI_GERUDO_MASK:
-                this->actor.textId = itemEntry->itemDescTextId;
-                this->itemBuyPromptTextId = itemEntry->itemBuyPromptTextId;
-                break;
-            default:
-                this->actor.textId = itemEntry->itemDescTextId;
-                this->itemBuyPromptTextId = itemEntry->itemBuyPromptTextId;
-                break;
-        }
-        if (!EnGirlA_TrySetMaskItemDescription(this, globalCtx)) {
-            EnGirlA_SetItemDescription(globalCtx, this);
-        }
-
-        this->setOutOfStockFunc = EnGirlA_SetItemOutOfStock;
-        this->updateStockedItemFunc = EnGirlA_UpdateStockedItem;
-        this->getItemId = itemEntry->getItemId;
-        this->canBuyFunc = itemEntry->canBuyFunc;
-        this->itemGiveFunc = itemEntry->itemGiveFunc;
-        this->buyEventFunc = itemEntry->buyEventFunc;
-        // If chus are in logic, make the 10 pack affordable without a wallet upgrade
-        if (gSaveContext.n64ddFlag && Randomizer_GetSettingValue(RSK_BOMBCHUS_IN_LOGIC) &&
-            this->getItemId == GI_BOMBCHUS_10) {
-            this->basePrice = 99;
-        } else {
-            this->basePrice = itemEntry->price;
-        }
-        this->itemCount = itemEntry->count;
-        this->hiliteFunc = itemEntry->hiliteFunc;
-        this->giDrawId = itemEntry->giDrawId;
-        osSyncPrintf("%s(%2d)\n", sShopItemDescriptions[params], params);
-        this->actor.flags &= ~ACTOR_FLAG_0;
-        Actor_SetScale(&this->actor, 0.25f);
-        this->actor.shape.yOffset = 24.0f;
-        this->actor.shape.shadowScale = 4.0f;
-        this->actor.floorHeight = this->actor.home.pos.y;
-        this->actor.gravity = 0.0f;
-        EnGirlA_SetupAction(this, EnGirlA_Noop);
-        this->isInitialized = true;
-        this->actionFunc2 = EnGirlA_Update2;
-        this->isSelected = false;
-        this->yRotation = 0;
-        this->yRotationInit = this->actor.shape.rot.y;
-
-        if (params == SI_RANDOMIZED_ITEM) {
-            ShopItemIdentity shopItemIdentity = Randomizer_IdentifyShopItem(globalCtx->sceneNum, this->randoSlotIndex);
-            GetItemEntry getItemEntry = Randomizer_GetItemFromKnownCheckWithoutObtainabilityCheck(shopItemIdentity.randomizerCheck, shopItemIdentity.ogItemId);
-            this->actor.textId = 0x9100 + (shopItemIdentity.randomizerInf - RAND_INF_SHOP_ITEMS_KF_SHOP_ITEM_1);
-            this->itemBuyPromptTextId = 0x9100 + ((shopItemIdentity.randomizerInf - RAND_INF_SHOP_ITEMS_KF_SHOP_ITEM_1) + NUM_SHOP_ITEMS);
-            this->getItemId = getItemEntry.getItemId;
-            this->basePrice = shopItemIdentity.itemPrice;
-            this->giDrawId = getItemEntry.gid;
-
-            // Correct the rotation for spiritual stones
-            if (getItemEntry.getItemId >= RG_KOKIRI_EMERALD && getItemEntry.getItemId <= RG_ZORA_SAPPHIRE) {
-                this->actor.shape.rot.y = this->actor.shape.rot.y + 20000;
             }
+            this->itemBuyPromptTextId = itemEntry->itemBuyPromptTextId;
+            break;
+        case SI_SPOOKY_MASK:
+            if (gSaveContext.itemGetInf[3] & 0x400) {
+                this->actor.textId = 0x70B5;
+            } else {
+                this->actor.textId = itemEntry->itemDescTextId;
+            }
+            this->itemBuyPromptTextId = itemEntry->itemBuyPromptTextId;
+            break;
+        case SI_SKULL_MASK:
+            if (gSaveContext.itemGetInf[3] & 0x200) {
+                this->actor.textId = 0x70B4;
+            } else {
+                this->actor.textId = itemEntry->itemDescTextId;
+            }
+            this->itemBuyPromptTextId = itemEntry->itemBuyPromptTextId;
+            break;
+        case SI_BUNNY_HOOD:
+            if (gSaveContext.itemGetInf[3] & 0x800) {
+                this->actor.textId = 0x70B7;
+            } else {
+                this->actor.textId = itemEntry->itemDescTextId;
+            }
+            this->itemBuyPromptTextId = itemEntry->itemBuyPromptTextId;
+            break;
+        case SI_MASK_OF_TRUTH:
+            if (gSaveContext.itemGetInf[3] & 0x800) {
+                this->actor.textId = 0x70BB;
+                this->itemBuyPromptTextId = itemEntry->itemBuyPromptTextId;
+            } else {
+                this->actor.textId = itemEntry->itemDescTextId;
+                this->itemBuyPromptTextId = 0xEB;
+            }
+            break;
+        case SI_ZORA_MASK:
+            this->actor.textId = itemEntry->itemDescTextId;
+            this->itemBuyPromptTextId = itemEntry->itemBuyPromptTextId;
+            break;
+        case SI_GORON_MASK:
+            this->actor.textId = itemEntry->itemDescTextId;
+            this->itemBuyPromptTextId = itemEntry->itemBuyPromptTextId;
+            break;
+        case SI_GERUDO_MASK:
+            this->actor.textId = itemEntry->itemDescTextId;
+            this->itemBuyPromptTextId = itemEntry->itemBuyPromptTextId;
+            break;
+        default:
+            this->actor.textId = itemEntry->itemDescTextId;
+            this->itemBuyPromptTextId = itemEntry->itemBuyPromptTextId;
+            break;
+    }
+    if (!EnGirlA_TrySetMaskItemDescription(this, globalCtx)) {
+        EnGirlA_SetItemDescription(globalCtx, this);
+    }
+
+    this->setOutOfStockFunc = EnGirlA_SetItemOutOfStock;
+    this->updateStockedItemFunc = EnGirlA_UpdateStockedItem;
+    this->getItemId = itemEntry->getItemId;
+    this->canBuyFunc = itemEntry->canBuyFunc;
+    this->itemGiveFunc = itemEntry->itemGiveFunc;
+    this->buyEventFunc = itemEntry->buyEventFunc;
+    // If chus are in logic, make the 10 pack affordable without a wallet upgrade
+    if (gSaveContext.n64ddFlag && Randomizer_GetSettingValue(RSK_BOMBCHUS_IN_LOGIC) &&
+        this->getItemId == GI_BOMBCHUS_10) {
+        this->basePrice = 99;
+    } else {
+        this->basePrice = itemEntry->price;
+    }
+    this->itemCount = itemEntry->count;
+    this->hiliteFunc = itemEntry->hiliteFunc;
+    this->giDrawId = itemEntry->giDrawId;
+    osSyncPrintf("%s(%2d)\n", sShopItemDescriptions[params], params);
+    this->actor.flags &= ~ACTOR_FLAG_0;
+    Actor_SetScale(&this->actor, 0.25f);
+    this->actor.shape.yOffset = 24.0f;
+    this->actor.shape.shadowScale = 4.0f;
+    this->actor.floorHeight = this->actor.home.pos.y;
+    this->actor.gravity = 0.0f;
+    EnGirlA_SetupAction(this, EnGirlA_Noop);
+    this->isInitialized = true;
+    this->actionFunc2 = EnGirlA_Update2;
+    this->isSelected = false;
+    this->yRotation = 0;
+    this->yRotationInit = this->actor.shape.rot.y;
+
+    if (params == SI_RANDOMIZED_ITEM) {
+        ShopItemIdentity shopItemIdentity = Randomizer_IdentifyShopItem(globalCtx->sceneNum, this->randoSlotIndex);
+        GetItemEntry getItemEntry = Randomizer_GetItemFromKnownCheckWithoutObtainabilityCheck(shopItemIdentity.randomizerCheck, shopItemIdentity.ogItemId);
+        this->actor.textId = 0x9100 + (shopItemIdentity.randomizerInf - RAND_INF_SHOP_ITEMS_KF_SHOP_ITEM_1);
+        this->itemBuyPromptTextId = 0x9100 + ((shopItemIdentity.randomizerInf - RAND_INF_SHOP_ITEMS_KF_SHOP_ITEM_1) + NUM_SHOP_ITEMS);
+        this->getItemId = getItemEntry.getItemId;
+        this->basePrice = shopItemIdentity.itemPrice;
+        this->giDrawId = getItemEntry.gid;
+
+        // Correct the rotation for spiritual stones
+        if (getItemEntry.getItemId >= RG_KOKIRI_EMERALD && getItemEntry.getItemId <= RG_ZORA_SAPPHIRE) {
+            this->actor.shape.rot.y = this->actor.shape.rot.y + 20000;
         }
     }
 }

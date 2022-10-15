@@ -67,14 +67,6 @@ void BgMoriIdomizu_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.world.pos.y = 184.0f;
         BgMoriIdomizu_SetWaterLevel(globalCtx, 184);
     }
-    this->moriTexObjIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_TEX);
-    if (this->moriTexObjIndex < 0) {
-        Actor_Kill(&this->actor);
-        // "Bank danger!"
-        osSyncPrintf("Error : バンク危険！(arg_data 0x%04x)(%s %d)\n", this->actor.params, __FILE__,
-                     __LINE__);
-        return;
-    }
     BgMoriIdomizu_SetupWaitForMoriTex(this);
     sKankyoIsSpawned = true;
     this->isLoaded = true;
@@ -97,10 +89,8 @@ void BgMoriIdomizu_SetupWaitForMoriTex(BgMoriIdomizu* this) {
 }
 
 void BgMoriIdomizu_WaitForMoriTex(BgMoriIdomizu* this, GlobalContext* globalCtx) {
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->moriTexObjIndex)) {
-        BgMoriIdomizu_SetupMain(this);
-        this->actor.draw = BgMoriIdomizu_Draw;
-    }
+    BgMoriIdomizu_SetupMain(this);
+    this->actor.draw = BgMoriIdomizu_Draw;
 }
 
 void BgMoriIdomizu_SetupMain(BgMoriIdomizu* this) {
@@ -169,8 +159,6 @@ void BgMoriIdomizu_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPMatrix(POLY_XLU_DISP++, MATRIX_NEWMTX(globalCtx->state.gfxCtx),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-
-    gSPSegment(POLY_XLU_DISP++, 0x08, globalCtx->objectCtx.status[this->moriTexObjIndex].segment);
 
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, 128);
 

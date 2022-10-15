@@ -62,17 +62,9 @@ void ItemEtcetera_Init(Actor* thisx, GlobalContext* globalCtx) {
     ItemEtcetera* this = (ItemEtcetera*)thisx;
     s32 pad;
     s32 type;
-    s32 objBankIndex;
 
     type = this->actor.params & 0xFF;
     osSyncPrintf("no = %d\n", type);
-    objBankIndex = Object_GetIndex(&globalCtx->objectCtx, sObjectIds[type]);
-    osSyncPrintf("bank_ID = %d\n", objBankIndex);
-    if (objBankIndex < 0) {
-        ASSERT(objBankIndex < 0);
-    } else {
-        this->objBankIndex = objBankIndex;
-    }
     this->giDrawId = sDrawItemIndexes[type];
     this->getItemId = sGetItemIds[type];
     this->futureActionFunc = func_80B85824;
@@ -112,11 +104,8 @@ void ItemEtcetera_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80B857D0(ItemEtcetera* this, GlobalContext* globalCtx) {
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
-        this->actor.objBankIndex = this->objBankIndex;
-        this->actor.draw = this->drawFunc;
-        this->actionFunc = this->futureActionFunc;
-    }
+    this->actor.draw = this->drawFunc;
+    this->actionFunc = this->futureActionFunc;
 }
 
 void func_80B85824(ItemEtcetera* this, GlobalContext* globalCtx) {

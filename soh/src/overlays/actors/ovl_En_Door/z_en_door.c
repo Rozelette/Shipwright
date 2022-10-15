@@ -83,7 +83,6 @@ void EnDoor_Init(Actor* thisx, GlobalContext* globalCtx2) {
     EnDoor* this = (EnDoor*)thisx;
     EnDoorInfo* objectInfo;
     s32 i;
-    s32 objBankIndex;
     f32 xOffset;
     f32 zOffset;
 
@@ -96,25 +95,14 @@ void EnDoor_Init(Actor* thisx, GlobalContext* globalCtx2) {
         }
     }
 
-    // Due to Object_GetIndex always returning 0, doors always use the OBJECT_GAMEPLAY_FIELD_KEEP door.
-    if (i >= ARRAY_COUNT(sDoorInfo) - 2 && Object_GetIndex(&globalCtx->objectCtx, OBJECT_GAMEPLAY_FIELD_KEEP) >= 0) {
+    if (i >= ARRAY_COUNT(sDoorInfo) - 2) {
         objectInfo++;
     }
 
     this->dListIndex = objectInfo->dListIndex;
-    objBankIndex = Object_GetIndex(&globalCtx->objectCtx, objectInfo->objectId);
-    if (objBankIndex < 0) {
-        Actor_Kill(&this->actor);
-        return;
-    }
 
-    this->requiredObjBankIndex = objBankIndex;
     this->dListIndex = objectInfo->dListIndex;
-    if (this->actor.objBankIndex == this->requiredObjBankIndex) {
-        EnDoor_SetupType(this, globalCtx);
-    } else {
-        this->actionFunc = EnDoor_SetupType;
-    }
+    EnDoor_SetupType(this, globalCtx);
 
     // Double doors
     if (this->actor.params & 0x40) {
@@ -148,48 +136,45 @@ void EnDoor_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EnDoor_SetupType(EnDoor* this, GlobalContext* globalCtx) {
     s32 doorType;
 
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->requiredObjBankIndex)) {
-        doorType = this->actor.params >> 7 & 7;
-        this->actor.flags &= ~ACTOR_FLAG_4;
-        this->actor.objBankIndex = this->requiredObjBankIndex;
-        this->actionFunc = EnDoor_Idle;
-        if (doorType == DOOR_EVENING) {
-            doorType =
-                (gSaveContext.dayTime > 0xC000 && gSaveContext.dayTime < 0xE000) ? DOOR_SCENEEXIT : DOOR_CHECKABLE;
-        }
-        this->actor.world.rot.y = 0x0000;
-        if (doorType == DOOR_LOCKED) {
-            // unlock the door behind the hammer blocks
-            // in the fire temple entryway when rando'd
-            if (gSaveContext.n64ddFlag && globalCtx->sceneNum == 4) {
-                // RANDOTODO don't do this when keysanity is enabled
-                Flags_SetSwitch(globalCtx, 0x17);
-            }
-
-            if (!Flags_GetSwitch(globalCtx, this->actor.params & 0x3F)) {
-                this->lockTimer = 10;
-            }
-        } else if (doorType == DOOR_AJAR) {
-            if (Actor_WorldDistXZToActor(&this->actor, &GET_PLAYER(globalCtx)->actor) > DOOR_AJAR_SLAM_RANGE) {
-                this->actionFunc = EnDoor_AjarWait;
-                this->actor.world.rot.y = -0x1800;
-            }
-        } else if (doorType == DOOR_CHECKABLE) {
-            this->actor.textId = (this->actor.params & 0x3F) + 0x0200;
-            if (this->actor.textId == 0x0229 && !(gSaveContext.eventChkInf[1] & 0x10)) {
-                // Talon's house door. If Talon has not been woken up at Hyrule Castle
-                // this door should be openable at any time of day. Note that there is no
-                // check for time of day as the scene setup for Lon Lon merely initializes
-                // the door with a different text id between day and night setups
-                doorType = DOOR_SCENEEXIT;
-            } else {
-                this->actionFunc = EnDoor_WaitForCheck;
-                this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_27;
-            }
-        }
-        // Replace the door type it was loaded with by the new type
-        this->actor.params = (this->actor.params & ~0x380) | (doorType << 7);
+    doorType = this->actor.params >> 7 & 7;
+    this->actor.flags &= ~ACTOR_FLAG_4;
+    this->actionFunc = EnDoor_Idle;
+    if (doorType == DOOR_EVENING) {
+        doorType =
+            (gSaveContext.dayTime > 0xC000 && gSaveContext.dayTime < 0xE000) ? DOOR_SCENEEXIT : DOOR_CHECKABLE;
     }
+    this->actor.world.rot.y = 0x0000;
+    if (doorType == DOOR_LOCKED) {
+        // unlock the door behind the hammer blocks
+        // in the fire temple entryway when rando'd
+        if (gSaveContext.n64ddFlag && globalCtx->sceneNum == 4) {
+            // RANDOTODO don't do this when keysanity is enabled
+            Flags_SetSwitch(globalCtx, 0x17);
+        }
+
+        if (!Flags_GetSwitch(globalCtx, this->actor.params & 0x3F)) {
+            this->lockTimer = 10;
+        }
+    } else if (doorType == DOOR_AJAR) {
+        if (Actor_WorldDistXZToActor(&this->actor, &GET_PLAYER(globalCtx)->actor) > DOOR_AJAR_SLAM_RANGE) {
+            this->actionFunc = EnDoor_AjarWait;
+            this->actor.world.rot.y = -0x1800;
+        }
+    } else if (doorType == DOOR_CHECKABLE) {
+        this->actor.textId = (this->actor.params & 0x3F) + 0x0200;
+        if (this->actor.textId == 0x0229 && !(gSaveContext.eventChkInf[1] & 0x10)) {
+            // Talon's house door. If Talon has not been woken up at Hyrule Castle
+            // this door should be openable at any time of day. Note that there is no
+            // check for time of day as the scene setup for Lon Lon merely initializes
+            // the door with a different text id between day and night setups
+            doorType = DOOR_SCENEEXIT;
+        } else {
+            this->actionFunc = EnDoor_WaitForCheck;
+            this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_27;
+        }
+    }
+    // Replace the door type it was loaded with by the new type
+    this->actor.params = (this->actor.params & ~0x380) | (doorType << 7);
 }
 
 void EnDoor_Idle(EnDoor* this, GlobalContext* globalCtx) {
@@ -339,23 +324,21 @@ s32 EnDoor_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
 void EnDoor_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnDoor* this = (EnDoor*)thisx;
 
-    if (this->actor.objBankIndex == this->requiredObjBankIndex) {
-        OPEN_DISPS(globalCtx->state.gfxCtx);
+    OPEN_DISPS(globalCtx->state.gfxCtx);
 
-        func_80093D18(globalCtx->state.gfxCtx);
-        SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnDoor_OverrideLimbDraw,
-                          NULL, &this->actor);
-        if (this->actor.world.rot.y != 0) {
-            if (this->actor.world.rot.y > 0) {
-                gSPDisplayList(POLY_OPA_DISP++, gDoorRightDL);
-            } else {
-                gSPDisplayList(POLY_OPA_DISP++, gDoorLeftDL);
-            }
+    func_80093D18(globalCtx->state.gfxCtx);
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnDoor_OverrideLimbDraw,
+                        NULL, &this->actor);
+    if (this->actor.world.rot.y != 0) {
+        if (this->actor.world.rot.y > 0) {
+            gSPDisplayList(POLY_OPA_DISP++, gDoorRightDL);
+        } else {
+            gSPDisplayList(POLY_OPA_DISP++, gDoorLeftDL);
         }
-        if (this->lockTimer != 0) {
-            Actor_DrawDoorLock(globalCtx, this->lockTimer, DOORLOCK_NORMAL);
-        }
-
-        CLOSE_DISPS(globalCtx->state.gfxCtx);
     }
+    if (this->lockTimer != 0) {
+        Actor_DrawDoorLock(globalCtx, this->lockTimer, DOORLOCK_NORMAL);
+    }
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx);
 }

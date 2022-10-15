@@ -397,8 +397,6 @@ void EnItem00_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->scale = 0.01f;
             break;
         case ITEM00_SHIELD_DEKU:
-            this->actor.objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_GI_SHIELD_1);
-            Actor_SetObjectDependency(globalCtx, &this->actor);
             Actor_SetScale(&this->actor, 0.5f);
             this->scale = 0.5f;
             yOffset = 0.0f;
@@ -406,8 +404,6 @@ void EnItem00_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.world.rot.x = 0x4000;
             break;
         case ITEM00_SHIELD_HYLIAN:
-            this->actor.objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_GI_SHIELD_2);
-            Actor_SetObjectDependency(globalCtx, &this->actor);
             Actor_SetScale(&this->actor, 0.5f);
             this->scale = 0.5f;
             yOffset = 0.0f;
@@ -416,8 +412,6 @@ void EnItem00_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
         case ITEM00_TUNIC_ZORA:
         case ITEM00_TUNIC_GORON:
-            this->actor.objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_GI_CLOTHES);
-            Actor_SetObjectDependency(globalCtx, &this->actor);
             Actor_SetScale(&this->actor, 0.5f);
             this->scale = 0.5f;
             yOffset = 0.0f;
@@ -1072,12 +1066,7 @@ void EnItem00_Draw(Actor* thisx, GlobalContext* globalCtx) {
                 } else {
                     if (this->unk_15A < 0) {
                         if (this->unk_15A == -1) {
-                            s8 bankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_GI_HEART);
-                            if (Object_IsLoaded(&globalCtx->objectCtx, bankIndex)) {
-                                this->actor.objBankIndex = bankIndex;
-                                Actor_SetObjectDependency(globalCtx, &this->actor);
-                                this->unk_15A = -2;
-                            }
+                            this->unk_15A = -2;
                         } else {
                             mtxScale = 16.0f;
                             Matrix_Scale(mtxScale, mtxScale, mtxScale, MTXMODE_APPLY);

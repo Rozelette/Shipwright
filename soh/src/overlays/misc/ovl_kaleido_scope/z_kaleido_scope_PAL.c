@@ -4197,7 +4197,6 @@ void KaleidoScope_Update(GlobalContext* globalCtx)
                     pauseCtx->state = 0;
                     R_UPDATE_RATE = 3;
                     R_PAUSE_MENU_MODE = 0;
-                    func_800981B8(&globalCtx->objectCtx);
                     func_800418D0(&globalCtx->colCtx, globalCtx);
                     if (pauseCtx->promptChoice == 0) {
                         Gameplay_TriggerRespawn(globalCtx);
@@ -4256,7 +4255,6 @@ void KaleidoScope_Update(GlobalContext* globalCtx)
 
             CVar_SetS32("gPauseTriforce", 0);
 
-            func_800981B8(&globalCtx->objectCtx);
             func_800418D0(&globalCtx->colCtx, globalCtx);
 
             switch (globalCtx->sceneNum) {
