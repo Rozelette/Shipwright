@@ -30,7 +30,6 @@ const ActorInit En_Dnt_Demo_InitVars = {
     ACTOR_EN_DNT_DEMO,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(EnDntDemo),
     (ActorFunc)EnDntDemo_Init,
     (ActorFunc)EnDntDemo_Destroy,

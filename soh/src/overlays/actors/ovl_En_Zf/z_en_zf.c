@@ -104,7 +104,6 @@ const ActorInit En_Zf_InitVars = {
     ACTOR_EN_ZF,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_ZF,
     sizeof(EnZf),
     (ActorFunc)EnZf_Init,
     (ActorFunc)EnZf_Destroy,

@@ -27,7 +27,6 @@ const ActorInit En_Vm_InitVars = {
     ACTOR_EN_VM,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_VM,
     sizeof(EnVm),
     (ActorFunc)EnVm_Init,
     (ActorFunc)EnVm_Destroy,

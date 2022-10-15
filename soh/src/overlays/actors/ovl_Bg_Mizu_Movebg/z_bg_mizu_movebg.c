@@ -29,7 +29,6 @@ const ActorInit Bg_Mizu_Movebg_InitVars = {
     ACTOR_BG_MIZU_MOVEBG,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_MIZU_OBJECTS,
     sizeof(BgMizuMovebg),
     (ActorFunc)BgMizuMovebg_Init,
     (ActorFunc)BgMizuMovebg_Destroy,

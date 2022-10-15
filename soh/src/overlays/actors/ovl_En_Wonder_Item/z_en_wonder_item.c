@@ -45,7 +45,6 @@ const ActorInit En_Wonder_Item_InitVars = {
     ACTOR_EN_WONDER_ITEM,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(EnWonderItem),
     (ActorFunc)EnWonderItem_Init,
     (ActorFunc)EnWonderItem_Destroy,

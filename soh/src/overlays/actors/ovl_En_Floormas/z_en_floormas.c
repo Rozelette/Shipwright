@@ -48,7 +48,6 @@ const ActorInit En_Floormas_InitVars = {
     ACTOR_EN_FLOORMAS,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_WALLMASTER,
     sizeof(EnFloormas),
     (ActorFunc)EnFloormas_Init,
     (ActorFunc)EnFloormas_Destroy,

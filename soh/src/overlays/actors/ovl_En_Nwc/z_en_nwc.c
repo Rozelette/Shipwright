@@ -35,7 +35,6 @@ const ActorInit En_Nwc_InitVars = {
     ACTOR_EN_NWC,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_NWC,
     sizeof(EnNwc),
     (ActorFunc)EnNwc_Init,
     (ActorFunc)EnNwc_Destroy,

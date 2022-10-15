@@ -32,7 +32,6 @@ const ActorInit En_Bili_InitVars = {
     ACTOR_EN_BILI,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_BL,
     sizeof(EnBili),
     (ActorFunc)EnBili_Init,
     (ActorFunc)EnBili_Destroy,

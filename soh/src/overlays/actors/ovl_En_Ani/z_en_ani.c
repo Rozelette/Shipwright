@@ -30,7 +30,6 @@ const ActorInit En_Ani_InitVars = {
     ACTOR_EN_ANI,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_ANI,
     sizeof(EnAni),
     (ActorFunc)EnAni_Init,
     (ActorFunc)EnAni_Destroy,

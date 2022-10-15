@@ -199,7 +199,6 @@ const ActorInit Boss_Va_InitVars = {
     ACTOR_BOSS_VA,
     ACTORCAT_BOSS,
     FLAGS,
-    OBJECT_BV,
     sizeof(BossVa),
     (ActorFunc)BossVa_Init,
     (ActorFunc)BossVa_Destroy,

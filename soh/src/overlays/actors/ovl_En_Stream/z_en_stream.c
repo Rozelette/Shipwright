@@ -19,7 +19,6 @@ const ActorInit En_Stream_InitVars = {
     ACTOR_EN_STREAM,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_STREAM,
     sizeof(EnStream),
     (ActorFunc)EnStream_Init,
     (ActorFunc)EnStream_Destroy,

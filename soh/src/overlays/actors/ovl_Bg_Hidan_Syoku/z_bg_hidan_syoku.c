@@ -22,7 +22,6 @@ const ActorInit Bg_Hidan_Syoku_InitVars = {
     ACTOR_BG_HIDAN_SYOKU,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanSyoku),
     (ActorFunc)BgHidanSyoku_Init,
     (ActorFunc)BgHidanSyoku_Destroy,

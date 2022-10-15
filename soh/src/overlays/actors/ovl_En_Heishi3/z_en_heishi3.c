@@ -29,7 +29,6 @@ const ActorInit En_Heishi3_InitVars = {
     ACTOR_EN_HEISHI3,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_SD,
     sizeof(EnHeishi3),
     (ActorFunc)EnHeishi3_Init,
     (ActorFunc)EnHeishi3_Destroy,

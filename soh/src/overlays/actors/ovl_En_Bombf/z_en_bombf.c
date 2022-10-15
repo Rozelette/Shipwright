@@ -25,7 +25,6 @@ const ActorInit En_Bombf_InitVars = {
     ACTOR_EN_BOMBF,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_BOMBF,
     sizeof(EnBombf),
     (ActorFunc)EnBombf_Init,
     (ActorFunc)EnBombf_Destroy,

@@ -40,7 +40,6 @@ const ActorInit En_Po_Field_InitVars = {
     ACTOR_EN_PO_FIELD,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_PO_FIELD,
     sizeof(EnPoField),
     (ActorFunc)EnPoField_Init,
     (ActorFunc)EnPoField_Destroy,
@@ -610,7 +609,7 @@ void EnPoField_SoulIdle(EnPoField* this, GlobalContext* globalCtx) {
         this->actionTimer--;
     }
     if (this->actor.bgCheckFlags & 1) {
-        EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 6.0f, 0, 1, 1, 15, OBJECT_PO_FIELD, 10,
+        EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 6.0f, 0, 1, 1, 15, false, 10,
                                  gPoeFieldLanternDL);
         func_80AD42B0(this);
     } else if (this->actionTimer == 0) {

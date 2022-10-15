@@ -22,7 +22,6 @@ const ActorInit Bg_Hidan_Fslift_InitVars = {
     ACTOR_BG_HIDAN_FSLIFT,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanFslift),
     (ActorFunc)BgHidanFslift_Init,
     (ActorFunc)BgHidanFslift_Destroy,

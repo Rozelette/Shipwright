@@ -25,7 +25,6 @@
 typedef struct {
     /* 0x00 */ s16 sceneNum;
     /* 0x02 */ u8 dListIndex;
-    /* 0x04 */ s16 objectId;
 } EnDoorInfo;
 
 typedef enum {

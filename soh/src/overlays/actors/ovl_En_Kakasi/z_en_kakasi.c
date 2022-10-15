@@ -46,7 +46,6 @@ const ActorInit En_Kakasi_InitVars = {
     ACTOR_EN_KAKASI,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_KA,
     sizeof(EnKakasi),
     (ActorFunc)EnKakasi_Init,
     (ActorFunc)EnKakasi_Destroy,

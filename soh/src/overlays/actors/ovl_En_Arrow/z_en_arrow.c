@@ -24,7 +24,6 @@ const ActorInit En_Arrow_InitVars = {
     ACTOR_EN_ARROW,
     ACTORCAT_ITEMACTION,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(EnArrow),
     (ActorFunc)EnArrow_Init,
     (ActorFunc)EnArrow_Destroy,

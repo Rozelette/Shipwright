@@ -21,7 +21,6 @@ const ActorInit Obj_Ice_Poly_InitVars = {
     ACTOR_OBJ_ICE_POLY,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(ObjIcePoly),
     (ActorFunc)ObjIcePoly_Init,
     (ActorFunc)ObjIcePoly_Destroy,

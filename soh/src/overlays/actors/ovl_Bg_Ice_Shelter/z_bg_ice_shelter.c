@@ -21,7 +21,6 @@ const ActorInit Bg_Ice_Shelter_InitVars = {
     ACTOR_BG_ICE_SHELTER,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_ICE_OBJECTS,
     sizeof(BgIceShelter),
     (ActorFunc)BgIceShelter_Init,
     (ActorFunc)BgIceShelter_Destroy,

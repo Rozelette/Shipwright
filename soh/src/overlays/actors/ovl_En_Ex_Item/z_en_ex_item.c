@@ -36,7 +36,6 @@ const ActorInit En_Ex_Item_InitVars = {
     ACTOR_EN_EX_ITEM,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(EnExItem),
     (ActorFunc)EnExItem_Init,
     (ActorFunc)EnExItem_Destroy,
@@ -61,23 +60,23 @@ void EnExItem_Init(Actor* thisx, GlobalContext* globalCtx) {
     // "What will come out?"
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ なにがでるかな？ ☆☆☆☆☆ %d\n" VT_RST, this->unusedParam);
     this->initPos = this->actor.world.pos;
-    this->getItemObjId = -1;
+    u32 waitForObject = false;
     switch (this->type) {
         case EXITEM_BOMB_BAG_BOWLING:
         case EXITEM_BOMB_BAG_COUNTER:
-            this->getItemObjId = OBJECT_GI_BOMBPOUCH;
+            waitForObject = true;
             break;
         case EXITEM_HEART_PIECE_BOWLING:
         case EXITEM_HEART_PIECE_COUNTER:
-            this->getItemObjId = OBJECT_GI_HEARTS;
+            waitForObject = true;
             break;
         case EXITEM_BOMBCHUS_BOWLING:
         case EXITEM_BOMBCHUS_COUNTER:
-            this->getItemObjId = OBJECT_GI_BOMB_2;
+            waitForObject = true;
             break;
         case EXITEM_BOMBS_BOWLING:
         case EXITEM_BOMBS_COUNTER:
-            this->getItemObjId = OBJECT_GI_BOMB_1;
+            waitForObject = true;
             break;
         case EXITEM_PURPLE_RUPEE_BOWLING:
         case EXITEM_PURPLE_RUPEE_COUNTER:
@@ -86,7 +85,7 @@ void EnExItem_Init(Actor* thisx, GlobalContext* globalCtx) {
         case EXITEM_RED_RUPEE_CHEST:
         case EXITEM_13:
         case EXITEM_14:
-            this->getItemObjId = OBJECT_GI_RUPY;
+            waitForObject = true;
             break;
         case EXITEM_SMALL_KEY_CHEST:
             this->scale = 0.05f;
@@ -97,13 +96,13 @@ void EnExItem_Init(Actor* thisx, GlobalContext* globalCtx) {
         case EXITEM_MAGIC_FIRE:
         case EXITEM_MAGIC_WIND:
         case EXITEM_MAGIC_DARK:
-            this->getItemObjId = OBJECT_GI_GODDESS;
+            waitForObject = true;
             break;
         case EXITEM_BULLET_BAG:
-            this->getItemObjId = OBJECT_GI_DEKUPOUCH;
+            waitForObject = true;
     }
 
-    if (this->getItemObjId >= 0) {
+    if (waitForObject) {
         this->actor.draw = NULL;
         this->actionFunc = EnExItem_WaitForObject;
     }

@@ -24,7 +24,6 @@ const ActorInit En_Wall_Tubo_InitVars = {
     ACTOR_EN_WALL_TUBO,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(EnWallTubo),
     (ActorFunc)EnWallTubo_Init,
     (ActorFunc)EnWallTubo_Destroy,
@@ -117,7 +116,7 @@ void EnWallTubo_SetWallFall(EnWallTubo* this, GlobalContext* globalCtx) {
         effPos.y = this->explosionCenter.y + Rand_CenteredFloat(300.0f);
         effPos.z = this->explosionCenter.z;
         EffectSsBomb2_SpawnLayered(globalCtx, &effPos, &effVelocity, &effAccel, 100, 30);
-        EffectSsHahen_SpawnBurst(globalCtx, &effPos, 10.0f, 0, 50, 15, 3, HAHEN_OBJECT_DEFAULT, 10, NULL);
+        EffectSsHahen_SpawnBurst(globalCtx, &effPos, 10.0f, 0, 50, 15, 3, HAHEN_GRAY_DEFAULT, 10, NULL);
         Audio_PlayActorSound2(&this->actor, NA_SE_IT_BOMB_EXPLOSION);
     }
 

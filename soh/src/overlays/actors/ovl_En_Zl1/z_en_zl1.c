@@ -31,7 +31,6 @@ const ActorInit En_Zl1_InitVars = {
     ACTOR_EN_ZL1,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_ZL1,
     sizeof(EnZl1),
     (ActorFunc)EnZl1_Init,
     (ActorFunc)EnZl1_Destroy,

@@ -26,7 +26,6 @@ const ActorInit Bg_Jya_Lift_InitVars = {
     ACTOR_BG_JYA_LIFT,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_JYA_OBJ,
     sizeof(BgJyaLift),
     (ActorFunc)BgJyaLift_Init,
     (ActorFunc)BgJyaLift_Destroy,

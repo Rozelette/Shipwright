@@ -23,7 +23,6 @@ const ActorInit Bg_Mizu_Bwall_InitVars = {
     ACTOR_BG_MIZU_BWALL,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_MIZU_OBJECTS,
     sizeof(BgMizuBwall),
     (ActorFunc)BgMizuBwall_Init,
     (ActorFunc)BgMizuBwall_Destroy,

@@ -25,7 +25,6 @@ const ActorInit Bg_Dodoago_InitVars = {
     ACTOR_BG_DODOAGO,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_DDAN_OBJECTS,
     sizeof(BgDodoago),
     (ActorFunc)BgDodoago_Init,
     (ActorFunc)BgDodoago_Destroy,

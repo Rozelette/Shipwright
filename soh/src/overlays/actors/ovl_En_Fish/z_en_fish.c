@@ -68,7 +68,6 @@ const ActorInit En_Fish_InitVars = {
     ACTOR_EN_FISH,
     ACTORCAT_ITEMACTION,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(EnFish),
     (ActorFunc)EnFish_Init,
     (ActorFunc)EnFish_Destroy,

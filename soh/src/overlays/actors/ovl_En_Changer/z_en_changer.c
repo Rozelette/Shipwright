@@ -28,7 +28,6 @@ const ActorInit En_Changer_InitVars = {
     ACTOR_EN_CHANGER,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(EnChanger),
     (ActorFunc)EnChanger_Init,
     (ActorFunc)EnChanger_Destroy,

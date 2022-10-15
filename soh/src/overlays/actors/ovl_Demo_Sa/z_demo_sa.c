@@ -89,7 +89,6 @@ const ActorInit Demo_Sa_InitVars = {
     ACTOR_DEMO_SA,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_SA,
     sizeof(DemoSa),
     (ActorFunc)DemoSa_Init,
     (ActorFunc)DemoSa_Destroy,

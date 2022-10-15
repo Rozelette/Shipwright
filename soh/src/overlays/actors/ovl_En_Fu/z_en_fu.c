@@ -32,7 +32,6 @@ const ActorInit En_Fu_InitVars = {
     ACTOR_EN_FU,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_FU,
     sizeof(EnFu),
     (ActorFunc)EnFu_Init,
     (ActorFunc)EnFu_Destroy,

@@ -21,7 +21,6 @@ const ActorInit Obj_Kibako2_InitVars = {
     ACTOR_OBJ_KIBAKO2,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_KIBAKO2,
     sizeof(ObjKibako2),
     (ActorFunc)ObjKibako2_Init,
     (ActorFunc)ObjKibako2_Destroy,
@@ -99,7 +98,7 @@ void ObjKibako2_Break(ObjKibako2* this, GlobalContext* globalCtx) {
             phi_s0 = 0x20;
         }
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -200, phi_s0, 28, 2, 0, (Rand_ZeroOne() * 30.0f) + 5.0f,
-                             0, 0, 70, KAKERA_COLOR_NONE, OBJECT_KIBAKO2, gLargeCrateFragmentDL);
+                             0, 0, 70, KAKERA_COLOR_NONE, gLargeCrateFragmentDL);
     }
     func_80033480(globalCtx, thisPos, 90.0f, 6, 100, 160, 1);
 }

@@ -49,7 +49,6 @@ const ActorInit En_Dns_InitVars = {
     ACTOR_EN_DNS,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_SHOPNUTS,
     sizeof(EnDns),
     (ActorFunc)EnDns_Init,
     (ActorFunc)EnDns_Destroy,

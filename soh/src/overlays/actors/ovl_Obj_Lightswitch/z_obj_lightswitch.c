@@ -39,7 +39,6 @@ const ActorInit Obj_Lightswitch_InitVars = {
     ACTOR_OBJ_LIGHTSWITCH,
     ACTORCAT_SWITCH,
     FLAGS,
-    OBJECT_LIGHTSWITCH,
     sizeof(ObjLightswitch),
     (ActorFunc)ObjLightswitch_Init,
     (ActorFunc)ObjLightswitch_Destroy,

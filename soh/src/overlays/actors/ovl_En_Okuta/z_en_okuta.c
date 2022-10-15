@@ -24,7 +24,6 @@ const ActorInit En_Okuta_InitVars = {
     ACTOR_EN_OKUTA,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_OKUTA,
     sizeof(EnOkuta),
     (ActorFunc)EnOkuta_Init,
     (ActorFunc)EnOkuta_Destroy,
@@ -538,10 +537,10 @@ void EnOkuta_ProjectileFly(EnOkuta* this, GlobalContext* globalCtx) {
                         gravity = -320;
                     }
                     EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &this->actor.world.pos, gravity, phi_v0, 30, 5, 0,
-                                        sEffectScales[i]/5, 3, 0, 70, 1, OBJECT_GAMEPLAY_FIELD_KEEP, gSilverRockFragmentsDL);
+                                        sEffectScales[i]/5, 3, 0, 70, 1, gSilverRockFragmentsDL);
                 }
             } else {
-                EffectSsHahen_SpawnBurst(globalCtx, &pos, 6.0f, 0, 1, 2, 15, 7, 10, gOctorokProjectileDL);
+                EffectSsHahen_SpawnBurst(globalCtx, &pos, 6.0f, 0, 1, 2, 15, false, 10, gOctorokProjectileDL);
             }
 
             SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 20, NA_SE_EN_OCTAROCK_ROCK);

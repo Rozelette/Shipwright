@@ -25,7 +25,6 @@ const ActorInit Obj_Hsblock_InitVars = {
     ACTOR_OBJ_HSBLOCK,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_D_HSBLOCK,
     sizeof(ObjHsblock),
     (ActorFunc)ObjHsblock_Init,
     (ActorFunc)ObjHsblock_Destroy,

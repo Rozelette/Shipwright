@@ -44,7 +44,6 @@ const ActorInit Demo_6K_InitVars = {
     ACTOR_DEMO_6K,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(Demo6K),
     (ActorFunc)Demo6K_Init,
     (ActorFunc)Demo6K_Destroy,

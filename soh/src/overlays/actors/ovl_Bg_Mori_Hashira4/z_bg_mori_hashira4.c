@@ -25,7 +25,6 @@ const ActorInit Bg_Mori_Hashira4_InitVars = {
     ACTOR_BG_MORI_HASHIRA4,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_MORI_OBJECTS,
     sizeof(BgMoriHashira4),
     (ActorFunc)BgMoriHashira4_Init,
     (ActorFunc)BgMoriHashira4_Destroy,

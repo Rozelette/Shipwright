@@ -35,7 +35,6 @@ const ActorInit Bg_Bdan_Objects_InitVars = {
     ACTOR_BG_BDAN_OBJECTS,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_BDAN_OBJECTS,
     sizeof(BgBdanObjects),
     (ActorFunc)BgBdanObjects_Init,
     (ActorFunc)BgBdanObjects_Destroy,

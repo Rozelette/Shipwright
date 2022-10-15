@@ -27,7 +27,6 @@ const ActorInit Bg_Jya_Zurerukabe_InitVars = {
     ACTOR_BG_JYA_ZURERUKABE,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_JYA_OBJ,
     sizeof(BgJyaZurerukabe),
     (ActorFunc)BgJyaZurerukabe_Init,
     (ActorFunc)BgJyaZurerukabe_Destroy,

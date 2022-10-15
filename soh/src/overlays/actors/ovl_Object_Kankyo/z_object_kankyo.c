@@ -50,7 +50,6 @@ const ActorInit Object_Kankyo_InitVars = {
     ACTOR_OBJECT_KANKYO,
     ACTORCAT_ITEMACTION,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(ObjectKankyo),
     (ActorFunc)ObjectKankyo_Init,
     (ActorFunc)ObjectKankyo_Destroy,

@@ -237,7 +237,6 @@ const ActorInit Demo_Ext_InitVars = {
     ACTOR_DEMO_EXT,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_FHG,
     sizeof(DemoExt),
     (ActorFunc)DemoExt_Init,
     (ActorFunc)DemoExt_Destroy,

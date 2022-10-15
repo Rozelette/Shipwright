@@ -22,7 +22,6 @@ const ActorInit Obj_Bombiwa_InitVars = {
     ACTOR_OBJ_BOMBIWA,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_BOMBIWA,
     sizeof(ObjBombiwa),
     (ActorFunc)ObjBombiwa_Init,
     (ActorFunc)ObjBombiwa_Destroy,
@@ -116,7 +115,7 @@ void ObjBombiwa_Break(ObjBombiwa* this, GlobalContext* globalCtx) {
         scale = sEffectScales[i];
         arg5 = (scale >= 11) ? 37 : 33;
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -400, arg5, 10, 2, 0, scale, 1, 0, 80, KAKERA_COLOR_NONE,
-                             OBJECT_BOMBIWA, dlist);
+                             dlist);
     }
     func_80033480(globalCtx, &this->actor.world.pos, 60.0f, 8, 100, 160, 1);
 }

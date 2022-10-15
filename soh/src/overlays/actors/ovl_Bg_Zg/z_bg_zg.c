@@ -39,7 +39,6 @@ const ActorInit Bg_Zg_InitVars = {
     ACTOR_BG_ZG,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_ZG,
     sizeof(BgZg),
     (ActorFunc)BgZg_Init,
     (ActorFunc)BgZg_Destroy,

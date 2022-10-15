@@ -30,7 +30,6 @@ const ActorInit En_Niw_Lady_InitVars = {
     ACTOR_EN_NIW_LADY,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_ANE,
     sizeof(EnNiwLady),
     (ActorFunc)EnNiwLady_Init,
     (ActorFunc)EnNiwLady_Destroy,

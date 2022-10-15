@@ -26,7 +26,6 @@ const ActorInit En_Okarina_Tag_InitVars = {
     ACTOR_EN_OKARINA_TAG,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(EnOkarinaTag),
     (ActorFunc)EnOkarinaTag_Init,
     (ActorFunc)EnOkarinaTag_Destroy,

@@ -24,7 +24,6 @@ const ActorInit Bg_Gate_Shutter_InitVars = {
     ACTOR_BG_GATE_SHUTTER,
     ACTORCAT_ITEMACTION,
     FLAGS,
-    OBJECT_SPOT01_MATOYAB,
     sizeof(BgGateShutter),
     (ActorFunc)BgGateShutter_Init,
     (ActorFunc)BgGateShutter_Destroy,

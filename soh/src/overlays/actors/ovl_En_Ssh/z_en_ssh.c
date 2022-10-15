@@ -34,7 +34,6 @@ const ActorInit En_Ssh_InitVars = {
     ACTOR_EN_SSH,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_SSH,
     sizeof(EnSsh),
     (ActorFunc)EnSsh_Init,
     (ActorFunc)EnSsh_Destroy,

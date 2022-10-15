@@ -20,7 +20,6 @@ const ActorInit Bg_Spot03_Taki_InitVars = {
     ACTOR_BG_SPOT03_TAKI,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_SPOT03_OBJECT,
     sizeof(BgSpot03Taki),
     (ActorFunc)BgSpot03Taki_Init,
     (ActorFunc)BgSpot03Taki_Destroy,

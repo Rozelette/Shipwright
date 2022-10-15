@@ -24,7 +24,6 @@ const ActorInit Bg_Spot18_Shutter_InitVars = {
     ACTOR_BG_SPOT18_SHUTTER,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_SPOT18_OBJ,
     sizeof(BgSpot18Shutter),
     (ActorFunc)BgSpot18Shutter_Init,
     (ActorFunc)BgSpot18Shutter_Destroy,

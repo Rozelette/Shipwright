@@ -126,7 +126,6 @@ const ActorInit Fishing_InitVars = {
     ACTOR_FISHING,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_FISH,
     sizeof(Fishing),
     (ActorFunc)Fishing_Init,
     (ActorFunc)Fishing_Destroy,

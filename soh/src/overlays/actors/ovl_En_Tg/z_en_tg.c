@@ -42,7 +42,6 @@ const ActorInit En_Tg_InitVars = {
     ACTOR_EN_TG,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_MU,
     sizeof(EnTg),
     (ActorFunc)EnTg_Init,
     (ActorFunc)EnTg_Destroy,

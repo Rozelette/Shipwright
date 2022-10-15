@@ -25,7 +25,6 @@ const ActorInit Bg_Gnd_Darkmeiro_InitVars = {
     ACTOR_BG_GND_DARKMEIRO,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_DEMO_KEKKAI,
     sizeof(BgGndDarkmeiro),
     (ActorFunc)BgGndDarkmeiro_Init,
     (ActorFunc)BgGndDarkmeiro_Destroy,

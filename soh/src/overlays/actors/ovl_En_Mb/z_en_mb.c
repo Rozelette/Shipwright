@@ -57,7 +57,6 @@ const ActorInit En_Mb_InitVars = {
     ACTOR_EN_MB,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_MB,
     sizeof(EnMb),
     (ActorFunc)EnMb_Init,
     (ActorFunc)EnMb_Destroy,

@@ -16,7 +16,6 @@ const ActorInit En_M_Thunder_InitVars = {
     ACTOR_EN_M_THUNDER,
     ACTORCAT_ITEMACTION,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(EnMThunder),
     (ActorFunc)EnMThunder_Init,
     (ActorFunc)EnMThunder_Destroy,

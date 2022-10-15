@@ -19,7 +19,6 @@ const ActorInit En_Fire_Rock_InitVars = {
     ACTOR_EN_FIRE_ROCK,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_EFC_STAR_FIELD,
     sizeof(EnFireRock),
     (ActorFunc)EnFireRock_Init,
     (ActorFunc)EnFireRock_Destroy,

@@ -35,7 +35,6 @@ const ActorInit En_Ta_InitVars = {
     ACTOR_EN_TA,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_TA,
     sizeof(EnTa),
     (ActorFunc)EnTa_Init,
     (ActorFunc)EnTa_Destroy,

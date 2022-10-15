@@ -35,7 +35,6 @@ const ActorInit En_Ko_InitVars = {
     ACTOR_EN_KO,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(EnKo),
     (ActorFunc)EnKo_Init,
     (ActorFunc)EnKo_Destroy,

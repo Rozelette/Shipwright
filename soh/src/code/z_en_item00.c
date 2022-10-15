@@ -24,7 +24,6 @@ const ActorInit En_Item00_InitVars = {
     ACTOR_EN_ITEM00,
     ACTORCAT_MISC,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(EnItem00),
     (ActorFunc)EnItem00_Init,
     (ActorFunc)EnItem00_Destroy,

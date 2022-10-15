@@ -41,7 +41,6 @@ const ActorInit Demo_Go_InitVars = {
     ACTOR_DEMO_GO,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_OF1D_MAP,
     sizeof(DemoGo),
     (ActorFunc)DemoGo_Init,
     (ActorFunc)DemoGo_Destroy,

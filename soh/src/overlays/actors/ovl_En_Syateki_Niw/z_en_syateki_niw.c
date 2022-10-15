@@ -31,7 +31,6 @@ const ActorInit En_Syateki_Niw_InitVars = {
     ACTOR_EN_SYATEKI_NIW,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_NIW,
     sizeof(EnSyatekiNiw),
     (ActorFunc)EnSyatekiNiw_Init,
     (ActorFunc)EnSyatekiNiw_Destroy,

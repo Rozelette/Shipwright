@@ -43,7 +43,6 @@ const ActorInit En_Tp_InitVars = {
     ACTOR_EN_TP,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_TP,
     sizeof(EnTp),
     (ActorFunc)EnTp_Init,
     (ActorFunc)EnTp_Destroy,

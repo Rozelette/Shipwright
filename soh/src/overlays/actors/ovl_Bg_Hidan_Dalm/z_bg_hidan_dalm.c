@@ -21,7 +21,6 @@ const ActorInit Bg_Hidan_Dalm_InitVars = {
     ACTOR_BG_HIDAN_DALM,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanDalm),
     (ActorFunc)BgHidanDalm_Init,
     (ActorFunc)BgHidanDalm_Destroy,

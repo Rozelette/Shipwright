@@ -39,7 +39,6 @@ const ActorInit En_Go_InitVars = {
     ACTOR_EN_GO,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_OF1D_MAP,
     sizeof(EnGo),
     (ActorFunc)EnGo_Init,
     (ActorFunc)EnGo_Destroy,

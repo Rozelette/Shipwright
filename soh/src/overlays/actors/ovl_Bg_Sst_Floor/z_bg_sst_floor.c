@@ -20,7 +20,6 @@ const ActorInit Bg_Sst_Floor_InitVars = {
     ACTOR_BG_SST_FLOOR,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_SST,
     sizeof(BgSstFloor),
     (ActorFunc)BgSstFloor_Init,
     (ActorFunc)BgSstFloor_Destroy,

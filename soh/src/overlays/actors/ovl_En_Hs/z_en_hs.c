@@ -23,7 +23,6 @@ const ActorInit En_Hs_InitVars = {
     ACTOR_EN_HS,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_HS,
     sizeof(EnHs),
     (ActorFunc)EnHs_Init,
     (ActorFunc)EnHs_Destroy,

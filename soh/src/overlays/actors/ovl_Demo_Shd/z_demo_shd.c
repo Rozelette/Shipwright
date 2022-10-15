@@ -19,7 +19,6 @@ const ActorInit Demo_Shd_InitVars = {
     ACTOR_DEMO_SHD,
     ACTORCAT_ITEMACTION,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(DemoShd),
     (ActorFunc)DemoShd_Init,
     (ActorFunc)DemoShd_Destroy,

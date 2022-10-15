@@ -38,7 +38,6 @@ const ActorInit En_Bom_Bowl_Man_InitVars = {
     ACTOR_EN_BOM_BOWL_MAN,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_BG,
     sizeof(EnBomBowlMan),
     (ActorFunc)EnBomBowlMan_Init,
     (ActorFunc)EnBomBowlMan_Destroy,

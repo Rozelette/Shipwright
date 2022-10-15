@@ -26,7 +26,6 @@ const ActorInit En_Brob_InitVars = {
     ACTOR_EN_BROB,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_BROB,
     sizeof(EnBrob),
     (ActorFunc)EnBrob_Init,
     (ActorFunc)EnBrob_Destroy,

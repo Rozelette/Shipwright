@@ -505,7 +505,6 @@ const ActorInit Demo_Ik_InitVars = {
     ACTOR_DEMO_IK,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_IK,
     sizeof(DemoIk),
     (ActorFunc)DemoIk_Init,
     (ActorFunc)DemoIk_Destroy,

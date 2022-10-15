@@ -24,7 +24,6 @@ const ActorInit Arrow_Fire_InitVars = {
     ACTOR_ARROW_FIRE,
     ACTORCAT_ITEMACTION,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(ArrowFire),
     (ActorFunc)ArrowFire_Init,
     (ActorFunc)ArrowFire_Destroy,

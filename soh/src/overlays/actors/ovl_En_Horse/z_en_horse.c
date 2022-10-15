@@ -70,7 +70,6 @@ const ActorInit En_Horse_InitVars = {
     ACTOR_EN_HORSE,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_HORSE,
     sizeof(EnHorse),
     (ActorFunc)EnHorse_Init,
     (ActorFunc)EnHorse_Destroy,

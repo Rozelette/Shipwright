@@ -1701,7 +1701,7 @@ s32 func_808332E4(Player* this) {
 
 void func_808332F4(Player* this, GlobalContext* globalCtx) {
     GetItemEntry giEntry;
-    if (this->getItemEntry.objectId == OBJECT_INVALID) {
+    if (this->getItemEntry.itemId == ITEM_NONE) {
         giEntry = ItemTable_Retrieve(this->getItemId);
     } else {
         giEntry = this->getItemEntry;
@@ -4673,7 +4673,7 @@ void func_8083A434(GlobalContext* globalCtx, Player* this) {
 
     if (this->getItemId == GI_HEART_CONTAINER_2) {
         this->unk_850 = 20;
-    } else if (this->getItemId >= 0 || (this->getItemEntry.objectId != OBJECT_INVALID && this->getItemEntry.getItemId >= 0)) {
+    } else if (this->getItemId >= 0 || (this->getItemEntry.itemId != ITEM_NONE && this->getItemEntry.getItemId >= 0)) {
         this->unk_850 = 1;
     } else {
         this->getItemId = -this->getItemId;
@@ -4902,9 +4902,6 @@ s32 func_8083ADD4(GlobalContext* globalCtx, Player* this) {
     }
 }
 
-void func_8083AE40(Player* this, s16 objectId) {
-}
-
 void func_8083AF44(GlobalContext* globalCtx, Player* this, s32 magicSpell) {
     func_80835DE4(globalCtx, this, func_808507F4, 0);
 
@@ -4980,12 +4977,11 @@ s32 func_8083B040(Player* this, GlobalContext* globalCtx) {
                         func_80835DE4(globalCtx, this, func_8084F104, 0);
 
                         if (sp2C >= 0) {
-                            if (this->getItemEntry.objectId == OBJECT_INVALID) {
+                            if (this->getItemEntry.itemId == ITEM_NONE) {
                                 giEntry = ItemTable_Retrieve(D_80854528[sp2C]);
                             } else {
                                 giEntry = this->getItemEntry;
                             }
-                            func_8083AE40(this, giEntry.objectId);
                         }
 
                         this->stateFlags1 |= PLAYER_STATE1_6 | PLAYER_STATE1_28 | PLAYER_STATE1_29;
@@ -6209,7 +6205,7 @@ s32 func_8083E5A8(Player* this, GlobalContext* globalCtx) {
             }
 
             GetItemEntry giEntry;
-            if (this->getItemEntry.objectId == OBJECT_INVALID || (this->getItemId != this->getItemEntry.getItemId)) {
+            if (this->getItemEntry.itemId == ITEM_NONE || (this->getItemId != this->getItemEntry.getItemId)) {
                 giEntry = ItemTable_Retrieve(this->getItemId);
             } else {
                 giEntry = this->getItemEntry;
@@ -6253,7 +6249,6 @@ s32 func_8083E5A8(Player* this, GlobalContext* globalCtx) {
                 if ((globalCtx->sceneNum == SCENE_BOWLING || Item_CheckObtainability(giEntry.itemId) == ITEM_NONE || gSaveContext.n64ddFlag) && !skipItemCutscene && !skipItemCutsceneRando) {
 
                     func_808323B4(globalCtx, this);
-                    func_8083AE40(this, giEntry.objectId);
 
                     if (!(this->stateFlags2 & PLAYER_STATE2_10) || (this->currentBoots == PLAYER_BOOTS_IRON)) {
                         func_80836898(globalCtx, this, func_8083A434);
@@ -6275,7 +6270,7 @@ s32 func_8083E5A8(Player* this, GlobalContext* globalCtx) {
                    !(this->stateFlags2 & PLAYER_STATE2_10)) {
             if (this->getItemId != GI_NONE) {
                 GetItemEntry giEntry;
-                if (this->getItemEntry.objectId == OBJECT_INVALID) {
+                if (this->getItemEntry.itemId == ITEM_NONE) {
                     giEntry = ItemTable_Retrieve(-this->getItemId);
                 } else {
                     giEntry = this->getItemEntry;
@@ -6295,7 +6290,6 @@ s32 func_8083E5A8(Player* this, GlobalContext* globalCtx) {
 
                 func_80836898(globalCtx, this, func_8083A434);
                 this->stateFlags1 |= PLAYER_STATE1_10 | PLAYER_STATE1_11 | PLAYER_STATE1_29;
-                func_8083AE40(this, giEntry.objectId);
                 this->actor.world.pos.x =
                     chest->dyna.actor.world.pos.x - (Math_SinS(chest->dyna.actor.shape.rot.y) * 29.4343f);
                 this->actor.world.pos.z =
@@ -12519,12 +12513,12 @@ s32 func_8084DFF4(GlobalContext* globalCtx, Player* this) {
     s32 temp1;
     s32 temp2;
 
-    if (this->getItemId == GI_NONE && this->getItemEntry.objectId == OBJECT_INVALID) {
+    if (this->getItemId == GI_NONE && this->getItemEntry.itemId == ITEM_NONE) {
         return 1;
     }
 
     if (this->unk_84F == 0) {
-        if (this->getItemEntry.objectId == OBJECT_INVALID) {
+        if (this->getItemEntry.itemId == ITEM_NONE) {
             giEntry = ItemTable_Retrieve(this->getItemId);
         } else {
             giEntry = this->getItemEntry;

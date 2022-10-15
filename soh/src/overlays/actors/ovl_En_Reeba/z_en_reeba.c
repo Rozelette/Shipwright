@@ -69,7 +69,6 @@ const ActorInit En_Reeba_InitVars = {
     ACTOR_EN_REEBA,
     ACTORCAT_MISC,
     FLAGS,
-    OBJECT_REEBA,
     sizeof(EnReeba),
     (ActorFunc)EnReeba_Init,
     (ActorFunc)EnReeba_Destroy,

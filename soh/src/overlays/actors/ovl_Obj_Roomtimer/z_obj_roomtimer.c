@@ -19,7 +19,6 @@ const ActorInit Obj_Roomtimer_InitVars = {
     ACTOR_OBJ_ROOMTIMER,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(ObjRoomtimer),
     (ActorFunc)ObjRoomtimer_Init,
     (ActorFunc)ObjRoomtimer_Destroy,

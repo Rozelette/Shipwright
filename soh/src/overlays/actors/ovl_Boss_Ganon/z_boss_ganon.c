@@ -55,7 +55,6 @@ const ActorInit Boss_Ganon_InitVars = {
     ACTOR_BOSS_GANON,
     ACTORCAT_BOSS,
     FLAGS,
-    OBJECT_GANON,
     sizeof(BossGanon),
     (ActorFunc)BossGanon_Init,
     (ActorFunc)BossGanon_Destroy,

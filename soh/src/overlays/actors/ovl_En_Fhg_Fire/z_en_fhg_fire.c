@@ -48,7 +48,6 @@ const ActorInit En_Fhg_Fire_InitVars = {
     0,
     ACTORCAT_BOSS,
     FLAGS,
-    OBJECT_FHG,
     sizeof(EnFhgFire),
     (ActorFunc)EnFhgFire_Init,
     (ActorFunc)EnFhgFire_Destroy,

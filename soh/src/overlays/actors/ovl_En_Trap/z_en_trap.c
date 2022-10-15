@@ -38,7 +38,6 @@ const ActorInit En_Trap_InitVars = {
     ACTOR_EN_TRAP,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_TRAP,
     sizeof(EnTrap),
     (ActorFunc)EnTrap_Init,
     (ActorFunc)EnTrap_Destroy,

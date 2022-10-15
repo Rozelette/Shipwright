@@ -22,7 +22,6 @@ const ActorInit Bg_Ice_Shutter_InitVars = {
     ACTOR_BG_ICE_SHUTTER,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_ICE_OBJECTS,
     sizeof(BgIceShutter),
     (ActorFunc)BgIceShutter_Init,
     (ActorFunc)BgIceShutter_Destroy,

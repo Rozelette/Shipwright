@@ -28,7 +28,6 @@ const ActorInit Bg_Mori_Hashigo_InitVars = {
     ACTOR_BG_MORI_HASHIGO,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_MORI_OBJECTS,
     sizeof(BgMoriHashigo),
     (ActorFunc)BgMoriHashigo_Init,
     (ActorFunc)BgMoriHashigo_Destroy,

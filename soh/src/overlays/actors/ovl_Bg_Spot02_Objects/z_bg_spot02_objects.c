@@ -35,7 +35,6 @@ const ActorInit Bg_Spot02_Objects_InitVars = {
     ACTOR_BG_SPOT02_OBJECTS,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_SPOT02_OBJECTS,
     sizeof(BgSpot02Objects),
     (ActorFunc)BgSpot02Objects_Init,
     (ActorFunc)BgSpot02Objects_Destroy,
@@ -166,7 +165,7 @@ void func_808ACA08(BgSpot02Objects* this, GlobalContext* globalCtx) {
 
     if (this->timer == 20) {
         this->dyna.actor.draw = NULL;
-        EffectSsHahen_SpawnBurst(globalCtx, &this->dyna.actor.world.pos, 30.0f, 0, 25, 5, 40, OBJECT_SPOT02_OBJECTS,
+        EffectSsHahen_SpawnBurst(globalCtx, &this->dyna.actor.world.pos, 30.0f, 0, 25, 5, 40, false,
                                     20, object_spot02_objects_DL_012D30);
     } else if (this->timer == 0) {
         Actor_Kill(&this->dyna.actor);

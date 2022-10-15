@@ -241,7 +241,6 @@ const ActorInit Boss_Sst_InitVars = {
     ACTOR_BOSS_SST,
     ACTORCAT_BOSS,
     FLAGS,
-    OBJECT_SST,
     sizeof(BossSst),
     (ActorFunc)BossSst_Init,
     (ActorFunc)BossSst_Destroy,

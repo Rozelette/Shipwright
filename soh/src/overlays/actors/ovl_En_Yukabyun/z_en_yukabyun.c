@@ -22,7 +22,6 @@ const ActorInit En_Yukabyun_InitVars = {
     ACTOR_EN_YUKABYUN,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_YUKABYUN,
     sizeof(EnYukabyun),
     (ActorFunc)EnYukabyun_Init,
     (ActorFunc)EnYukabyun_Destroy,
@@ -108,7 +107,7 @@ void func_80B43B6C(EnYukabyun* this, GlobalContext* globalCtx) {
 }
 
 void EnYukabyun_Break(EnYukabyun* this, GlobalContext* globalCtx) {
-    EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 8.0f, 0, 1300, 300, 15, OBJECT_YUKABYUN, 10,
+    EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 8.0f, 0, 1300, 300, 15, false, 10,
                              gFloorTileEnemyFragmentDL);
     Actor_Kill(&this->actor);
 }

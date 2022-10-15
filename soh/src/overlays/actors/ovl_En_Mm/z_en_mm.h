@@ -22,7 +22,6 @@ typedef struct EnMm {
     /* 0x01F8 */ f32 yawToWaypoint;
     /* 0x01FC */ f32 distToWaypoint;
     /* 0x0200 */ f32 speedXZ;
-    /* 0x0204 */ s32 unk_204;
     /* 0x0208 */ MtxF unk_208;
     /* 0x0248 */ Vec3s unk_248;
     /* 0x024E */ Vec3s unk_24E;

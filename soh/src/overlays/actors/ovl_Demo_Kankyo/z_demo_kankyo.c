@@ -45,20 +45,12 @@ const ActorInit Demo_Kankyo_InitVars = {
     ACTOR_DEMO_KANKYO,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(DemoKankyo),
     (ActorFunc)DemoKankyo_Init,
     (ActorFunc)DemoKankyo_Destroy,
     (ActorFunc)DemoKankyo_Update,
     (ActorFunc)DemoKankyo_Draw,
     NULL,
-};
-
-static s16 sObjIds[] = {
-    OBJECT_EFC_STAR_FIELD, OBJECT_EFC_STAR_FIELD, OBJECT_EFC_STAR_FIELD, OBJECT_EFC_STAR_FIELD, OBJECT_EFC_STAR_FIELD,
-    OBJECT_EFC_STAR_FIELD, OBJECT_EFC_STAR_FIELD, OBJECT_GAMEPLAY_KEEP,  OBJECT_GI_MELODY,      OBJECT_GI_MELODY,
-    OBJECT_GI_MELODY,      OBJECT_GI_MELODY,      OBJECT_GI_MELODY,      OBJECT_TOKI_OBJECTS,   OBJECT_TOKI_OBJECTS,
-    OBJECT_GAMEPLAY_KEEP,  OBJECT_GAMEPLAY_KEEP,  OBJECT_GAMEPLAY_KEEP,
 };
 
 // unused, presumed to be floats

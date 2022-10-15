@@ -46,7 +46,6 @@ const ActorInit En_Ge1_InitVars = {
     ACTOR_EN_GE1,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_GE1,
     sizeof(EnGe1),
     (ActorFunc)EnGe1_Init,
     (ActorFunc)EnGe1_Destroy,

@@ -20,7 +20,6 @@ const ActorInit En_Shopnuts_InitVars = {
     ACTOR_EN_SHOPNUTS,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_SHOPNUTS,
     sizeof(EnShopnuts),
     (ActorFunc)EnShopnuts_Init,
     (ActorFunc)EnShopnuts_Destroy,

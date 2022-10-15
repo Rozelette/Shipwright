@@ -22,7 +22,6 @@ const ActorInit Oceff_Storm_InitVars = {
     ACTOR_OCEFF_STORM,
     ACTORCAT_ITEMACTION,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(OceffStorm),
     (ActorFunc)OceffStorm_Init,
     (ActorFunc)OceffStorm_Destroy,

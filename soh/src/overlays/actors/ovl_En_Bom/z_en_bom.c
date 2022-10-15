@@ -22,7 +22,6 @@ const ActorInit En_Bom_InitVars = {
     ACTOR_EN_BOM,
     ACTORCAT_EXPLOSIVE,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(EnBom),
     (ActorFunc)EnBom_Init,
     (ActorFunc)EnBom_Destroy,

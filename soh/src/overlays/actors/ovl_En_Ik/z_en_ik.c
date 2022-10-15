@@ -1469,7 +1469,6 @@ const ActorInit En_Ik_InitVars = {
     ACTOR_EN_IK,
     ACTORCAT_BOSS,
     FLAGS,
-    OBJECT_IK,
     sizeof(EnIk),
     (ActorFunc)EnIk_Init,
     (ActorFunc)EnIk_Destroy,

@@ -20,7 +20,6 @@ const ActorInit En_Skjneedle_InitVars = {
     ACTOR_EN_SKJNEEDLE,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_SKJ,
     sizeof(EnSkjneedle),
     (ActorFunc)EnSkjneedle_Init,
     (ActorFunc)EnSkjneedle_Destroy,

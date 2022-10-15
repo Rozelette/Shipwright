@@ -18,7 +18,6 @@ const ActorInit En_Encount1_InitVars = {
     ACTOR_EN_ENCOUNT1,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(EnEncount1),
     (ActorFunc)EnEncount1_Init,
     NULL,

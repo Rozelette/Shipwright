@@ -16,7 +16,6 @@ const ActorInit En_Bubble_InitVars = {
     ACTOR_EN_BUBBLE,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_BUBBLE,
     sizeof(EnBubble),
     (ActorFunc)EnBubble_Init,
     (ActorFunc)EnBubble_Destroy,

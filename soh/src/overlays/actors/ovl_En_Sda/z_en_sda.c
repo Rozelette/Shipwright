@@ -21,7 +21,6 @@ const ActorInit En_Sda_InitVars = {
     ACTOR_EN_SDA,
     ACTORCAT_BOSS,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(EnSda),
     (ActorFunc)EnSda_Init,
     (ActorFunc)EnSda_Destroy,

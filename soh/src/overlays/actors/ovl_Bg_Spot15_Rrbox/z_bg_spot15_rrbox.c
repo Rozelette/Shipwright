@@ -29,7 +29,6 @@ const ActorInit Bg_Spot15_Rrbox_InitVars = {
     ACTOR_BG_SPOT15_RRBOX,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_SPOT15_OBJ,
     sizeof(BgSpot15Rrbox),
     (ActorFunc)BgSpot15Rrbox_Init,
     (ActorFunc)BgSpot15Rrbox_Destroy,

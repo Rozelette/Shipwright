@@ -18,7 +18,6 @@ const ActorInit Bg_Spot18_Futa_InitVars = {
     ACTOR_BG_SPOT18_FUTA,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_SPOT18_OBJ,
     sizeof(BgSpot18Futa),
     (ActorFunc)BgSpot18Futa_Init,
     (ActorFunc)BgSpot18Futa_Destroy,

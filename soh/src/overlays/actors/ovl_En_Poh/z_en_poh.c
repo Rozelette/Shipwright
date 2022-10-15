@@ -46,7 +46,6 @@ const ActorInit En_Poh_InitVars = {
     ACTOR_EN_POH,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(EnPoh),
     (ActorFunc)EnPoh_Init,
     (ActorFunc)EnPoh_Destroy,
@@ -710,14 +709,11 @@ void func_80ADF894(EnPoh* this, GlobalContext* globalCtx) {
 }
 
 void EnPoh_Death(EnPoh* this, GlobalContext* globalCtx) {
-    s32 objId;
-
     if (this->unk_198 != 0) {
         this->unk_198--;
     }
     if (this->actor.bgCheckFlags & 1) {
-        objId = (this->infoIdx == EN_POH_INFO_COMPOSER) ? OBJECT_PO_COMPOSER : OBJECT_POH;
-        EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 6.0f, 0, 1, 1, 15, objId, 10,
+        EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 6.0f, 0, 1, 1, 15, false, 10,
                                  this->info->lanternDisplayList);
         func_80ADE6D4(this);
     } else if (this->unk_198 == 0) {

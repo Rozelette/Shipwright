@@ -22,7 +22,6 @@ const ActorInit Bg_Spot15_Saku_InitVars = {
     ACTOR_BG_SPOT15_SAKU,
     ACTORCAT_ITEMACTION,
     FLAGS,
-    OBJECT_SPOT15_OBJ,
     sizeof(BgSpot15Saku),
     (ActorFunc)BgSpot15Saku_Init,
     (ActorFunc)BgSpot15Saku_Destroy,

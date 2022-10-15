@@ -20,11 +20,11 @@ typedef enum GetItemFrom {
     ITEM_FROM_CHEST,
 } GetItemFrom;
 
-#define GET_ITEM(itemId, objectId, drawId, textId, field, chestAnim, modIndex, getItemId) \
-    { itemId, field, (chestAnim != CHEST_ANIM_SHORT ? 1 : -1) * (drawId + 1), textId, objectId, modIndex, getItemId, drawId, true, ITEM_FROM_NPC, NULL }
+#define GET_ITEM(itemId, drawId, textId, field, chestAnim, modIndex, getItemId) \
+    { itemId, field, (chestAnim != CHEST_ANIM_SHORT ? 1 : -1) * (drawId + 1), textId, modIndex, getItemId, drawId, true, ITEM_FROM_NPC, NULL }
 
 #define GET_ITEM_NONE \
-    { ITEM_NONE, 0, 0, 0, 0, 0, 0, 0, false, ITEM_FROM_NPC, NULL }
+    { ITEM_NONE, 0, 0, 0, 0, 0, 0, false, ITEM_FROM_NPC, NULL }
 
 typedef struct GlobalContext GlobalContext;
 typedef struct GetItemEntry GetItemEntry;
@@ -36,7 +36,6 @@ typedef struct GetItemEntry {
     /* 0x01 */ uint16_t field; // various bit-packed data
     /* 0x02 */ int16_t gi;     // defines the draw id and chest opening animation
     /* 0x03 */ uint16_t textId;
-    /* 0x04 */ uint16_t objectId;
     /* 0x06 */ uint16_t modIndex; // 0 = Vanilla, 1 = Randomizer, future mods will increment up?
     /* 0x08 */ int16_t getItemId;
     /* 0x0A */ uint16_t gid; // Stores the GID value unmodified for future reference.

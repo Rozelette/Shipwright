@@ -18,7 +18,6 @@ const ActorInit Bg_Menkuri_Kaiten_InitVars = {
     ACTOR_BG_MENKURI_KAITEN,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_MENKURI_OBJECTS,
     sizeof(BgMenkuriKaiten),
     (ActorFunc)BgMenkuriKaiten_Init,
     (ActorFunc)BgMenkuriKaiten_Destroy,

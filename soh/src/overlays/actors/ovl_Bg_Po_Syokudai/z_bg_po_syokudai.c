@@ -62,7 +62,6 @@ const ActorInit Bg_Po_Syokudai_InitVars = {
     ACTOR_BG_PO_SYOKUDAI,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_SYOKUDAI,
     sizeof(BgPoSyokudai),
     (ActorFunc)BgPoSyokudai_Init,
     (ActorFunc)BgPoSyokudai_Destroy,

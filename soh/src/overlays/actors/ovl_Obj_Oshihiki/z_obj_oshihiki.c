@@ -28,7 +28,6 @@ const ActorInit Obj_Oshihiki_InitVars = {
     ACTOR_OBJ_OSHIHIKI,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_GAMEPLAY_DANGEON_KEEP,
     sizeof(ObjOshihiki),
     (ActorFunc)ObjOshihiki_Init,
     (ActorFunc)ObjOshihiki_Destroy,

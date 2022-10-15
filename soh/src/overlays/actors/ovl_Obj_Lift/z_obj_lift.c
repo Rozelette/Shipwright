@@ -27,7 +27,6 @@ const ActorInit Obj_Lift_InitVars = {
     ACTOR_OBJ_LIFT,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_D_LIFT,
     sizeof(ObjLift),
     (ActorFunc)ObjLift_Init,
     (ActorFunc)ObjLift_Destroy,
@@ -94,7 +93,7 @@ void func_80B96160(ObjLift* this, GlobalContext* globalCtx) {
         velocity.z = sFragmentScales[i].z * this->dyna.actor.scale.z * 0.8f;
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, temp_s3, -256, (Rand_ZeroOne() < 0.5f) ? 64 : 32, 15, 15, 0,
                              (Rand_ZeroOne() * 50.0f + 50.0f) * this->dyna.actor.scale.x, 0, 32, 50, KAKERA_COLOR_NONE,
-                             OBJECT_D_LIFT, gCollapsingPlatformDL);
+                             gCollapsingPlatformDL);
     }
 
     if (((this->dyna.actor.params >> 1) & 1) == 0) {

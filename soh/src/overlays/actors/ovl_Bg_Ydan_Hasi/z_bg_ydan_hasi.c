@@ -25,7 +25,6 @@ const ActorInit Bg_Ydan_Hasi_InitVars = {
     ACTOR_BG_YDAN_HASI,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_YDAN_OBJECTS,
     sizeof(BgYdanHasi),
     (ActorFunc)BgYdanHasi_Init,
     (ActorFunc)BgYdanHasi_Destroy,

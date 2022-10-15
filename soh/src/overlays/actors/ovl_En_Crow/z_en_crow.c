@@ -22,7 +22,6 @@ const ActorInit En_Crow_InitVars = {
     ACTOR_EN_CROW,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_CROW,
     sizeof(EnCrow),
     (ActorFunc)EnCrow_Init,
     (ActorFunc)EnCrow_Destroy,

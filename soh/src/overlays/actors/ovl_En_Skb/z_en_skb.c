@@ -104,7 +104,6 @@ const ActorInit En_Skb_InitVars = {
     ACTOR_EN_SKB,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_SKB,
     sizeof(EnSkb),
     (ActorFunc)EnSkb_Init,
     (ActorFunc)EnSkb_Destroy,
@@ -132,7 +131,7 @@ void EnSkb_SpawnDebris(GlobalContext* globalCtx, EnSkb* this, Vec3f* spawnPos) {
     accel.z = Rand_CenteredFloat(1.0f);
     vel.y += (Rand_ZeroOne() - 0.5f) * 4.0f;
     scale = (Rand_ZeroOne() * 5.0f) + 12.0f;
-    EffectSsHahen_Spawn(globalCtx, &pos, &vel, &accel, 2, scale * 0.8f, -1, 10, 0);
+    EffectSsHahen_Spawn(globalCtx, &pos, &vel, &accel, 2, scale * 0.8f, false, 10, 0);
     func_80033480(globalCtx, &pos, 10.0f, 1, 150, 0, 1);
 }
 

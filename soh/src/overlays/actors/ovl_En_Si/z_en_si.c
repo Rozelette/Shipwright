@@ -51,7 +51,6 @@ const ActorInit En_Si_InitVars = {
     ACTOR_EN_SI,
     ACTORCAT_ITEMACTION,
     FLAGS,
-    OBJECT_ST,
     sizeof(EnSi),
     (ActorFunc)EnSi_Init,
     (ActorFunc)EnSi_Destroy,

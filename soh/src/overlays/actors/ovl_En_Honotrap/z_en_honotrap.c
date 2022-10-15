@@ -51,7 +51,6 @@ const ActorInit En_Honotrap_InitVars = {
     ACTOR_EN_HONOTRAP,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_GAMEPLAY_DANGEON_KEEP,
     sizeof(EnHonotrap),
     (ActorFunc)EnHonotrap_Init,
     (ActorFunc)EnHonotrap_Destroy,

@@ -25,7 +25,6 @@ const ActorInit Bg_Toki_Hikari_InitVars = {
     ACTOR_BG_TOKI_HIKARI,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_TOKI_OBJECTS,
     sizeof(BgTokiHikari),
     (ActorFunc)BgTokiHikari_Init,
     (ActorFunc)BgTokiHikari_Destroy,

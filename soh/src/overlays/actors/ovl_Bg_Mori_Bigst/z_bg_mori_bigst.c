@@ -31,7 +31,6 @@ const ActorInit Bg_Mori_Bigst_InitVars = {
     ACTOR_BG_MORI_BIGST,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_MORI_OBJECTS,
     sizeof(BgMoriBigst),
     (ActorFunc)BgMoriBigst_Init,
     (ActorFunc)BgMoriBigst_Destroy,

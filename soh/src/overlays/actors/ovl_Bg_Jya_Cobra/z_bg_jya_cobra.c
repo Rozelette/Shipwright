@@ -25,7 +25,6 @@ const ActorInit Bg_Jya_Cobra_InitVars = {
     ACTOR_BG_JYA_COBRA,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_JYA_OBJ,
     sizeof(BgJyaCobra),
     (ActorFunc)BgJyaCobra_Init,
     (ActorFunc)BgJyaCobra_Destroy,

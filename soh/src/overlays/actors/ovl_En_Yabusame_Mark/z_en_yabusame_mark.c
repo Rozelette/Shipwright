@@ -38,7 +38,6 @@ const ActorInit En_Yabusame_Mark_InitVars = {
     ACTOR_EN_YABUSAME_MARK,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(EnYabusameMark),
     (ActorFunc)EnYabusameMark_Init,
     (ActorFunc)EnYabusameMark_Destroy,

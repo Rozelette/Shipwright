@@ -44,7 +44,6 @@ const ActorInit En_Kusa_InitVars = {
     ACTOR_EN_KUSA,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(EnKusa),
     (ActorFunc)EnKusa_Init,
     (ActorFunc)EnKusa_Destroy,
@@ -52,8 +51,6 @@ const ActorInit En_Kusa_InitVars = {
     NULL,
     NULL,
 };
-
-static s16 sObjectIds[] = { OBJECT_GAMEPLAY_FIELD_KEEP, OBJECT_KUSA, OBJECT_KUSA };
 
 static ColliderCylinderInit sCylinderInit = {
     {
@@ -194,7 +191,7 @@ void EnKusa_SpawnFragments(EnKusa* this, GlobalContext* globalCtx) {
         scaleIndex = (s32)(Rand_ZeroOne() * 111.1f) & 7;
 
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -100, 64, 40, 3, 0, sFragmentScales[scaleIndex], 0, 0,
-                             80, KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_KEEP, gCuttableShrubStalkDL);
+                             80, KAKERA_COLOR_NONE, gCuttableShrubStalkDL);
 
         pos.x = this->actor.world.pos.x + (dir->x * this->actor.scale.x * 40.0f);
         pos.y = this->actor.world.pos.y + (dir->y * this->actor.scale.y * 40.0f) + 10.0f;
@@ -207,7 +204,7 @@ void EnKusa_SpawnFragments(EnKusa* this, GlobalContext* globalCtx) {
         scaleIndex = (s32)(Rand_ZeroOne() * 111.1f) % 7;
 
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -100, 64, 40, 3, 0, sFragmentScales[scaleIndex], 0, 0,
-                             80, KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_KEEP, gCuttableShrubTipDL);
+                             80, KAKERA_COLOR_NONE, gCuttableShrubTipDL);
     }
 }
 

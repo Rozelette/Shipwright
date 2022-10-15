@@ -18,7 +18,6 @@ const ActorInit Bg_Jya_Bombchuiwa_InitVars = {
     ACTOR_BG_JYA_BOMBCHUIWA,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_JYA_OBJ,
     sizeof(BgJyaBombchuiwa),
     (ActorFunc)BgJyaBombchuiwa_Init,
     (ActorFunc)BgJyaBombchuiwa_Destroy,
@@ -130,7 +129,7 @@ void BgJyaBombchuiwa_Break(BgJyaBombchuiwa* this, GlobalContext* globalCtx) {
             }
         }
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -300, arg5, arg6, arg7, 0, scale, 1, 15, 80,
-                             KAKERA_COLOR_NONE, OBJECT_JYA_OBJ, gBombiwaEffectDL);
+                             KAKERA_COLOR_NONE, gBombiwaEffectDL);
     }
     func_80033480(globalCtx, &this->actor.world.pos, 100.0f, 8, 100, 160, 0);
 }

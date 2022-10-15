@@ -33,7 +33,6 @@ const ActorInit En_Karebaba_InitVars = {
     ACTOR_EN_KAREBABA,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_DEKUBABA,
     sizeof(EnKarebaba),
     (ActorFunc)EnKarebaba_Init,
     (ActorFunc)EnKarebaba_Destroy,
@@ -247,7 +246,7 @@ void EnKarebaba_Awaken(EnKarebaba* this, GlobalContext* globalCtx) {
         EnKarebaba_SetupUpright(this);
     }
     this->actor.shape.rot.y += 0x1999;
-    EffectSsHahen_SpawnBurst(globalCtx, &this->actor.home.pos, 3.0f, 0, 12, 5, 1, HAHEN_OBJECT_DEFAULT, 10, NULL);
+    EffectSsHahen_SpawnBurst(globalCtx, &this->actor.home.pos, 3.0f, 0, 12, 5, 1, HAHEN_GRAY_DEFAULT, 10, NULL);
 }
 
 void EnKarebaba_Upright(EnKarebaba* this, GlobalContext* globalCtx) {
@@ -323,13 +322,13 @@ void EnKarebaba_Dying(EnKarebaba* this, GlobalContext* globalCtx) {
 
     if (this->actor.params == 0) {
         Math_ScaledStepToS(&this->actor.shape.rot.x, 0x4800, 0x71C);
-        EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 3.0f, 0, 12, 5, 1, HAHEN_OBJECT_DEFAULT, 10, NULL);
+        EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 3.0f, 0, 12, 5, 1, HAHEN_GRAY_DEFAULT, 10, NULL);
 
         if (this->actor.scale.x > 0.005f && ((this->actor.bgCheckFlags & 2) || (this->actor.bgCheckFlags & 8))) {
             this->actor.scale.x = this->actor.scale.y = this->actor.scale.z = 0.0f;
             this->actor.speedXZ = 0.0f;
             this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
-            EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 3.0f, 0, 12, 5, 15, HAHEN_OBJECT_DEFAULT, 10,
+            EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 3.0f, 0, 12, 5, 15, HAHEN_GRAY_DEFAULT, 10,
                                      NULL);
         }
 
@@ -377,7 +376,7 @@ void EnKarebaba_Retract(EnKarebaba* this, GlobalContext* globalCtx) {
     }
 
     this->actor.shape.rot.y += 0x1999;
-    EffectSsHahen_SpawnBurst(globalCtx, &this->actor.home.pos, 3.0f, 0, 12, 5, 1, HAHEN_OBJECT_DEFAULT, 10, NULL);
+    EffectSsHahen_SpawnBurst(globalCtx, &this->actor.home.pos, 3.0f, 0, 12, 5, 1, HAHEN_GRAY_DEFAULT, 10, NULL);
 }
 
 void EnKarebaba_Dead(EnKarebaba* this, GlobalContext* globalCtx) {

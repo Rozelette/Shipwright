@@ -43,7 +43,6 @@ const ActorInit En_Mm_InitVars = {
     ACTOR_EN_MM,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_MM,
     sizeof(EnMm),
     (ActorFunc)EnMm_Init,
     (ActorFunc)EnMm_Destroy,
@@ -180,7 +179,6 @@ void EnMm_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.targetMode = 2;
     this->actor.gravity = -1.0f;
     this->speedXZ = 3.0f;
-    this->unk_204 = this->actor.objBankIndex;
 
     if (func_80AADA70() == 1) {
         this->mouthTexIndex = RM_MOUTH_OPEN;
@@ -550,7 +548,6 @@ void EnMm_Draw(Actor* thisx, GlobalContext* globalCtx) {
         MATRIX_TOMTX(mtx);
 
         gSPDisplayList(POLY_OPA_DISP++, gLinkChildBunnyHoodDL);
-        gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx);

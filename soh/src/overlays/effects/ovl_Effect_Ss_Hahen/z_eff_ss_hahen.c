@@ -11,7 +11,7 @@
 #define rYaw regs[1]
 #define rUnused regs[2]
 #define rScale regs[3]
-#define rObjId regs[4]
+#define rGray regs[4]
 #define rMinLife regs[6]
 
 u32 EffectSsHahen_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
@@ -34,13 +34,13 @@ u32 EffectSsHahen_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
 
     if (initParams->dList != NULL) {
         this->gfx = initParams->dList;
-        this->rObjId = initParams->objId;
+        this->rGray = initParams->gray;
     } else {
         this->gfx = SEGMENTED_TO_VIRTUAL(gEffFragments1DL);
-        this->rObjId = -1;
+        this->rGray = false;
     }
 
-    if ((this->rObjId == OBJECT_HAKA_OBJECTS) && (this->gfx == gEffFragments2DL)) {
+    if (this->rGray && (this->gfx == gEffFragments2DL)) {
         this->draw = EffectSsHahen_DrawGray;
     } else {
         this->draw = EffectSsHahen_Draw;

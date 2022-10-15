@@ -49,7 +49,6 @@ const ActorInit En_fHG_InitVars = {
     ACTOR_EN_FHG,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_FHG,
     sizeof(EnfHG),
     (ActorFunc)EnfHG_Init,
     (ActorFunc)EnfHG_Destroy,

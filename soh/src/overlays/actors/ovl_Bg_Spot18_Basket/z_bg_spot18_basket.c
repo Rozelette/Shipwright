@@ -27,7 +27,6 @@ const ActorInit Bg_Spot18_Basket_InitVars = {
     ACTOR_BG_SPOT18_BASKET,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_SPOT18_OBJ,
     sizeof(BgSpot18Basket),
     (ActorFunc)BgSpot18Basket_Init,
     (ActorFunc)BgSpot18Basket_Destroy,

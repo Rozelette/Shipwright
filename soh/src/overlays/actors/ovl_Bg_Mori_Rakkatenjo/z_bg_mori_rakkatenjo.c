@@ -31,7 +31,6 @@ const ActorInit Bg_Mori_Rakkatenjo_InitVars = {
     ACTOR_BG_MORI_RAKKATENJO,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_MORI_OBJECTS,
     sizeof(BgMoriRakkatenjo),
     (ActorFunc)BgMoriRakkatenjo_Init,
     (ActorFunc)BgMoriRakkatenjo_Destroy,

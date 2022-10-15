@@ -22,7 +22,6 @@ const ActorInit Elf_Msg2_InitVars = {
     ACTOR_ELF_MSG2,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(ElfMsg2),
     (ActorFunc)ElfMsg2_Init,
     (ActorFunc)ElfMsg2_Destroy,

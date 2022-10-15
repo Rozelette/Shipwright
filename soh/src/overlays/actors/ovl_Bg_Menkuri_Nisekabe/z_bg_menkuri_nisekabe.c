@@ -18,7 +18,6 @@ const ActorInit Bg_Menkuri_Nisekabe_InitVars = {
     ACTOR_BG_MENKURI_NISEKABE,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_MENKURI_OBJECTS,
     sizeof(BgMenkuriNisekabe),
     (ActorFunc)BgMenkuriNisekabe_Init,
     (ActorFunc)BgMenkuriNisekabe_Destroy,

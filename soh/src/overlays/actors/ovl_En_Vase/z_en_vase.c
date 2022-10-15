@@ -17,7 +17,6 @@ const ActorInit En_Vase_InitVars = {
     ACTOR_EN_VASE,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_VASE,
     sizeof(EnVase),
     (ActorFunc)EnVase_Init,
     (ActorFunc)EnVase_Destroy,

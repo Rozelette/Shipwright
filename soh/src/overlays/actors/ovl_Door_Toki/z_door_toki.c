@@ -17,7 +17,6 @@ const ActorInit Door_Toki_InitVars = {
     ACTOR_DOOR_TOKI,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_TOKI_OBJECTS,
     sizeof(DoorToki),
     (ActorFunc)DoorToki_Init,
     (ActorFunc)DoorToki_Destroy,

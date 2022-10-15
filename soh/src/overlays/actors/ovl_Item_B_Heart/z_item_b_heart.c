@@ -20,7 +20,6 @@ const ActorInit Item_B_Heart_InitVars = {
     ACTOR_ITEM_B_HEART,
     ACTORCAT_MISC,
     FLAGS,
-    OBJECT_GI_HEARTS,
     sizeof(ItemBHeart),
     (ActorFunc)ItemBHeart_Init,
     (ActorFunc)ItemBHeart_Destroy,

@@ -40,7 +40,6 @@ const ActorInit Bg_Spot01_Idohashira_InitVars = {
     ACTOR_BG_SPOT01_IDOHASHIRA,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_SPOT01_OBJECTS,
     sizeof(BgSpot01Idohashira),
     (ActorFunc)BgSpot01Idohashira_Init,
     (ActorFunc)BgSpot01Idohashira_Destroy,

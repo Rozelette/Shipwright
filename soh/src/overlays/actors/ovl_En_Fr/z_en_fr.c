@@ -116,7 +116,6 @@ const ActorInit En_Fr_InitVars = {
     ACTOR_EN_FR,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_FR,
     sizeof(EnFr),
     (ActorFunc)EnFr_Init,
     (ActorFunc)EnFr_Destroy,

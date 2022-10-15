@@ -34,7 +34,6 @@ const ActorInit En_Dekunuts_InitVars = {
     ACTOR_EN_DEKUNUTS,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_DEKUNUTS,
     sizeof(EnDekunuts),
     (ActorFunc)EnDekunuts_Init,
     (ActorFunc)EnDekunuts_Destroy,
@@ -433,7 +432,7 @@ void EnDekunuts_Die(EnDekunuts* this, GlobalContext* globalCtx) {
         EffectSsDeadDb_Spawn(globalCtx, &effectPos, &effectVelAndAccel, &effectVelAndAccel, 200, 0, 255, 255, 255, 255,
                              150, 150, 150, 1, 13, 1);
         effectPos.y = this->actor.world.pos.y + 10.0f;
-        EffectSsHahen_SpawnBurst(globalCtx, &effectPos, 3.0f, 0, 12, 3, 15, HAHEN_OBJECT_DEFAULT, 10, NULL);
+        EffectSsHahen_SpawnBurst(globalCtx, &effectPos, 3.0f, 0, 12, 3, 15, HAHEN_GRAY_DEFAULT, 10, NULL);
         Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0x30);
         if (this->actor.child != NULL) {
             Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, this->actor.child, ACTORCAT_PROP);

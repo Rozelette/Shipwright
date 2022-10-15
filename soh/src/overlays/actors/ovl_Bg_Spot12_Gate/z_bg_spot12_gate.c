@@ -27,7 +27,6 @@ const ActorInit Bg_Spot12_Gate_InitVars = {
     ACTOR_BG_SPOT12_GATE,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_SPOT12_OBJ,
     sizeof(BgSpot12Gate),
     (ActorFunc)BgSpot12Gate_Init,
     (ActorFunc)BgSpot12Gate_Destroy,

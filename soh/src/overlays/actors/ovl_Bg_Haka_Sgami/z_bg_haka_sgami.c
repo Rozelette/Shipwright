@@ -30,7 +30,6 @@ const ActorInit Bg_Haka_Sgami_InitVars = {
     ACTOR_BG_HAKA_SGAMI,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(BgHakaSgami),
     (ActorFunc)BgHakaSgami_Init,
     (ActorFunc)BgHakaSgami_Destroy,

@@ -31,7 +31,6 @@ const ActorInit Bg_Relay_Objects_InitVars = {
     ACTOR_BG_RELAY_OBJECTS,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_RELAY_OBJECTS,
     sizeof(BgRelayObjects),
     (ActorFunc)BgRelayObjects_Init,
     (ActorFunc)BgRelayObjects_Destroy,

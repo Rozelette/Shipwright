@@ -27,7 +27,6 @@ const ActorInit En_Kz_InitVars = {
     ACTOR_EN_KZ,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_KZ,
     sizeof(EnKz),
     (ActorFunc)EnKz_Init,
     (ActorFunc)EnKz_Destroy,

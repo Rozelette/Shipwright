@@ -44,7 +44,6 @@ const ActorInit En_Peehat_InitVars = {
     ACTOR_EN_PEEHAT,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_PEEHAT,
     sizeof(EnPeehat),
     (ActorFunc)EnPeehat_Init,
     (ActorFunc)EnPeehat_Destroy,
@@ -273,7 +272,7 @@ void EnPeehat_SpawnDust(GlobalContext* globalCtx, EnPeehat* this, Vec3f* pos, f3
     dustAccel.z = (Rand_ZeroOne() - 0.5f) * arg5;
     dustVel.y += (Rand_ZeroOne() - 0.5f) * 4.0f;
     pScale = (Rand_ZeroOne() * 5 + 12) * arg6;
-    EffectSsHahen_Spawn(globalCtx, &dustPos, &dustVel, &dustAccel, arg4, pScale, HAHEN_OBJECT_DEFAULT, 10, NULL);
+    EffectSsHahen_Spawn(globalCtx, &dustPos, &dustVel, &dustAccel, arg4, pScale, HAHEN_GRAY_DEFAULT, 10, NULL);
 }
 
 /**

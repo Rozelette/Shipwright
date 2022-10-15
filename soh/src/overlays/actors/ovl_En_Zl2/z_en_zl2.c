@@ -89,7 +89,6 @@ const ActorInit En_Zl2_InitVars = {
     ACTOR_EN_ZL2,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_ZL2,
     sizeof(EnZl2),
     (ActorFunc)EnZl2_Init,
     (ActorFunc)EnZl2_Destroy,
@@ -1530,7 +1529,6 @@ void func_80B52114(EnZl2* this, GlobalContext* globalCtx) {
 
 void func_80B521A0(EnZl2* this, GlobalContext* globalCtx) {
     s32 pad;
-    ObjectContext* objectCtx = &globalCtx->objectCtx;
 
     this->unk_278 = Animation_GetLastFrame(&gZelda2Anime1Anim_0022D0);
     func_80B52114(this, globalCtx);

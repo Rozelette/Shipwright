@@ -18,7 +18,6 @@ const ActorInit Oceff_Wipe2_InitVars = {
     ACTOR_OCEFF_WIPE2,
     ACTORCAT_ITEMACTION,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(OceffWipe2),
     (ActorFunc)OceffWipe2_Init,
     (ActorFunc)OceffWipe2_Destroy,

@@ -26,7 +26,6 @@ const ActorInit Bg_Jya_Haheniron_InitVars = {
     ACTOR_BG_JYA_HAHENIRON,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_JYA_IRON,
     sizeof(BgJyaHaheniron),
     (ActorFunc)BgJyaHaheniron_Init,
     (ActorFunc)BgJyaHaheniron_Destroy,
@@ -107,7 +106,7 @@ void BgJyaHaheniron_SpawnFragments(GlobalContext* globalCtx, Vec3f* vec1, Vec3f*
         }
 
         EffectSsKakera_Spawn(globalCtx, vec1, &vel, vec1, -350, arg5, 40, 4, 0, sKakeraScales[i], 0, 20, 40,
-                             KAKERA_COLOR_NONE, OBJECT_JYA_IRON, gObjectJyaIronDL_000880);
+                             KAKERA_COLOR_NONE, gObjectJyaIronDL_000880);
         angle += 0x3333;
     }
     pos.x = vec1->x + (vec2->x * 5.0f);

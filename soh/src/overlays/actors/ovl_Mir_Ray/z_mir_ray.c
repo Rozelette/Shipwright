@@ -35,7 +35,6 @@ const ActorInit Mir_Ray_InitVars = {
     ACTOR_MIR_RAY,
     ACTORCAT_ITEMACTION,
     FLAGS,
-    OBJECT_MIR_RAY,
     sizeof(MirRay),
     (ActorFunc)MirRay_Init,
     (ActorFunc)MirRay_Destroy,

@@ -66,7 +66,6 @@ const ActorInit Bg_Hidan_Hamstep_InitVars = {
     ACTOR_BG_HIDAN_HAMSTEP,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanHamstep),
     (ActorFunc)BgHidanHamstep_Init,
     (ActorFunc)BgHidanHamstep_Destroy,

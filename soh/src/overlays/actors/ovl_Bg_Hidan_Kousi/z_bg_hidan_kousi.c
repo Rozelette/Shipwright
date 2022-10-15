@@ -27,7 +27,6 @@ const ActorInit Bg_Hidan_Kousi_InitVars = {
     ACTOR_BG_HIDAN_KOUSI,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanKousi),
     (ActorFunc)BgHidanKousi_Init,
     (ActorFunc)BgHidanKousi_Destroy,

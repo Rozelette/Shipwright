@@ -21,7 +21,6 @@ const ActorInit Bg_Bom_Guard_InitVars = {
     ACTOR_BG_BOM_GUARD,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_BOWL,
     sizeof(BgBomGuard),
     (ActorFunc)BgBomGuard_Init,
     (ActorFunc)BgBomGuard_Destroy,

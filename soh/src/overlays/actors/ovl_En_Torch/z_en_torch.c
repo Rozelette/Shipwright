@@ -14,7 +14,6 @@ const ActorInit En_Torch_InitVars = {
     ACTOR_EN_TORCH,
     ACTORCAT_ITEMACTION,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(EnTorch),
     (ActorFunc)EnTorch_Init,
     NULL,

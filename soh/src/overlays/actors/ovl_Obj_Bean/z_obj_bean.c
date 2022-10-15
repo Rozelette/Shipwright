@@ -76,7 +76,6 @@ const ActorInit Obj_Bean_InitVars = {
     ACTOR_OBJ_BEAN,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_MAMENOKI,
     sizeof(ObjBean),
     (ActorFunc)ObjBean_Init,
     (ActorFunc)ObjBean_Destroy,
@@ -341,7 +340,7 @@ void ObjBean_Break(ObjBean* this, GlobalContext* globalCtx) {
             arg5 = 64;
         }
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, gravity, arg5, 40, 3, 0, scale, 0, 0,
-                             (s16)((scale >> 3) + 40), -1, 1, sBreakDlists[i & 1]);
+                             (s16)((scale >> 3) + 40), -1, sBreakDlists[i & 1]);
     }
 }
 

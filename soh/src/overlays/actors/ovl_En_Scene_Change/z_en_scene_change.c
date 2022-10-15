@@ -19,7 +19,6 @@ const ActorInit En_Scene_Change_InitVars = {
     ACTOR_EN_SCENE_CHANGE,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_JJ,
     sizeof(EnSceneChange),
     (ActorFunc)EnSceneChange_Init,
     (ActorFunc)EnSceneChange_Destroy,

@@ -16,7 +16,6 @@ const ActorInit En_Fd_Fire_InitVars = {
     ACTOR_EN_FD_FIRE,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_GAMEPLAY_DANGEON_KEEP,
     sizeof(EnFdFire),
     (ActorFunc)EnFdFire_Init,
     (ActorFunc)EnFdFire_Destroy,

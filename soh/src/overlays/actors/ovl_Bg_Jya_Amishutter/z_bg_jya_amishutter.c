@@ -27,7 +27,6 @@ const ActorInit Bg_Jya_Amishutter_InitVars = {
     ACTOR_BG_JYA_AMISHUTTER,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_JYA_OBJ,
     sizeof(BgJyaAmishutter),
     (ActorFunc)BgJyaAmishutter_Init,
     (ActorFunc)BgJyaAmishutter_Destroy,

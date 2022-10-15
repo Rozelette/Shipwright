@@ -26,7 +26,6 @@ const ActorInit En_Sth_InitVars = {
     ACTOR_EN_STH,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(EnSth),
     (ActorFunc)EnSth_Init,
     (ActorFunc)EnSth_Destroy,

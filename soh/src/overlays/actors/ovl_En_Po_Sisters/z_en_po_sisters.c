@@ -67,7 +67,6 @@ const ActorInit En_Po_Sisters_InitVars = {
     ACTOR_EN_PO_SISTERS,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_PO_SISTERS,
     sizeof(EnPoSisters),
     (ActorFunc)EnPoSisters_Init,
     (ActorFunc)EnPoSisters_Destroy,

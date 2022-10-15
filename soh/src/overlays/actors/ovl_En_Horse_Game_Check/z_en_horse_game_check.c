@@ -52,7 +52,6 @@ const ActorInit En_Horse_Game_Check_InitVars = {
     ACTOR_EN_HORSE_GAME_CHECK,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(EnHorseGameCheck),
     (ActorFunc)EnHorseGameCheck_Init,
     (ActorFunc)EnHorseGameCheck_Destroy,

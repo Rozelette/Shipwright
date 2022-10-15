@@ -34,7 +34,6 @@ const ActorInit En_Dekubaba_InitVars = {
     ACTOR_EN_DEKUBABA,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_DEKUBABA,
     sizeof(EnDekubaba),
     (ActorFunc)EnDekubaba_Init,
     (ActorFunc)EnDekubaba_Destroy,
@@ -536,7 +535,7 @@ void EnDekubaba_Grow(EnDekubaba* this, GlobalContext* globalCtx) {
     this->actor.world.pos.z = this->actor.home.pos.z + headShiftZ;
 
     EffectSsHahen_SpawnBurst(globalCtx, &this->actor.home.pos, this->size * 3.0f, 0, this->size * 12.0f,
-                             this->size * 5.0f, 1, HAHEN_OBJECT_DEFAULT, 10, NULL);
+                             this->size * 5.0f, 1, HAHEN_GRAY_DEFAULT, 10, NULL);
 
     if (this->timer == 0) {
         if (Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) < 240.0f * this->size) {
@@ -597,7 +596,7 @@ void EnDekubaba_Retract(EnDekubaba* this, GlobalContext* globalCtx) {
     this->actor.world.pos.z = this->actor.home.pos.z + zShift;
 
     EffectSsHahen_SpawnBurst(globalCtx, &this->actor.home.pos, this->size * 3.0f, 0, this->size * 12.0f,
-                             this->size * 5.0f, 1, HAHEN_OBJECT_DEFAULT, 0xA, NULL);
+                             this->size * 5.0f, 1, HAHEN_GRAY_DEFAULT, 0xA, NULL);
 
     if (this->timer == 0) {
         EnDekubaba_SetupWait(this);
@@ -951,14 +950,14 @@ void EnDekubaba_PrunedSomersault(EnDekubaba* this, GlobalContext* globalCtx) {
         Math_ScaledStepToS(&this->stemSectionAngle[1], 0x4800, 0x71C);
 
         EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, this->size * 3.0f, 0, this->size * 12.0f,
-                                 this->size * 5.0f, 1, HAHEN_OBJECT_DEFAULT, 10, NULL);
+                                 this->size * 5.0f, 1, HAHEN_GRAY_DEFAULT, 10, NULL);
 
         if ((this->actor.scale.x > 0.005f) && ((this->actor.bgCheckFlags & 2) || (this->actor.bgCheckFlags & 8))) {
             this->actor.scale.x = this->actor.scale.y = this->actor.scale.z = 0.0f;
             this->actor.speedXZ = 0.0f;
             this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
             EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, this->size * 3.0f, 0, this->size * 12.0f,
-                                     this->size * 5.0f, 15, HAHEN_OBJECT_DEFAULT, 10, NULL);
+                                     this->size * 5.0f, 15, HAHEN_GRAY_DEFAULT, 10, NULL);
         }
 
         if (this->actor.bgCheckFlags & 2) {
@@ -1008,7 +1007,7 @@ void EnDekubaba_ShrinkDie(EnDekubaba* this, GlobalContext* globalCtx) {
     this->actor.scale.y = this->actor.scale.z = this->actor.scale.x;
     this->actor.shape.rot.z += 0x1C70;
     EffectSsHahen_SpawnBurst(globalCtx, &this->actor.home.pos, this->size * 3.0f, 0, this->size * 12.0f,
-                             this->size * 5.0f, 1, HAHEN_OBJECT_DEFAULT, 10, NULL);
+                             this->size * 5.0f, 1, HAHEN_GRAY_DEFAULT, 10, NULL);
 }
 
 void EnDekubaba_DeadStickDrop(EnDekubaba* this, GlobalContext* globalCtx) {

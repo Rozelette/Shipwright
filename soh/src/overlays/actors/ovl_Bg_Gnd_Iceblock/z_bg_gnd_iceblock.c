@@ -27,7 +27,6 @@ const ActorInit Bg_Gnd_Iceblock_InitVars = {
     ACTOR_BG_GND_ICEBLOCK,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_DEMO_KEKKAI,
     sizeof(BgGndIceblock),
     (ActorFunc)BgGndIceblock_Init,
     (ActorFunc)BgGndIceblock_Destroy,

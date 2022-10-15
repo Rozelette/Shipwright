@@ -27,7 +27,6 @@ const ActorInit En_Nutsball_InitVars = {
     ACTOR_EN_NUTSBALL,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(EnNutsball),
     (ActorFunc)EnNutsball_Init,
     (ActorFunc)EnNutsball_Destroy,
@@ -54,10 +53,6 @@ static ColliderCylinderInit sCylinderInit = {
         OCELEM_ON,
     },
     { 13, 13, 0, { 0 } },
-};
-
-static s16 sObjectIDs[] = {
-    OBJECT_DEKUNUTS, OBJECT_HINTNUTS, OBJECT_SHOPNUTS, OBJECT_DNS, OBJECT_DNK,
 };
 
 static Gfx* sDListsNew[] = {
@@ -129,7 +124,7 @@ void func_80ABBBA8(EnNutsball* this, GlobalContext* globalCtx) {
         sp40.y = this->actor.world.pos.y + 4;
         sp40.z = this->actor.world.pos.z;
 
-        EffectSsHahen_SpawnBurst(globalCtx, &sp40, 6.0f, 0, 7, 3, 15, HAHEN_OBJECT_DEFAULT, 10, NULL);
+        EffectSsHahen_SpawnBurst(globalCtx, &sp40, 6.0f, 0, 7, 3, 15, HAHEN_GRAY_DEFAULT, 10, NULL);
         SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 20, NA_SE_EN_OCTAROCK_ROCK);
         Actor_Kill(&this->actor);
     } else {

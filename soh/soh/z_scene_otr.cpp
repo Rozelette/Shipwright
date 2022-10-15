@@ -12,7 +12,6 @@
 #include <libultraship/Blob.h>
 
 extern Ship::Resource* OTRGameplay_LoadFile(GlobalContext* globalCtx, const char* fileName);
-extern "C" s32 Object_Spawn(ObjectContext* objectCtx, s16 objectId);
 extern "C" RomFile sNaviMsgFiles[];
 s32 OTRScene_ExecuteCommands(GlobalContext* globalCtx, Ship::Scene* scene);
 
@@ -412,8 +411,6 @@ bool Scene_CommandMeshHeader(GlobalContext* globalCtx, Ship::SceneCommand* cmd)
 
     return false;
 }
-
-extern "C" void* func_800982FC(ObjectContext * objectCtx, s32 bankIndex, s16 objectId);
 
 bool Scene_CommandObjectList(GlobalContext* globalCtx, Ship::SceneCommand* cmd)
 {

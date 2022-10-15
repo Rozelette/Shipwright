@@ -19,7 +19,6 @@ const ActorInit En_Bom_Chu_InitVars = {
     ACTOR_EN_BOM_CHU,
     ACTORCAT_EXPLOSIVE,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(EnBomChu),
     (ActorFunc)EnBomChu_Init,
     (ActorFunc)EnBomChu_Destroy,

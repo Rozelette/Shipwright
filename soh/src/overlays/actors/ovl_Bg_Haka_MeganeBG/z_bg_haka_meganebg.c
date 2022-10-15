@@ -27,7 +27,6 @@ const ActorInit Bg_Haka_MeganeBG_InitVars = {
     ACTOR_BG_HAKA_MEGANEBG,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_HAKA_OBJECTS,
     sizeof(BgHakaMeganeBG),
     (ActorFunc)BgHakaMeganeBG_Init,
     (ActorFunc)BgHakaMeganeBG_Destroy,

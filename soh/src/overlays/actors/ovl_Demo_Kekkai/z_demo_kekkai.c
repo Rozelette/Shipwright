@@ -26,7 +26,6 @@ const ActorInit Demo_Kekkai_InitVars = {
     ACTOR_DEMO_KEKKAI,
     ACTORCAT_ITEMACTION,
     FLAGS,
-    OBJECT_DEMO_KEKKAI,
     sizeof(DemoKekkai),
     (ActorFunc)DemoKekkai_Init,
     (ActorFunc)DemoKekkai_Destroy,

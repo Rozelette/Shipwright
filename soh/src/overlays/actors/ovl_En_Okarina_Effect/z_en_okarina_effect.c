@@ -20,7 +20,6 @@ const ActorInit En_Okarina_Effect_InitVars = {
     ACTOR_EN_OKARINA_EFFECT,
     ACTORCAT_ITEMACTION,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(EnOkarinaEffect),
     (ActorFunc)EnOkarinaEffect_Init,
     (ActorFunc)EnOkarinaEffect_Destroy,

@@ -46,7 +46,6 @@ const ActorInit Bg_Bdan_Switch_InitVars = {
     ACTOR_BG_BDAN_SWITCH,
     ACTORCAT_SWITCH,
     FLAGS,
-    OBJECT_BDAN_OBJECTS,
     sizeof(BgBdanSwitch),
     (ActorFunc)BgBdanSwitch_Init,
     (ActorFunc)BgBdanSwitch_Destroy,

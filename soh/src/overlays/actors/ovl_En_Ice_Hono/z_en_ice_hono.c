@@ -28,7 +28,6 @@ const ActorInit En_Ice_Hono_InitVars = {
     ACTOR_EN_ICE_HONO,
     ACTORCAT_ITEMACTION,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(EnIceHono),
     (ActorFunc)EnIceHono_Init,
     (ActorFunc)EnIceHono_Destroy,

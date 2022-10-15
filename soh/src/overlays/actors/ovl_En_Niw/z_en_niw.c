@@ -42,7 +42,6 @@ const ActorInit En_Niw_InitVars = {
     ACTOR_EN_NIW,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_NIW,
     sizeof(EnNiw),
     (ActorFunc)EnNiw_Init,
     (ActorFunc)EnNiw_Destroy,

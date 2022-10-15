@@ -37,7 +37,6 @@ const ActorInit Door_Warp1_InitVars = {
     ACTOR_DOOR_WARP1,
     ACTORCAT_ITEMACTION,
     FLAGS,
-    OBJECT_WARP1,
     sizeof(DoorWarp1),
     (ActorFunc)DoorWarp1_Init,
     (ActorFunc)DoorWarp1_Destroy,

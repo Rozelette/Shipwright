@@ -33,7 +33,6 @@ const ActorInit Bg_Treemouth_InitVars = {
     ACTOR_BG_TREEMOUTH,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_SPOT04_OBJECTS,
     sizeof(BgTreemouth),
     (ActorFunc)BgTreemouth_Init,
     (ActorFunc)BgTreemouth_Destroy,
@@ -120,7 +119,7 @@ void func_808BC6F8(BgTreemouth* this, GlobalContext* globalCtx) {
         sp34.x = (Rand_ZeroOne() * 1158.0f) + 3407.0f;
         sp34.y = 970.0f;
         sp34.z = (Rand_ZeroOne() * 2026.0f) + -2163.0f;
-        EffectSsHahen_SpawnBurst(globalCtx, &sp34, 0.8f, 0, 50, 30, 1, HAHEN_OBJECT_DEFAULT, 10, NULL);
+        EffectSsHahen_SpawnBurst(globalCtx, &sp34, 0.8f, 0, 50, 30, 1, HAHEN_GRAY_DEFAULT, 10, NULL);
     }
 }
 

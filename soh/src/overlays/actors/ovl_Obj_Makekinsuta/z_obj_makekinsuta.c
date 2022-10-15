@@ -19,7 +19,6 @@ const ActorInit Obj_Makekinsuta_InitVars = {
     ACTOR_OBJ_MAKEKINSUTA,
     ACTORCAT_ITEMACTION,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(ObjMakekinsuta),
     (ActorFunc)ObjMakekinsuta_Init,
     (ActorFunc)Actor_Noop,

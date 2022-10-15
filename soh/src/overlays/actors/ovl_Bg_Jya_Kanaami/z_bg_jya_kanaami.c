@@ -24,7 +24,6 @@ const ActorInit Bg_Jya_Kanaami_InitVars = {
     ACTOR_BG_JYA_KANAAMI,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_JYA_OBJ,
     sizeof(BgJyaKanaami),
     (ActorFunc)BgJyaKanaami_Init,
     (ActorFunc)BgJyaKanaami_Destroy,

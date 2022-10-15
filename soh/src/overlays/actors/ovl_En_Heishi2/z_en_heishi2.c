@@ -54,7 +54,6 @@ const ActorInit En_Heishi2_InitVars = {
     ACTOR_EN_HEISHI2,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_SD,
     sizeof(EnHeishi2),
     (ActorFunc)EnHeishi2_Init,
     (ActorFunc)EnHeishi2_Destroy,
@@ -853,7 +852,6 @@ void EnHeishi2_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         gSPSegment(POLY_OPA_DISP++, 0x0D, mtx);
         gSPDisplayList(POLY_OPA_DISP++, gLinkChildKeatonMaskDL);
-        gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx);

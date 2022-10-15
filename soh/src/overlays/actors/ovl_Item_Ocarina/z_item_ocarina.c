@@ -26,7 +26,6 @@ const ActorInit Item_Ocarina_InitVars = {
     ACTOR_ITEM_OCARINA,
     ACTORCAT_ITEMACTION,
     FLAGS,
-    OBJECT_GI_OCARINA,
     sizeof(ItemOcarina),
     (ActorFunc)ItemOcarina_Init,
     (ActorFunc)ItemOcarina_Destroy,

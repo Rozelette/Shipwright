@@ -37,7 +37,6 @@ const ActorInit En_Diving_Game_InitVars = {
     ACTOR_EN_DIVING_GAME,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_ZO,
     sizeof(EnDivingGame),
     (ActorFunc)EnDivingGame_Init,
     (ActorFunc)EnDivingGame_Destroy,

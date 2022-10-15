@@ -94,7 +94,6 @@ const ActorInit Demo_Im_InitVars = {
     ACTOR_DEMO_IM,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_IM,
     sizeof(DemoIm),
     (ActorFunc)DemoIm_Init,
     (ActorFunc)DemoIm_Destroy,

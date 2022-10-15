@@ -20,7 +20,6 @@ const ActorInit En_Vb_Ball_InitVars = {
     0,
     ACTORCAT_BOSS,
     FLAGS,
-    OBJECT_FD,
     sizeof(EnVbBall),
     (ActorFunc)EnVbBall_Init,
     (ActorFunc)EnVbBall_Destroy,

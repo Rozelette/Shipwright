@@ -18,7 +18,6 @@ const ActorInit Bg_Spot00_Break_InitVars = {
     ACTOR_BG_SPOT00_BREAK,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_SPOT00_BREAK,
     sizeof(BgSpot00Break),
     (ActorFunc)BgSpot00Break_Init,
     (ActorFunc)BgSpot00Break_Destroy,

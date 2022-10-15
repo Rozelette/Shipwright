@@ -102,9 +102,7 @@ extern "C"
 	extern u8 gItemAgeReqs[];
 	extern u8 gItemSlots[56];
 	extern void (*gSceneCmdHandlers[SCENE_CMD_ID_MAX])(GlobalContext*, SceneCmd*);
-	extern s16 gLinkObjectIds[2];
 	extern u32 gObjectTableSize;
-	extern RomFile gObjectTable[OBJECT_ID_MAX];
 	extern EntranceInfo gEntranceTable[1556];
 	extern SceneTableEntry gSceneTable[SCENE_ID_MAX];
 	extern u16 gSramSlotOffsets[];

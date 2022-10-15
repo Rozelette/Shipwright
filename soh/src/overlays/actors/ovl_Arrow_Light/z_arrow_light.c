@@ -25,7 +25,6 @@ const ActorInit Arrow_Light_InitVars = {
     ACTOR_ARROW_LIGHT,
     ACTORCAT_ITEMACTION,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(ArrowLight),
     (ActorFunc)ArrowLight_Init,
     (ActorFunc)ArrowLight_Destroy,

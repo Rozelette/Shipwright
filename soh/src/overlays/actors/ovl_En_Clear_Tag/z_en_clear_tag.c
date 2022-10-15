@@ -28,7 +28,6 @@ const ActorInit En_Clear_Tag_InitVars = {
     ACTOR_EN_CLEAR_TAG,
     ACTORCAT_BOSS,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(EnClearTag),
     (ActorFunc)EnClearTag_Init,
     (ActorFunc)EnClearTag_Destroy,

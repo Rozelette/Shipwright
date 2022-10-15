@@ -29,7 +29,6 @@ const ActorInit En_Tk_InitVars = {
     ACTOR_EN_TK,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_TK,
     sizeof(EnTk),
     (ActorFunc)EnTk_Init,
     (ActorFunc)EnTk_Destroy,

@@ -29,7 +29,6 @@ const ActorInit Obj_Timeblock_InitVars = {
     ACTOR_OBJ_TIMEBLOCK,
     ACTORCAT_ITEMACTION,
     FLAGS,
-    OBJECT_TIMEBLOCK,
     sizeof(ObjTimeblock),
     (ActorFunc)ObjTimeblock_Init,
     (ActorFunc)ObjTimeblock_Destroy,

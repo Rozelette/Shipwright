@@ -20,7 +20,6 @@ const ActorInit En_Js_InitVars = {
     ACTOR_EN_JS,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_JS,
     sizeof(EnJs),
     (ActorFunc)EnJs_Init,
     (ActorFunc)EnJs_Destroy,

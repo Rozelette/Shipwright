@@ -164,7 +164,6 @@ const ActorInit En_Skj_InitVars = {
     ACTOR_EN_SKJ,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_SKJ,
     sizeof(EnSkj),
     (ActorFunc)EnSkj_Init,
     (ActorFunc)EnSkj_Destroy,

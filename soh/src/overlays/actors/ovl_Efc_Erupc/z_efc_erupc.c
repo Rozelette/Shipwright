@@ -19,7 +19,6 @@ const ActorInit Efc_Erupc_InitVars = {
     ACTOR_EFC_ERUPC,
     ACTORCAT_ITEMACTION,
     FLAGS,
-    OBJECT_EFC_ERUPC,
     sizeof(EfcErupc),
     (ActorFunc)EfcErupc_Init,
     (ActorFunc)EfcErupc_Destroy,

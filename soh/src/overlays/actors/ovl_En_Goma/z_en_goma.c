@@ -47,7 +47,6 @@ const ActorInit En_Goma_InitVars = {
     ACTOR_BOSS_GOMA,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_GOL,
     sizeof(EnGoma),
     (ActorFunc)EnGoma_Init,
     (ActorFunc)EnGoma_Destroy,
@@ -291,7 +290,7 @@ void EnGoma_Egg(EnGoma* this, GlobalContext* globalCtx) {
             pos.x = Rand_CenteredFloat(30.0f) + this->actor.world.pos.x;
             pos.y = Rand_ZeroFloat(30.0f) + this->actor.world.pos.y;
             pos.z = Rand_CenteredFloat(30.0f) + this->actor.world.pos.z;
-            EffectSsHahen_Spawn(globalCtx, &pos, &vel, &acc, 0, (s16)(Rand_ZeroOne() * 5.0f) + 10, HAHEN_OBJECT_DEFAULT,
+            EffectSsHahen_Spawn(globalCtx, &pos, &vel, &acc, 0, (s16)(Rand_ZeroOne() * 5.0f) + 10, HAHEN_GRAY_DEFAULT,
                                 10, NULL);
         }
     }

@@ -33,7 +33,6 @@ const ActorInit Bg_Mizu_Water_InitVars = {
     ACTOR_BG_MIZU_WATER,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_MIZU_OBJECTS,
     sizeof(BgMizuWater),
     (ActorFunc)BgMizuWater_Init,
     (ActorFunc)BgMizuWater_Destroy,

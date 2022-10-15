@@ -27,7 +27,6 @@ const ActorInit Bg_Ice_Objects_InitVars = {
     ACTOR_BG_ICE_OBJECTS,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_ICE_OBJECTS,
     sizeof(BgIceObjects),
     (ActorFunc)BgIceObjects_Init,
     (ActorFunc)BgIceObjects_Destroy,

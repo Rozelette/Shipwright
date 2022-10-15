@@ -20,7 +20,6 @@ const ActorInit Bg_Spot01_Idomizu_InitVars = {
     ACTOR_BG_SPOT01_IDOMIZU,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_SPOT01_OBJECTS,
     sizeof(BgSpot01Idomizu),
     (ActorFunc)BgSpot01Idomizu_Init,
     (ActorFunc)BgSpot01Idomizu_Destroy,

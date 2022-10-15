@@ -26,7 +26,6 @@ const ActorInit Bg_Spot08_Iceblock_InitVars = {
     ACTOR_BG_SPOT08_ICEBLOCK,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_SPOT08_OBJ,
     sizeof(BgSpot08Iceblock),
     (ActorFunc)BgSpot08Iceblock_Init,
     (ActorFunc)BgSpot08Iceblock_Destroy,

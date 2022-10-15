@@ -16,7 +16,6 @@ const ActorInit En_M_Fire1_InitVars = {
     ACTOR_EN_M_FIRE1,
     ACTORCAT_MISC,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(EnMFire1),
     (ActorFunc)EnMFire1_Init,
     (ActorFunc)EnMFire1_Destroy,

@@ -21,7 +21,6 @@ const ActorInit Bg_Hidan_Sekizou_InitVars = {
     ACTOR_BG_HIDAN_SEKIZOU,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanSekizou),
     (ActorFunc)BgHidanSekizou_Init,
     (ActorFunc)BgHidanSekizou_Destroy,

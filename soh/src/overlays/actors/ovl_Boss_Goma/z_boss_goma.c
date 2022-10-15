@@ -53,7 +53,6 @@ const ActorInit Boss_Goma_InitVars = {
     ACTOR_BOSS_GOMA,
     ACTORCAT_BOSS,
     FLAGS,
-    OBJECT_GOMA,
     sizeof(BossGoma),
     (ActorFunc)BossGoma_Init,
     (ActorFunc)BossGoma_Destroy,
@@ -615,7 +614,7 @@ void BossGoma_UpdateCeilingMovement(BossGoma* this, GlobalContext* globalCtx, f3
             pos.x = Rand_CenteredFloat(70.0f) + basePos->x;
             pos.y = Rand_ZeroFloat(30.0f) + basePos->y;
             pos.z = Rand_CenteredFloat(70.0f) + basePos->z;
-            EffectSsHahen_Spawn(globalCtx, &pos, &vel, &accel, 0, (s16)(Rand_ZeroOne() * 5.0f) + 10, -1, 10, NULL);
+            EffectSsHahen_Spawn(globalCtx, &pos, &vel, &accel, 0, (s16)(Rand_ZeroOne() * 5.0f) + 10, false, 10, NULL);
         }
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_HIGH);
     }
@@ -1046,7 +1045,7 @@ void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx) {
                 pos.x = Rand_CenteredFloat(20.0f) + this->defeatedLimbPositions[j].x;
                 pos.y = Rand_CenteredFloat(10.0f) + this->defeatedLimbPositions[j].y;
                 pos.z = Rand_CenteredFloat(20.0f) + this->defeatedLimbPositions[j].z;
-                EffectSsHahen_Spawn(globalCtx, &pos, &vel2, &accel2, 0, (s16)(Rand_ZeroOne() * 5.0f) + 10, -1, 10,
+                EffectSsHahen_Spawn(globalCtx, &pos, &vel2, &accel2, 0, (s16)(Rand_ZeroOne() * 5.0f) + 10, false, 10,
                                     NULL);
             }
         }
@@ -2085,7 +2084,6 @@ void BossGoma_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
                                                 sDeadLimbLifetime[limbIndex] + 100);
         if (babyGohma != NULL) {
             babyGohma->bossLimbDL = *dList;
-            babyGohma->actor.objBankIndex = this->actor.objBankIndex;
         }
     }
 

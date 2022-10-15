@@ -199,7 +199,6 @@ const ActorInit En_Bb_InitVars = {
     ACTOR_EN_BB,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_BB,
     sizeof(EnBb),
     (ActorFunc)EnBb_Init,
     (ActorFunc)EnBb_Destroy,

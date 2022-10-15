@@ -23,7 +23,6 @@ const ActorInit Obj_Mure3_InitVars = {
     ACTOR_OBJ_MURE3,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(ObjMure3),
     (ActorFunc)ObjMure3_Init,
     (ActorFunc)ObjMure3_Destroy,

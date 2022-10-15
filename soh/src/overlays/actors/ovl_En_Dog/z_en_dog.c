@@ -25,7 +25,6 @@ const ActorInit En_Dog_InitVars = {
     ACTOR_EN_DOG,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_DOG,
     sizeof(EnDog),
     (ActorFunc)EnDog_Init,
     (ActorFunc)EnDog_Destroy,

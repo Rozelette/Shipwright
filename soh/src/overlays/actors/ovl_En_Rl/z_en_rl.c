@@ -384,7 +384,6 @@ const ActorInit En_Rl_InitVars = {
     ACTOR_EN_RL,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_RL,
     sizeof(EnRl),
     (ActorFunc)EnRl_Init,
     (ActorFunc)EnRl_Destroy,

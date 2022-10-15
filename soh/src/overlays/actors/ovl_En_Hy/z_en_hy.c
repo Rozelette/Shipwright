@@ -36,7 +36,6 @@ const ActorInit En_Hy_InitVars = {
     ACTOR_EN_HY,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(EnHy),
     (ActorFunc)EnHy_Init,
     (ActorFunc)EnHy_Destroy,

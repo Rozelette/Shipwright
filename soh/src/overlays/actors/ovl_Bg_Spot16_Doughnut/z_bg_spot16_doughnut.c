@@ -22,7 +22,6 @@ const ActorInit Bg_Spot16_Doughnut_InitVars = {
     ACTOR_BG_SPOT16_DOUGHNUT,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_EFC_DOUGHNUT,
     sizeof(BgSpot16Doughnut),
     (ActorFunc)BgSpot16Doughnut_Init,
     (ActorFunc)BgSpot16Doughnut_Destroy,

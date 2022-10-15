@@ -38,7 +38,6 @@ const ActorInit En_Firefly_InitVars = {
     ACTOR_EN_FIREFLY,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_FIREFLY,
     sizeof(EnFirefly),
     (ActorFunc)EnFirefly_Init,
     (ActorFunc)EnFirefly_Destroy,

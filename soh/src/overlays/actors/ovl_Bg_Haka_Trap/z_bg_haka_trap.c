@@ -34,7 +34,6 @@ const ActorInit Bg_Haka_Trap_InitVars = {
     ACTOR_BG_HAKA_TRAP,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_HAKA_OBJECTS,
     sizeof(BgHakaTrap),
     (ActorFunc)BgHakaTrap_Init,
     (ActorFunc)BgHakaTrap_Destroy,

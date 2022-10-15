@@ -26,7 +26,6 @@ const ActorInit En_Du_InitVars = {
     ACTOR_EN_DU,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_DU,
     sizeof(EnDu),
     (ActorFunc)EnDu_Init,
     (ActorFunc)EnDu_Destroy,

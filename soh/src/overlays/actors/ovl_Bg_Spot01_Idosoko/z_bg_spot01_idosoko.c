@@ -20,7 +20,6 @@ const ActorInit Bg_Spot01_Idosoko_InitVars = {
     ACTOR_BG_SPOT01_IDOSOKO,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_SPOT01_MATOYA,
     sizeof(BgSpot01Idosoko),
     (ActorFunc)BgSpot01Idosoko_Init,
     (ActorFunc)BgSpot01Idosoko_Destroy,

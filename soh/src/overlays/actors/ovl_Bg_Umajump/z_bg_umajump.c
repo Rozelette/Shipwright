@@ -18,7 +18,6 @@ const ActorInit Bg_Umajump_InitVars = {
     ACTOR_BG_UMAJUMP,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_UMAJUMP,
     sizeof(BgUmaJump),
     (ActorFunc)BgUmaJump_Init,
     (ActorFunc)BgUmaJump_Destroy,

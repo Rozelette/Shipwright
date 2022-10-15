@@ -30,7 +30,6 @@ const ActorInit Bg_Heavy_Block_InitVars = {
     ACTOR_BG_HEAVY_BLOCK,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_HEAVY_OBJECT,
     sizeof(BgHeavyBlock),
     (ActorFunc)BgHeavyBlock_Init,
     (ActorFunc)BgHeavyBlock_Destroy,

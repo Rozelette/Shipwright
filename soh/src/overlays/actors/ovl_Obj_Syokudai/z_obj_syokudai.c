@@ -20,7 +20,6 @@ const ActorInit Obj_Syokudai_InitVars = {
     ACTOR_OBJ_SYOKUDAI,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_SYOKUDAI,
     sizeof(ObjSyokudai),
     (ActorFunc)ObjSyokudai_Init,
     (ActorFunc)ObjSyokudai_Destroy,

@@ -19,7 +19,6 @@ const ActorInit En_Part_InitVars = {
     ACTOR_EN_PART,
     ACTORCAT_ITEMACTION,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(EnPart),
     (ActorFunc)EnPart_Init,
     (ActorFunc)EnPart_Destroy,
@@ -200,7 +199,7 @@ void func_80ACE5C8(EnPart* this, GlobalContext* globalCtx) {
         func_80033480(globalCtx, &this->actor.world.pos, 0.0f, 1, 300, 150, 1);
         velocity.x = Rand_CenteredFloat(16.0f);
         EffectSsHahen_Spawn(globalCtx, &this->actor.world.pos, &velocity, &accel, 20,
-                            (s32)((Rand_ZeroOne() * 5.0f + 12.0f) * 2), -1, 10, NULL);
+                            (s32)((Rand_ZeroOne() * 5.0f + 12.0f) * 2), false, 10, NULL);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_MONBLIN_GNDWAVE - SFX_FLAG);
     }
 }

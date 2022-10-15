@@ -21,7 +21,6 @@ const ActorInit Bg_Ingate_InitVars = {
     ACTOR_BG_INGATE,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_INGATE,
     sizeof(BgInGate),
     (ActorFunc)BgInGate_Init,
     (ActorFunc)BgInGate_Destroy,

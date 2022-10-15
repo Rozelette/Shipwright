@@ -39,7 +39,6 @@ const ActorInit En_Mm2_InitVars = {
     ACTOR_EN_MM2,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_MM,
     sizeof(EnMm2),
     (ActorFunc)EnMm2_Init,
     (ActorFunc)EnMm2_Destroy,

@@ -12,7 +12,6 @@ typedef void (*EnExItemLightFunc)(Actor*, GlobalContext*, s32);
 typedef struct EnExItem {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ EnExItemActionFunc actionFunc;
-    /* 0x0150 */ s16 getItemObjId;
     /* 0x0152 */ s16 type;
     /* 0x0152 */ s16 unusedParam;
     /* 0x0156 */ s16 giDrawId;

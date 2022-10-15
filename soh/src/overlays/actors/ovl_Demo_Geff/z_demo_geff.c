@@ -42,7 +42,6 @@ const ActorInit Demo_Geff_InitVars = {
     ACTOR_DEMO_GEFF,
     ACTORCAT_BOSS,
     FLAGS,
-    OBJECT_GEFF,
     sizeof(DemoGeff),
     (ActorFunc)DemoGeff_Init,
     (ActorFunc)DemoGeff_Destroy,

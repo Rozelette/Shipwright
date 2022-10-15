@@ -114,7 +114,6 @@ const ActorInit Bg_Spot16_Bombstone_InitVars = {
     ACTOR_BG_SPOT16_BOMBSTONE,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_SPOT16_OBJ,
     sizeof(BgSpot16Bombstone),
     (ActorFunc)BgSpot16Bombstone_Init,
     (ActorFunc)BgSpot16Bombstone_Destroy,
@@ -337,7 +336,7 @@ void BgSpot16Bombstone_SpawnFragments(BgSpot16Bombstone* this, GlobalContext* gl
             scale = D_808B6074[index] * this->actor.scale.x * 3;
 
             EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &this->actor.world.pos, -420, 0x31, 0xF, 0xF, 0, scale, 2,
-                                 0x40, 160, KAKERA_COLOR_NONE, OBJECT_BOMBIWA, object_bombiwa_DL_0009E0);
+                                 0x40, 160, KAKERA_COLOR_NONE, object_bombiwa_DL_0009E0);
             index += 1;
         } while (index != ARRAY_COUNT(D_808B6074));
     }

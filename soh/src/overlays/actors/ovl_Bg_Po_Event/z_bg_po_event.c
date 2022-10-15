@@ -33,7 +33,6 @@ const ActorInit Bg_Po_Event_InitVars = {
     ACTOR_BG_PO_EVENT,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_PO_SISTERS,
     sizeof(BgPoEvent),
     (ActorFunc)BgPoEvent_Init,
     (ActorFunc)BgPoEvent_Destroy,

@@ -20,7 +20,6 @@ const ActorInit En_Boom_InitVars = {
     ACTOR_EN_BOOM,
     ACTORCAT_MISC,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(EnBoom),
     (ActorFunc)EnBoom_Init,
     (ActorFunc)EnBoom_Destroy,

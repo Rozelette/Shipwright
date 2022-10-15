@@ -23,7 +23,6 @@ const ActorInit En_Po_Desert_InitVars = {
     ACTOR_EN_PO_DESERT,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_PO_FIELD,
     sizeof(EnPoDesert),
     (ActorFunc)EnPoDesert_Init,
     (ActorFunc)EnPoDesert_Destroy,

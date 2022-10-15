@@ -23,7 +23,6 @@ const ActorInit En_Attack_Niw_InitVars = {
     ACTOR_EN_ATTACK_NIW,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_NIW,
     sizeof(EnAttackNiw),
     (ActorFunc)EnAttackNiw_Init,
     (ActorFunc)EnAttackNiw_Destroy,

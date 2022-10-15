@@ -31,7 +31,6 @@ const ActorInit En_Hintnuts_InitVars = {
     ACTOR_EN_HINTNUTS,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_HINTNUTS,
     sizeof(EnHintnuts),
     (ActorFunc)EnHintnuts_Init,
     (ActorFunc)EnHintnuts_Destroy,

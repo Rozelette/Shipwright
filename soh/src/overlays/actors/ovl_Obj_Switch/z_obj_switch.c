@@ -53,7 +53,6 @@ const ActorInit Obj_Switch_InitVars = {
     ACTOR_OBJ_SWITCH,
     ACTORCAT_SWITCH,
     FLAGS,
-    OBJECT_GAMEPLAY_DANGEON_KEEP,
     sizeof(ObjSwitch),
     (ActorFunc)ObjSwitch_Init,
     (ActorFunc)ObjSwitch_Destroy,

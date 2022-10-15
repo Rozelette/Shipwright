@@ -23,7 +23,6 @@ const ActorInit Bg_Gnd_Soulmeiro_InitVars = {
     ACTOR_BG_GND_SOULMEIRO,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_DEMO_KEKKAI,
     sizeof(BgGndSoulmeiro),
     (ActorFunc)BgGndSoulmeiro_Init,
     (ActorFunc)BgGndSoulmeiro_Destroy,

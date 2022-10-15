@@ -23,7 +23,6 @@ const ActorInit En_Toryo_InitVars = {
     ACTOR_EN_TORYO,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_TORYO,
     sizeof(EnToryo),
     (ActorFunc)EnToryo_Init,
     (ActorFunc)EnToryo_Destroy,

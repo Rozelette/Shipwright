@@ -23,7 +23,6 @@ const ActorInit En_Bird_InitVars = {
     ACTOR_EN_BIRD,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_BIRD,
     sizeof(EnBird),
     (ActorFunc)EnBird_Init,
     (ActorFunc)EnBird_Destroy,

@@ -29,7 +29,6 @@ const ActorInit En_Fw_InitVars = {
     ACTOR_EN_FW,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_FW,
     sizeof(EnFw),
     (ActorFunc)EnFw_Init,
     (ActorFunc)EnFw_Destroy,

@@ -24,7 +24,6 @@ const ActorInit Bg_Mori_Kaitenkabe_InitVars = {
     ACTOR_BG_MORI_KAITENKABE,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_MORI_OBJECTS,
     sizeof(BgMoriKaitenkabe),
     (ActorFunc)BgMoriKaitenkabe_Init,
     (ActorFunc)BgMoriKaitenkabe_Destroy,

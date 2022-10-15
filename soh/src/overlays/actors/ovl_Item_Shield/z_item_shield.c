@@ -42,7 +42,6 @@ const ActorInit Item_Shield_InitVars = {
     ACTOR_ITEM_SHIELD,
     ACTORCAT_ITEMACTION,
     FLAGS,
-    OBJECT_LINK_CHILD,
     sizeof(ItemShield),
     (ActorFunc)ItemShield_Init,
     (ActorFunc)ItemShield_Destroy,

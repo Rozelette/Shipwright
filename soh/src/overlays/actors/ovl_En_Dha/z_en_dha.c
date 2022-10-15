@@ -27,7 +27,6 @@ const ActorInit En_Dha_InitVars = {
     ACTOR_EN_DHA,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_DH,
     sizeof(EnDha),
     (ActorFunc)EnDha_Init,
     (ActorFunc)EnDha_Destroy,

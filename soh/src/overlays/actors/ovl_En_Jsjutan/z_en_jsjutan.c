@@ -18,7 +18,6 @@ const ActorInit En_Jsjutan_InitVars = {
     ACTOR_EN_JSJUTAN,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(EnJsjutan),
     (ActorFunc)EnJsjutan_Init,
     (ActorFunc)EnJsjutan_Destroy,

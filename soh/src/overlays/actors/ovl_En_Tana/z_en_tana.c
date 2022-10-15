@@ -19,7 +19,6 @@ const ActorInit En_Tana_InitVars = {
     ACTOR_EN_TANA,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_SHOP_DUNGEN,
     sizeof(EnTana),
     (ActorFunc)EnTana_Init,
     (ActorFunc)EnTana_Destroy,

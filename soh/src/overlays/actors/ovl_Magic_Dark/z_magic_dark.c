@@ -22,7 +22,6 @@ const ActorInit Magic_Dark_InitVars = {
     ACTOR_MAGIC_DARK,
     ACTORCAT_ITEMACTION,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(MagicDark),
     (ActorFunc)MagicDark_Init,
     (ActorFunc)MagicDark_Destroy,

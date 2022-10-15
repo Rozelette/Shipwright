@@ -31,7 +31,6 @@ const ActorInit Bg_Ganon_Otyuka_InitVars = {
     ACTOR_BG_GANON_OTYUKA,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_GANON,
     sizeof(BgGanonOtyuka),
     (ActorFunc)BgGanonOtyuka_Init,
     (ActorFunc)BgGanonOtyuka_Destroy,

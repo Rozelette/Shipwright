@@ -30,7 +30,6 @@ const ActorInit En_Gm_InitVars = {
     ACTOR_EN_GM,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_OF1D_MAP,
     sizeof(EnGm),
     (ActorFunc)EnGm_Init,
     (ActorFunc)EnGm_Destroy,

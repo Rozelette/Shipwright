@@ -27,7 +27,6 @@ const ActorInit En_Horse_Ganon_InitVars = {
     ACTOR_EN_HORSE_GANON,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_HORSE_GANON,
     sizeof(EnHorseGanon),
     (ActorFunc)EnHorseGanon_Init,
     (ActorFunc)EnHorseGanon_Destroy,

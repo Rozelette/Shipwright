@@ -21,7 +21,6 @@ const ActorInit Bg_Spot05_Soko_InitVars = {
     ACTOR_BG_SPOT05_SOKO,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_SPOT05_OBJECTS,
     sizeof(BgSpot05Soko),
     (ActorFunc)BgSpot05Soko_Init,
     (ActorFunc)BgSpot05Soko_Destroy,

@@ -43,7 +43,6 @@ const ActorInit En_Dnt_Jiji_InitVars = {
     ACTOR_EN_DNT_JIJI,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_DNS,
     sizeof(EnDntJiji),
     (ActorFunc)EnDntJiji_Init,
     (ActorFunc)EnDntJiji_Destroy,
@@ -129,7 +128,7 @@ void EnDntJiji_Wait(EnDntJiji* this, GlobalContext* globalCtx) {
 void EnDntJiji_SetupUp(EnDntJiji* this, GlobalContext* globalCtx) {
     this->endFrame = (f32)Animation_GetLastFrame(&gDntJijiUpAnim);
     Animation_Change(&this->skelAnime, &gDntJijiUpAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
-    EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 6.0f, 0, 15, 5, 20, HAHEN_OBJECT_DEFAULT, 10, NULL);
+    EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 6.0f, 0, 15, 5, 20, HAHEN_GRAY_DEFAULT, 10, NULL);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_UP);
     this->actionFunc = EnDntJiji_Up;
 }
@@ -145,7 +144,7 @@ void EnDntJiji_Up(EnDntJiji* this, GlobalContext* globalCtx) {
 void EnDntJiji_SetupUnburrow(EnDntJiji* this, GlobalContext* globalCtx) {
     this->endFrame = (f32)Animation_GetLastFrame(&gDntJijiUnburrowAnim);
     Animation_Change(&this->skelAnime, &gDntJijiUnburrowAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
-    EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 6.0f, 0, 15, 5, 20, HAHEN_OBJECT_DEFAULT, 10, NULL);
+    EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 6.0f, 0, 15, 5, 20, HAHEN_GRAY_DEFAULT, 10, NULL);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_UP);
     this->actionFunc = EnDntJiji_Unburrow;
 }
@@ -202,7 +201,7 @@ void EnDntJiji_Walk(EnDntJiji* this, GlobalContext* globalCtx) {
 void EnDntJiji_SetupBurrow(EnDntJiji* this, GlobalContext* globalCtx) {
     this->endFrame = (f32)Animation_GetLastFrame(&gDntJijiBurrowAnim);
     Animation_Change(&this->skelAnime, &gDntJijiBurrowAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
-    EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 6.0f, 0, 15, 5, 20, HAHEN_OBJECT_DEFAULT, 10, NULL);
+    EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 6.0f, 0, 15, 5, 20, HAHEN_GRAY_DEFAULT, 10, NULL);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_UP);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_DOWN);
     this->actionFunc = EnDntJiji_Burrow;
@@ -215,7 +214,7 @@ void EnDntJiji_Burrow(EnDntJiji* this, GlobalContext* globalCtx) {
 void EnDntJiji_SetupCower(EnDntJiji* this, GlobalContext* globalCtx) {
     this->endFrame = (f32)Animation_GetLastFrame(&gDntJijiCowerAnim);
     Animation_Change(&this->skelAnime, &gDntJijiCowerAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
-    EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 3.0f, 0, 9, 3, 10, HAHEN_OBJECT_DEFAULT, 10, NULL);
+    EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 3.0f, 0, 9, 3, 10, HAHEN_GRAY_DEFAULT, 10, NULL);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_UP);
 
     if ((CUR_UPG_VALUE(UPG_NUTS) == 1) || (CUR_UPG_VALUE(UPG_NUTS) == 0)) {

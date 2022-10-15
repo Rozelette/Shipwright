@@ -23,7 +23,6 @@ const ActorInit Bg_Mori_Elevator_InitVars = {
     ACTOR_BG_MORI_ELEVATOR,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_MORI_OBJECTS,
     sizeof(BgMoriElevator),
     (ActorFunc)BgMoriElevator_Init,
     (ActorFunc)BgMoriElevator_Destroy,

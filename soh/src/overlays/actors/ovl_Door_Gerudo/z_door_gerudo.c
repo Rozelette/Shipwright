@@ -23,7 +23,6 @@ const ActorInit Door_Gerudo_InitVars = {
     ACTOR_DOOR_GERUDO,
     ACTORCAT_ITEMACTION,
     FLAGS,
-    OBJECT_DOOR_GERUDO,
     sizeof(DoorGerudo),
     (ActorFunc)DoorGerudo_Init,
     (ActorFunc)DoorGerudo_Destroy,

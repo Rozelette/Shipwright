@@ -23,7 +23,6 @@ const ActorInit Bg_Gjyo_Bridge_InitVars = {
     ACTOR_BG_GJYO_BRIDGE,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_GJYO_OBJECTS,
     sizeof(BgGjyoBridge),
     (ActorFunc)BgGjyoBridge_Init,
     (ActorFunc)BgGjyoBridge_Destroy,

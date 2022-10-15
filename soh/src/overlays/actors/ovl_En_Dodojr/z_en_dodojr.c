@@ -35,7 +35,6 @@ const ActorInit En_Dodojr_InitVars = {
     ACTOR_EN_DODOJR,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_DODOJR,
     sizeof(EnDodojr),
     (ActorFunc)EnDodojr_Init,
     (ActorFunc)EnDodojr_Destroy,

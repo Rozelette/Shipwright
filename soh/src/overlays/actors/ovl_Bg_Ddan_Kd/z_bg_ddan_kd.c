@@ -23,7 +23,6 @@ const ActorInit Bg_Ddan_Kd_InitVars = {
     ACTOR_BG_DDAN_KD,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_DDAN_OBJECTS,
     sizeof(BgDdanKd),
     (ActorFunc)BgDdanKd_Init,
     (ActorFunc)BgDdanKd_Destroy,

@@ -24,7 +24,6 @@ const ActorInit Bg_Ydan_Maruta_InitVars = {
     ACTOR_BG_YDAN_MARUTA,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_YDAN_OBJECTS,
     sizeof(BgYdanMaruta),
     (ActorFunc)BgYdanMaruta_Init,
     (ActorFunc)BgYdanMaruta_Destroy,

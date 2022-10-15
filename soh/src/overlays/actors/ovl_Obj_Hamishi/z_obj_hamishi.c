@@ -18,7 +18,6 @@ const ActorInit Obj_Hamishi_InitVars = {
     ACTOR_OBJ_HAMISHI,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_GAMEPLAY_FIELD_KEEP,
     sizeof(ObjHamishi),
     (ActorFunc)ObjHamishi_Init,
     (ActorFunc)ObjHamishi_Destroy,
@@ -128,7 +127,7 @@ void ObjHamishi_Break(ObjHamishi* this, GlobalContext* globalCtx) {
         }
 
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &this->actor.world.pos, gravity, phi_v0, 30, 5, 0,
-                             sEffectScales[i], 3, 0, 70, 1, OBJECT_GAMEPLAY_FIELD_KEEP, gSilverRockFragmentsDL);
+                             sEffectScales[i], 3, 0, 70, 1, gSilverRockFragmentsDL);
     }
 
     func_80033480(globalCtx, &this->actor.world.pos, 140.0f, 6, 180, 90, 1);

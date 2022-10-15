@@ -25,7 +25,6 @@ const ActorInit En_Gs_InitVars = {
     ACTOR_EN_GS,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_GS,
     sizeof(EnGs),
     (ActorFunc)EnGs_Init,
     (ActorFunc)EnGs_Destroy,

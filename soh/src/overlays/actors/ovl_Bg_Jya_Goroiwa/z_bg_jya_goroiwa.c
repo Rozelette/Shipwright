@@ -27,7 +27,6 @@ const ActorInit Bg_Jya_Goroiwa_InitVars = {
     ACTOR_BG_JYA_GOROIWA,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_GOROIWA,
     sizeof(BgJyaGoroiwa),
     (ActorFunc)BgJyaGoroiwa_Init,
     (ActorFunc)BgJyaGoroiwa_Destroy,

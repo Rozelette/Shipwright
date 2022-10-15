@@ -20,7 +20,6 @@ const ActorInit Bg_Mizu_Uzu_InitVars = {
     ACTOR_BG_MIZU_UZU,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_MIZU_OBJECTS,
     sizeof(BgMizuUzu),
     (ActorFunc)BgMizuUzu_Init,
     (ActorFunc)BgMizuUzu_Destroy,

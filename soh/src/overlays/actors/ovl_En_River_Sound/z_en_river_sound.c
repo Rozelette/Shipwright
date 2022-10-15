@@ -17,7 +17,6 @@ const ActorInit En_River_Sound_InitVars = {
     ACTOR_EN_RIVER_SOUND,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(EnRiverSound),
     (ActorFunc)EnRiverSound_Init,
     (ActorFunc)EnRiverSound_Destroy,

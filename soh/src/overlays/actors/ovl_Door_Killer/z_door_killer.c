@@ -33,7 +33,6 @@ const ActorInit Door_Killer_InitVars = {
     ACTOR_DOOR_KILLER,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_DOOR_KILLER,
     sizeof(DoorKiller),
     (ActorFunc)DoorKiller_Init,
     (ActorFunc)DoorKiller_Destroy,
@@ -90,10 +89,10 @@ static ColliderJntSphInit sJntSphInit = {
 };
 
 static DoorKillerTextureEntry sDoorTextures[4] = {
-    { OBJECT_HIDAN_OBJECTS, gFireTempleDoorKillerTex },
-    { OBJECT_MIZU_OBJECTS, object_mizu_objects_Tex_0035C0 },
-    { OBJECT_HAKA_DOOR, object_haka_door_Tex_000000 },
-    { OBJECT_GAMEPLAY_KEEP, gWoodenDoorTex },
+    { gFireTempleDoorKillerTex },
+    { object_mizu_objects_Tex_0035C0 },
+    { object_haka_door_Tex_000000 },
+    { gWoodenDoorTex },
 };
 
 void DoorKiller_Init(Actor* thisx, GlobalContext* globalCtx2) {

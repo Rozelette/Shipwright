@@ -19,7 +19,6 @@ const ActorInit Item_Inbox_InitVars = {
     ACTOR_ITEM_INBOX,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(ItemInbox),
     (ActorFunc)ItemInbox_Init,
     (ActorFunc)ItemInbox_Destroy,

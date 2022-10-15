@@ -81,7 +81,6 @@ const ActorInit En_Ru2_InitVars = {
     ACTOR_EN_RU2,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_RU2,
     sizeof(EnRu2),
     (ActorFunc)EnRu2_Init,
     (ActorFunc)EnRu2_Destroy,

@@ -29,7 +29,6 @@ const ActorInit En_Mag_InitVars = {
     ACTOR_EN_MAG,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_MAG,
     sizeof(EnMag),
     (ActorFunc)EnMag_Init,
     (ActorFunc)EnMag_Destroy,
@@ -694,8 +693,6 @@ void EnMag_DrawInnerMq(Actor* thisx, GlobalContext* globalCtx, Gfx** gfxp) {
     u16 rectLeft;
     u16 rectTop;
 
-    gSPSegment(gfx++, 0x06, globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
-
     func_8009457C(&gfx);
 
     this->effectScroll -= 2;
@@ -883,8 +880,6 @@ void EnMag_DrawInnerVanilla(Actor* thisx, GlobalContext* globalCtx, Gfx** gfxp) 
     u16 i, j, k;
     u16 rectLeft;
     u16 rectTop;
-
-    gSPSegment(gfx++, 0x06, globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
 
     func_8009457C(&gfx);
 

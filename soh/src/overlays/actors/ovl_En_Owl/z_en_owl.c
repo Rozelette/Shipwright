@@ -69,7 +69,6 @@ const ActorInit En_Owl_InitVars = {
     ACTOR_EN_OWL,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_OWL,
     sizeof(EnOwl),
     (ActorFunc)EnOwl_Init,
     (ActorFunc)EnOwl_Destroy,

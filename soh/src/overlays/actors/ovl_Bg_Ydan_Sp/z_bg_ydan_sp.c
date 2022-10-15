@@ -30,7 +30,6 @@ const ActorInit Bg_Ydan_Sp_InitVars = {
     ACTOR_BG_YDAN_SP,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_YDAN_OBJECTS,
     sizeof(BgYdanSp),
     (ActorFunc)BgYdanSp_Init,
     (ActorFunc)BgYdanSp_Destroy,

@@ -20,7 +20,6 @@ const ActorInit Bg_Spot17_Bakudankabe_InitVars = {
     ACTOR_BG_SPOT17_BAKUDANKABE,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_SPOT17_OBJ,
     sizeof(BgSpot17Bakudankabe),
     (ActorFunc)BgSpot17Bakudankabe_Init,
     (ActorFunc)BgSpot17Bakudankabe_Destroy,
@@ -81,7 +80,7 @@ void func_808B6BC0(BgSpot17Bakudankabe* this, GlobalContext* globalCtx) {
             rotationSpeed = 33;
         }
         EffectSsKakera_Spawn(globalCtx, &burstDepthY, &burstDepthX, &burstDepthY, gravityInfluence, rotationSpeed, 0x1E,
-                             4, 0, scale, 1, 3, 80, KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_FIELD_KEEP, gFieldKakeraDL);
+                             4, 0, scale, 1, 3, 80, KAKERA_COLOR_NONE, gFieldKakeraDL);
     }
     Math_Vec3f_Copy(&burstDepthY, &this->dyna.actor.world.pos);
     func_80033480(globalCtx, &burstDepthY, 60.0f, 4, 110, 160, 1);

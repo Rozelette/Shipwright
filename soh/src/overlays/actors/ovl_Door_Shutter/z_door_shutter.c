@@ -51,7 +51,6 @@ const ActorInit Door_Shutter_InitVars = {
     ACTOR_DOOR_SHUTTER,
     ACTORCAT_DOOR,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(DoorShutter),
     (ActorFunc)DoorShutter_Init,
     (ActorFunc)DoorShutter_Destroy,

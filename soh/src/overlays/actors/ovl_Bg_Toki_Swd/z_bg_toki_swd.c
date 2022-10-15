@@ -26,7 +26,6 @@ const ActorInit Bg_Toki_Swd_InitVars = {
     ACTOR_BG_TOKI_SWD,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_TOKI_OBJECTS,
     sizeof(BgTokiSwd),
     (ActorFunc)BgTokiSwd_Init,
     (ActorFunc)BgTokiSwd_Destroy,

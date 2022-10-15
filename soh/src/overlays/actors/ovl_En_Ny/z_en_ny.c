@@ -28,7 +28,6 @@ const ActorInit En_Ny_InitVars = {
     ACTOR_EN_NY,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_NY,
     sizeof(EnNy),
     (ActorFunc)EnNy_Init,
     (ActorFunc)EnNy_Destroy,

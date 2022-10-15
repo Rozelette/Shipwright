@@ -1039,7 +1039,6 @@ const ActorInit Demo_Du_InitVars = {
     ACTOR_DEMO_DU,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_DU,
     sizeof(DemoDu),
     (ActorFunc)DemoDu_Init,
     (ActorFunc)DemoDu_Destroy,

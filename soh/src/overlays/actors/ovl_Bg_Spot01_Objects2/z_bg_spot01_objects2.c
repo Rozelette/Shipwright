@@ -22,7 +22,6 @@ const ActorInit Bg_Spot01_Objects2_InitVars = {
     ACTOR_BG_SPOT01_OBJECTS2,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(BgSpot01Objects2),
     (ActorFunc)BgSpot01Objects2_Init,
     (ActorFunc)BgSpot01Objects2_Destroy,

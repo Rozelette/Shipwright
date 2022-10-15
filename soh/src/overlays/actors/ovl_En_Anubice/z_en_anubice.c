@@ -29,7 +29,6 @@ const ActorInit En_Anubice_InitVars = {
     ACTOR_EN_ANUBICE,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_ANUBICE,
     sizeof(EnAnubice),
     (ActorFunc)EnAnubice_Init,
     (ActorFunc)EnAnubice_Destroy,

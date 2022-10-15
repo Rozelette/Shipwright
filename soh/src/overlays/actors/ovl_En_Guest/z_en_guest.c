@@ -24,7 +24,6 @@ const ActorInit En_Guest_InitVars = {
     ACTOR_EN_GUEST,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_BOJ,
     sizeof(EnGuest),
     (ActorFunc)EnGuest_Init,
     (ActorFunc)EnGuest_Destroy,

@@ -18,7 +18,6 @@ const ActorInit En_Hata_InitVars = {
     ACTOR_EN_HATA,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_HATA,
     sizeof(EnHata),
     (ActorFunc)EnHata_Init,
     (ActorFunc)EnHata_Destroy,

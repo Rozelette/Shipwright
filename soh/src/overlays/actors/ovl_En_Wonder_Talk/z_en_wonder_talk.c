@@ -21,7 +21,6 @@ const ActorInit En_Wonder_Talk_InitVars = {
     ACTOR_EN_WONDER_TALK,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(EnWonderTalk),
     (ActorFunc)EnWonderTalk_Init,
     (ActorFunc)EnWonderTalk_Destroy,

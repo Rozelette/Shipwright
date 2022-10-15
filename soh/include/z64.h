@@ -852,22 +852,6 @@ typedef struct {
 } GameOverContext; // size = 0x2
 
 typedef struct {
-    /* 0x00 */ s16      id;
-    /* 0x04 */ void*    segment;
-    /* 0x08 */ DmaRequest  dmaRequest;
-    /* 0x28 */ OSMesgQueue loadQueue;
-    /* 0x40 */ OSMesg   loadMsg;
-} ObjectStatus; // size = 0x44
-
-typedef struct {
-    /* 0x0000 */ void*  spaceStart;
-    /* 0x0004 */ void*  spaceEnd; // original name: "endSegment"
-    /* 0x0008 */ u8     num; // number of objects in bank
-    /* 0x0009 */ u8     unk_09;
-    /* 0x000C */ ObjectStatus status[OBJECT_EXCHANGE_BANK_MAX];
-} ObjectContext; // size = 0x518
-
-typedef struct {
     /* 0x00 */ Gfx* opa;
     /* 0x04 */ Gfx* xlu;
 
@@ -1261,7 +1245,6 @@ typedef struct GlobalContext {
     /* 0x10A20 */ GameOverContext gameOverCtx;
     /* 0x10A24 */ EnvironmentContext envCtx;
     /* 0x10B20 */ AnimationContext animationCtx;
-    /* 0x117A4 */ ObjectContext objectCtx;
     /* 0x11CBC */ RoomContext roomCtx;
     /* 0x11D34 */ TransitionActorContext transiActorCtx;
     /* 0x11D3C */ void (*playerInit)(Player* player, struct GlobalContext* globalCtx, FlexSkeletonHeader* skelHeader);

@@ -44,7 +44,6 @@ const ActorInit En_Wallmas_InitVars = {
     ACTOR_EN_WALLMAS,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_WALLMASTER,
     sizeof(EnWallmas),
     (ActorFunc)EnWallmas_Init,
     (ActorFunc)EnWallmas_Destroy,

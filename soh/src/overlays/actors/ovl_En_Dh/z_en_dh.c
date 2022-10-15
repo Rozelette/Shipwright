@@ -35,7 +35,6 @@ const ActorInit En_Dh_InitVars = {
     ACTOR_EN_DH,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_DH,
     sizeof(EnDh),
     (ActorFunc)EnDh_Init,
     (ActorFunc)EnDh_Destroy,
@@ -182,7 +181,7 @@ void EnDh_SpawnDebris(GlobalContext* globalCtx, EnDh* this, Vec3f* spawnPos, f32
     accel.z = (Rand_ZeroOne() - 0.5f) * accelXZ;
     vel.y += (Rand_ZeroOne() - 0.5f) * 4.0f;
     scaleMod = (Rand_ZeroOne() * 5.0f) + 12.0f;
-    EffectSsHahen_Spawn(globalCtx, &pos, &vel, &accel, arg4, scaleMod * scale, -1, 10, NULL);
+    EffectSsHahen_Spawn(globalCtx, &pos, &vel, &accel, arg4, scaleMod * scale, false, 10, NULL);
 }
 
 void EnDh_SetupWait(EnDh* this) {

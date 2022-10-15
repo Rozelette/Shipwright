@@ -66,7 +66,6 @@ const ActorInit Demo_Effect_InitVars = {
     ACTOR_DEMO_EFFECT,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(DemoEffect),
     (ActorFunc)DemoEffect_Init,
     (ActorFunc)DemoEffect_Destroy,

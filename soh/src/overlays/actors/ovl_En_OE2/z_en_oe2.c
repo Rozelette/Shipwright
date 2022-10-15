@@ -19,7 +19,6 @@ const ActorInit En_OE2_InitVars = {
     ACTOR_EN_OE2,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_OE2,
     sizeof(EnOE2),
     (ActorFunc)EnOE2_Init,
     (ActorFunc)EnOE2_Destroy,

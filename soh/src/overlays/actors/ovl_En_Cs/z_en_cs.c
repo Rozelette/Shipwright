@@ -19,7 +19,6 @@ const ActorInit En_Cs_InitVars = {
     ACTOR_EN_CS,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_CS,
     sizeof(EnCs),
     (ActorFunc)EnCs_Init,
     (ActorFunc)EnCs_Destroy,
@@ -478,7 +477,6 @@ void EnCs_Draw(Actor* thisx, GlobalContext* globalCtx) {
         mtx = MATRIX_NEWMTX(globalCtx->state.gfxCtx);
         gSPSegment(POLY_OPA_DISP++, 0x0D, mtx - 7);
         gSPDisplayList(POLY_OPA_DISP++, gLinkChildSpookyMaskDL);
-        gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx);

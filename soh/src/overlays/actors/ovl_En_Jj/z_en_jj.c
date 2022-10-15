@@ -32,7 +32,6 @@ const ActorInit En_Jj_InitVars = {
     ACTOR_EN_JJ,
     ACTORCAT_ITEMACTION,
     FLAGS,
-    OBJECT_JJ,
     sizeof(EnJj),
     (ActorFunc)EnJj_Init,
     (ActorFunc)EnJj_Destroy,

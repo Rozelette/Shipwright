@@ -126,7 +126,7 @@ void func_8097DAC8(DemoGt* this, GlobalContext* globalCtx, Vec3f* spawnerPos) {
 
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, spawnerPos, -247, phi_s0, 3, 0, 0,
                              (s32)(Rand_ZeroOne() * 10.0f + 30.0f), 2, 300, (s32)(Rand_ZeroOne() * 0.0f) + 30,
-                             KAKERA_COLOR_NONE, OBJECT_GEFF, gGanonRubbleDL);
+                             KAKERA_COLOR_NONE, gGanonRubbleDL);
         angle += 0x1555;
     }
 }
@@ -167,7 +167,7 @@ void func_8097DD28(DemoGt* this, GlobalContext* globalCtx, Vec3f* spawnerPos) {
 
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, spawnerPos, -247, phi_s0, 3, 0, 0,
                              (s32)((Rand_ZeroOne() * 10.0f) + 30.0f), 2, 300, (s32)(Rand_ZeroOne() * 0.0f) + 0x1E,
-                             KAKERA_COLOR_NONE, OBJECT_GEFF, gGanonRubbleDL);
+                             KAKERA_COLOR_NONE,  gGanonRubbleDL);
 
         angle += 0x2000;
     }
@@ -209,7 +209,7 @@ void func_8097DF70(DemoGt* this, GlobalContext* globalCtx, Vec3f* spawnerPos) {
 
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, spawnerPos, -200, phi_s0, 10, 10, 0,
                              Rand_ZeroOne() * 30.0f + 30.0f, 2, 300, (s32)(Rand_ZeroOne() * 30.0f) + 30,
-                             KAKERA_COLOR_NONE, OBJECT_GEFF, gGanonRubbleDL);
+                             KAKERA_COLOR_NONE, gGanonRubbleDL);
         angle += 0x1555;
     }
 }
@@ -250,7 +250,7 @@ void func_8097E1D4(GlobalContext* globalCtx, Vec3f* arg1, s16 arg2) {
 
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, arg1, -247, phi_s0, 3, 0, 0,
                              (s32)((Rand_ZeroOne() * 10.0f) + 30.0f), 2, 300, (s32)(Rand_ZeroOne() * 0.0f) + 30,
-                             KAKERA_COLOR_NONE, OBJECT_GEFF, gGanonRubbleDL);
+                             KAKERA_COLOR_NONE,  gGanonRubbleDL);
 
         angle += 0x10000;
     }
@@ -1772,7 +1772,6 @@ const ActorInit Demo_Gt_InitVars = {
     ACTOR_DEMO_GT,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_GT,
     sizeof(DemoGt),
     (ActorFunc)DemoGt_Init,
     (ActorFunc)DemoGt_Destroy,

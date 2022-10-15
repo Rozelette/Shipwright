@@ -18,7 +18,6 @@ const ActorInit En_Lightbox_InitVars = {
     ACTOR_EN_LIGHTBOX,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_LIGHTBOX,
     sizeof(EnLightbox),
     (ActorFunc)EnLightbox_Init,
     (ActorFunc)EnLightbox_Destroy,

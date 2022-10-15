@@ -307,7 +307,6 @@ const ActorInit En_Zo_InitVars = {
     ACTOR_EN_ZO,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_ZO,
     sizeof(EnZo),
     (ActorFunc)EnZo_Init,
     (ActorFunc)EnZo_Destroy,

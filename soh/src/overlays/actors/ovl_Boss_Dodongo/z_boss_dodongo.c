@@ -38,7 +38,6 @@ const ActorInit Boss_Dodongo_InitVars = {
     ACTOR_EN_DODONGO,
     ACTORCAT_BOSS,
     FLAGS,
-    OBJECT_KINGDODONGO,
     sizeof(BossDodongo),
     (ActorFunc)BossDodongo_Init,
     (ActorFunc)BossDodongo_Destroy,

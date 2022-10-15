@@ -21,7 +21,6 @@ const ActorInit Bg_Ddan_Jd_InitVars = {
     ACTOR_BG_DDAN_JD,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_DDAN_OBJECTS,
     sizeof(BgDdanJd),
     (ActorFunc)BgDdanJd_Init,
     (ActorFunc)BgDdanJd_Destroy,

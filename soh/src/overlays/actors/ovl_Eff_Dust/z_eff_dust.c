@@ -27,7 +27,6 @@ const ActorInit Eff_Dust_InitVars = {
     ACTOR_EFF_DUST,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(EffDust),
     (ActorFunc)EffDust_Init,
     (ActorFunc)EffDust_Destroy,

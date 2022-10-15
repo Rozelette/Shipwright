@@ -102,7 +102,6 @@ const ActorInit En_Ossan_InitVars = {
     ACTOR_EN_OSSAN,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(EnOssan),
     (ActorFunc)EnOssan_Init,
     (ActorFunc)EnOssan_Destroy,

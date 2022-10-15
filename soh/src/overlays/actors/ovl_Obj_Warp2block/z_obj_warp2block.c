@@ -32,7 +32,6 @@ const ActorInit Obj_Warp2block_InitVars = {
     ACTOR_OBJ_WARP2BLOCK,
     ACTORCAT_ITEMACTION,
     FLAGS,
-    OBJECT_TIMEBLOCK,
     sizeof(ObjWarp2block),
     (ActorFunc)ObjWarp2block_Init,
     (ActorFunc)ObjWarp2block_Destroy,

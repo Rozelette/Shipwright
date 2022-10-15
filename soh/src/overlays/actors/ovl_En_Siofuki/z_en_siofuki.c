@@ -22,7 +22,6 @@ const ActorInit En_Siofuki_InitVars = {
     ACTOR_EN_SIOFUKI,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_SIOFUKI,
     sizeof(EnSiofuki),
     (ActorFunc)EnSiofuki_Init,
     (ActorFunc)EnSiofuki_Destroy,

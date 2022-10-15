@@ -27,7 +27,6 @@ const ActorInit En_Encount2_InitVars = {
     ACTOR_EN_ENCOUNT2,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_EFC_STAR_FIELD,
     sizeof(EnEncount2),
     (ActorFunc)EnEncount2_Init,
     NULL,

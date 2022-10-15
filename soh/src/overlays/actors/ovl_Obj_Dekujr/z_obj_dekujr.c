@@ -20,7 +20,6 @@ const ActorInit Obj_Dekujr_InitVars = {
     ACTOR_OBJ_DEKUJR,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_DEKUJR,
     sizeof(ObjDekujr),
     (ActorFunc)ObjDekujr_Init,
     (ActorFunc)ObjDekujr_Destroy,

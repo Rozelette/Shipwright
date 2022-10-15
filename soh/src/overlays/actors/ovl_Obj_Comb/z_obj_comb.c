@@ -24,7 +24,6 @@ const ActorInit Obj_Comb_InitVars = {
     ACTOR_OBJ_COMB,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_GAMEPLAY_FIELD_KEEP,
     sizeof(ObjComb),
     (ActorFunc)ObjComb_Init,
     (ActorFunc)ObjComb_Destroy,
@@ -119,7 +118,7 @@ void ObjComb_Break(ObjComb* this, GlobalContext* globalCtx) {
         }
 
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, gravity, arg5, arg6, 4, 0, scale, 0, 0, 80,
-                             KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_FIELD_KEEP, dlist);
+                             KAKERA_COLOR_NONE, dlist);
     }
 
     pos.x = this->actor.world.pos.x;

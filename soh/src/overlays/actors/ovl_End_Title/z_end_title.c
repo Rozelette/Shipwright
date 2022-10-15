@@ -18,7 +18,6 @@ const ActorInit End_Title_InitVars = {
     ACTOR_END_TITLE,
     ACTORCAT_ITEMACTION,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(EndTitle),
     (ActorFunc)EndTitle_Init,
     (ActorFunc)EndTitle_Destroy,

@@ -26,7 +26,6 @@ const ActorInit Obj_Kibako_InitVars = {
     ACTOR_OBJ_KIBAKO,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_GAMEPLAY_DANGEON_KEEP,
     sizeof(ObjKibako),
     (ActorFunc)ObjKibako_Init,
     (ActorFunc)ObjKibako_Destroy,
@@ -142,7 +141,7 @@ void ObjKibako_AirBreak(ObjKibako* this, GlobalContext* globalCtx) {
         }
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, breakPos, -200, phi_s0, 10, 10, 0,
                              (Rand_ZeroOne() * 30.0f) + 10.0f, 0, 32, 60, KAKERA_COLOR_NONE,
-                             OBJECT_GAMEPLAY_DANGEON_KEEP, gSmallWoodenBoxFragmentDL);
+                             gSmallWoodenBoxFragmentDL);
     }
     func_80033480(globalCtx, &this->actor.world.pos, 40.0f, 3, 50, 140, 1);
 }
@@ -177,7 +176,7 @@ void ObjKibako_WaterBreak(ObjKibako* this, GlobalContext* globalCtx) {
         phi_s0 = (temp_rand < 0.2f) ? 0x40 : 0x20;
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, breakPos, -180, phi_s0, 30, 30, 0,
                              (Rand_ZeroOne() * 30.0f) + 10.0f, 0, 32, 70, KAKERA_COLOR_NONE,
-                             OBJECT_GAMEPLAY_DANGEON_KEEP, gSmallWoodenBoxFragmentDL);
+                             gSmallWoodenBoxFragmentDL);
     }
 }
 

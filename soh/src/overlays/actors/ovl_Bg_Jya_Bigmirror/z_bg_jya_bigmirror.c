@@ -20,7 +20,6 @@ const ActorInit Bg_Jya_Bigmirror_InitVars = {
     ACTOR_BG_JYA_BIGMIRROR,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_JYA_OBJ,
     sizeof(BgJyaBigmirror),
     (ActorFunc)BgJyaBigmirror_Init,
     (ActorFunc)BgJyaBigmirror_Destroy,

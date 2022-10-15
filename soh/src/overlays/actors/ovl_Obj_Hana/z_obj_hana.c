@@ -18,7 +18,6 @@ const ActorInit Obj_Hana_InitVars = {
     ACTOR_OBJ_HANA,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_GAMEPLAY_FIELD_KEEP,
     sizeof(ObjHana),
     (ActorFunc)ObjHana_Init,
     (ActorFunc)ObjHana_Destroy,

@@ -27,7 +27,6 @@ const ActorInit En_Holl_InitVars = {
     ACTOR_EN_HOLL,
     ACTORCAT_DOOR,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(EnHoll),
     (ActorFunc)EnHoll_Init,
     (ActorFunc)EnHoll_Destroy,

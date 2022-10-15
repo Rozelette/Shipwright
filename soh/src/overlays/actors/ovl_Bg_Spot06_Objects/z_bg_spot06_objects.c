@@ -48,7 +48,6 @@ const ActorInit Bg_Spot06_Objects_InitVars = {
     ACTOR_BG_SPOT06_OBJECTS,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_SPOT06_OBJECTS,
     sizeof(BgSpot06Objects),
     (ActorFunc)BgSpot06Objects_Init,
     (ActorFunc)BgSpot06Objects_Destroy,

@@ -23,7 +23,6 @@ const ActorInit Magic_Wind_InitVars = {
     ACTOR_MAGIC_WIND,
     ACTORCAT_ITEMACTION,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(MagicWind),
     (ActorFunc)MagicWind_Init,
     (ActorFunc)MagicWind_Destroy,

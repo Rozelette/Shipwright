@@ -34,7 +34,6 @@ const ActorInit Bg_Hidan_Rock_InitVars = {
     ACTOR_BG_HIDAN_ROCK,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanRock),
     (ActorFunc)BgHidanRock_Init,
     (ActorFunc)BgHidanRock_Destroy,

@@ -22,7 +22,6 @@ const ActorInit Bg_Gnd_Firemeiro_InitVars = {
     ACTOR_BG_GND_FIREMEIRO,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_DEMO_KEKKAI,
     sizeof(BgGndFiremeiro),
     (ActorFunc)BgGndFiremeiro_Init,
     (ActorFunc)BgGndFiremeiro_Destroy,

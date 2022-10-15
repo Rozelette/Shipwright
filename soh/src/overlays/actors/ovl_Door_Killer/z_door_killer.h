@@ -10,7 +10,6 @@
 */
 
 typedef struct {
-    /* 0x00 */ s16 objectId;
     /* 0x04 */ void* texture;
 } DoorKillerTextureEntry; // size 0x8
 

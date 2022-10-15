@@ -18,7 +18,6 @@ const ActorInit Bg_Gnd_Nisekabe_InitVars = {
     ACTOR_BG_GND_NISEKABE,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_DEMO_KEKKAI,
     sizeof(BgGndNisekabe),
     (ActorFunc)BgGndNisekabe_Init,
     (ActorFunc)BgGndNisekabe_Destroy,

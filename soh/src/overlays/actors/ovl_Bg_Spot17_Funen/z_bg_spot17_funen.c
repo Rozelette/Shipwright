@@ -19,7 +19,6 @@ const ActorInit Bg_Spot17_Funen_InitVars = {
     ACTOR_BG_SPOT17_FUNEN,
     ACTORCAT_SWITCH,
     FLAGS,
-    OBJECT_SPOT17_OBJ,
     sizeof(BgSpot17Funen),
     (ActorFunc)BgSpot17Funen_Init,
     (ActorFunc)BgSpot17Funen_Destroy,

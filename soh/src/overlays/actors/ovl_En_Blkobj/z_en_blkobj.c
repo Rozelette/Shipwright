@@ -23,7 +23,6 @@ const ActorInit En_Blkobj_InitVars = {
     ACTOR_EN_BLKOBJ,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_BLKOBJ,
     sizeof(EnBlkobj),
     (ActorFunc)EnBlkobj_Init,
     (ActorFunc)EnBlkobj_Destroy,

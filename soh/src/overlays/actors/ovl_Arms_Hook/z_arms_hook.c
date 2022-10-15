@@ -15,7 +15,6 @@ const ActorInit Arms_Hook_InitVars = {
     ACTOR_ARMS_HOOK,
     ACTORCAT_ITEMACTION,
     FLAGS,
-    OBJECT_LINK_BOY,
     sizeof(ArmsHook),
     (ActorFunc)ArmsHook_Init,
     (ActorFunc)ArmsHook_Destroy,

@@ -79,7 +79,6 @@ const ActorInit En_Kanban_InitVars = {
     ACTOR_EN_KANBAN,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_KANBAN,
     sizeof(EnKanban),
     (ActorFunc)EnKanban_Init,
     (ActorFunc)EnKanban_Destroy,

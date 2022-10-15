@@ -34,7 +34,6 @@ const ActorInit Bg_Mori_Hineri_InitVars = {
     ACTOR_BG_MORI_HINERI,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(BgMoriHineri),
     (ActorFunc)BgMoriHineri_Init,
     (ActorFunc)BgMoriHineri_Destroy,

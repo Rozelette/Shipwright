@@ -1213,7 +1213,6 @@ const ActorInit Demo_Ec_InitVars = {
     ACTOR_DEMO_EC,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_EC,
     sizeof(DemoEc),
     (ActorFunc)DemoEc_Init,
     (ActorFunc)DemoEc_Destroy,

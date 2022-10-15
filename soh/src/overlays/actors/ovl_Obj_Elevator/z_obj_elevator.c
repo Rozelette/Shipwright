@@ -23,7 +23,6 @@ const ActorInit Obj_Elevator_InitVars = {
     ACTOR_OBJ_ELEVATOR,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_D_ELEVATOR,
     sizeof(ObjElevator),
     (ActorFunc)ObjElevator_Init,
     (ActorFunc)ObjElevator_Destroy,

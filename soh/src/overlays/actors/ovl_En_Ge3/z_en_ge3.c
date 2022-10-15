@@ -22,7 +22,6 @@ const ActorInit En_Ge3_InitVars = {
     ACTOR_EN_GE3,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_GELDB,
     sizeof(EnGe3),
     (ActorFunc)EnGe3_Init,
     (ActorFunc)EnGe3_Destroy,

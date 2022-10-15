@@ -25,7 +25,6 @@ const ActorInit Bg_Hidan_Firewall_InitVars = {
     ACTOR_BG_HIDAN_FIREWALL,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanFirewall),
     (ActorFunc)BgHidanFirewall_Init,
     (ActorFunc)BgHidanFirewall_Destroy,

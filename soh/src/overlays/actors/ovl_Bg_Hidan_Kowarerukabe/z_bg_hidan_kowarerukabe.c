@@ -26,7 +26,6 @@ const ActorInit Bg_Hidan_Kowarerukabe_InitVars = {
     ACTOR_BG_HIDAN_KOWARERUKABE,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanKowarerukabe),
     (ActorFunc)BgHidanKowarerukabe_Init,
     (ActorFunc)BgHidanKowarerukabe_Destroy,
@@ -196,7 +195,7 @@ void BgHidanKowarerukabe_FloorBreak(BgHidanKowarerukabe* this, GlobalContext* gl
             arg5 = (((i == 0) || (i == 4)) && ((j == 0) || (j == 4))) ? 65 : 64;
 
             EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &thisx->world.pos, -550, arg5, 15, 15, 0, arg9, 2, 16, 100,
-                                 KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_DANGEON_KEEP, gBrownFragmentDL);
+                                 KAKERA_COLOR_NONE, gBrownFragmentDL);
         }
     }
 }
@@ -237,7 +236,7 @@ void func_8088A67C(BgHidanKowarerukabe* this, GlobalContext* globalCtx) {
             }
 
             EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &thisx->world.pos, -540, arg5, 20, 20, 0, arg9, 2, 32, 100,
-                                 KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_DANGEON_KEEP, gBrownFragmentDL);
+                                 KAKERA_COLOR_NONE, gBrownFragmentDL);
         }
     }
 }
@@ -278,7 +277,7 @@ void BgHidanKowarerukabe_LargeWallBreak(BgHidanKowarerukabe* this, GlobalContext
             }
 
             EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &thisx->world.pos, -650, arg5, 20, 20, 0, arg9, 2, 32, 100,
-                                 KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_DANGEON_KEEP, gBrownFragmentDL);
+                                 KAKERA_COLOR_NONE, gBrownFragmentDL);
         }
     }
 }

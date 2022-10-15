@@ -22,7 +22,6 @@ const ActorInit En_Dy_Extra_InitVars = {
     ACTOR_EN_DY_EXTRA,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_DY_OBJ,
     sizeof(EnDyExtra),
     (ActorFunc)EnDyExtra_Init,
     (ActorFunc)EnDyExtra_Destroy,

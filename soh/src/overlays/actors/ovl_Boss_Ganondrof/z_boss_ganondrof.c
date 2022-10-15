@@ -73,7 +73,6 @@ const ActorInit Boss_Ganondrof_InitVars = {
     ACTOR_BOSS_GANONDROF,
     ACTORCAT_BOSS,
     FLAGS,
-    OBJECT_GND,
     sizeof(BossGanondrof),
     (ActorFunc)BossGanondrof_Init,
     (ActorFunc)BossGanondrof_Destroy,
@@ -1197,7 +1196,7 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
                                     bodyDecayLevel);
                 if ((Rand_ZeroOne() < 0.5f) || (bodyDecayLevel == 3)) {
                     EffectSsHahen_Spawn(globalCtx, &pos, &vel, &accelHahen, 0, (s16)Rand_ZeroFloat(4.0f) + 7,
-                                        HAHEN_OBJECT_DEFAULT, 10, NULL);
+                                        HAHEN_GRAY_DEFAULT, 10, NULL);
                 }
             }
         } else {

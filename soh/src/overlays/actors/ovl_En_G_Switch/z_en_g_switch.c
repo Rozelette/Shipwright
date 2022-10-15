@@ -70,7 +70,6 @@ const ActorInit En_G_Switch_InitVars = {
     ACTOR_EN_G_SWITCH,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(EnGSwitch),
     (ActorFunc)EnGSwitch_Init,
     (ActorFunc)EnGSwitch_Destroy,
@@ -404,7 +403,7 @@ void EnGSwitch_ArcheryPot(EnGSwitch* this, GlobalContext* globalCtx) {
             scale = 30.0f + Rand_ZeroOne() * 130.0f;
 
             EffectSsKakera_Spawn(globalCtx, &pos, &vel, thisPos, -240, phi_s0, 10, 10, 0, scale, 0, 0x20, 60,
-                                 KAKERA_COLOR_NONE, OBJECT_TSUBO, object_tsubo_DL_001960);
+                                 KAKERA_COLOR_NONE, object_tsubo_DL_001960);
         }
         func_80033480(globalCtx, thisPos, 30.0f, 4, 20, 50, 0);
         SoundSource_PlaySfxAtFixedWorldPos(globalCtx, thisPos, 40, NA_SE_EV_POT_BROKEN);

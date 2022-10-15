@@ -34,7 +34,6 @@ const ActorInit En_Bigokuta_InitVars = {
     ACTOR_EN_BIGOKUTA,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_BIGOKUTA,
     sizeof(EnBigokuta),
     (ActorFunc)EnBigokuta_Init,
     (ActorFunc)EnBigokuta_Destroy,

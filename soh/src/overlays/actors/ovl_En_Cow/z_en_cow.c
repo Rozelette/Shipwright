@@ -31,7 +31,6 @@ const ActorInit En_Cow_InitVars = {
     ACTOR_EN_COW,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_COW,
     sizeof(EnCow),
     (ActorFunc)EnCow_Init,
     (ActorFunc)EnCow_Destroy,

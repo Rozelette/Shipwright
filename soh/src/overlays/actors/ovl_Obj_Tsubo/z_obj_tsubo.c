@@ -40,7 +40,6 @@ const ActorInit Obj_Tsubo_InitVars = {
     ACTOR_OBJ_TSUBO,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(ObjTsubo),
     (ActorFunc)ObjTsubo_Init,
     (ActorFunc)ObjTsubo_Destroy,
@@ -48,8 +47,6 @@ const ActorInit Obj_Tsubo_InitVars = {
     NULL,
     NULL,
 };
-
-static s16 sObjectIds[] = { OBJECT_GAMEPLAY_DANGEON_KEEP, OBJECT_TSUBO };
 
 static Gfx* D_80BA1B84[] = { gPotDL, object_tsubo_DL_0017C0 };
 
@@ -179,7 +176,7 @@ void ObjTsubo_AirBreak(ObjTsubo* this, GlobalContext* globalCtx) {
         }
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &this->actor.world.pos, -240, arg5, 10, 10, 0,
                              (Rand_ZeroOne() * 95.0f) + 15.0f, 0, 32, 60, KAKERA_COLOR_NONE,
-                             sObjectIds[(this->actor.params >> 8) & 1], D_80BA1B8C[(this->actor.params >> 8) & 1]);
+                             D_80BA1B8C[(this->actor.params >> 8) & 1]);
     }
     func_80033480(globalCtx, &this->actor.world.pos, 30.0f, 4, 20, 50, 1);
 }
@@ -208,7 +205,7 @@ void ObjTsubo_WaterBreak(ObjTsubo* this, GlobalContext* globalCtx) {
         phi_s0 = (Rand_ZeroOne() < .2f) ? 64 : 32;
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &this->actor.world.pos, -180, phi_s0, 30, 30, 0,
                              (Rand_ZeroOne() * 95.0f) + 15.0f, 0, 32, 70, KAKERA_COLOR_NONE,
-                             sObjectIds[(this->actor.params >> 8) & 1], D_80BA1B8C[(this->actor.params >> 8) & 1]);
+                             D_80BA1B8C[(this->actor.params >> 8) & 1]);
     }
 }
 

@@ -196,7 +196,7 @@ void DemoGj_Explode(DemoGj* this, GlobalContext* globalCtx, Vec3f* initialPos, V
 
         EffectSsKakera_Spawn(globalCtx, &explosionPos, &velocity, initialPos, -200, phi_s0, 10, 10, 0,
                              Rand_ZeroOne() * 20.0f + 20.0f, 20, 300, (s32)(Rand_ZeroOne() * 30.0f) + 30, -1,
-                             OBJECT_GEFF, gfx);
+                             gfx);
 
         theta += 0x2AAA;
     }
@@ -1449,7 +1449,6 @@ const ActorInit Demo_Gj_InitVars = {
     ACTOR_DEMO_GJ,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_GJ,
     sizeof(DemoGj),
     (ActorFunc)DemoGj_Init,
     (ActorFunc)DemoGj_Destroy,

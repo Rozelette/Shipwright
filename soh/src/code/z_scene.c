@@ -30,13 +30,7 @@ s32 Scene_ExecuteCommands(GlobalContext* globalCtx, SceneCmd* sceneCmd) {
 void Scene_CommandSpawnList(GlobalContext* globalCtx, SceneCmd* cmd) {
     ActorEntry* linkEntry = globalCtx->linkActorEntry = (ActorEntry*)SEGMENTED_TO_VIRTUAL(cmd->spawnList.segment) +
                                                         globalCtx->setupEntranceList[globalCtx->curSpawn].spawn;
-    s16 linkObjectId;
-
     globalCtx->linkAgeOnLoad = ((void)0, gSaveContext.linkAge);
-
-    linkObjectId = gLinkObjectIds[((void)0, gSaveContext.linkAge)];
-
-    gActorOverlayTable[linkEntry->id].initInfo->objectId = linkObjectId;
 }
 
 void Scene_CommandActorList(GlobalContext* globalCtx, SceneCmd* cmd) {
@@ -289,5 +283,3 @@ RomFile sNaviMsgFiles[] = {
     ROM_FILE(text/elf_message_ydan/elf_message_ydan),
     ROM_FILE_UNSET,
 };
-
-s16 gLinkObjectIds[] = { OBJECT_LINK_BOY, OBJECT_LINK_CHILD };

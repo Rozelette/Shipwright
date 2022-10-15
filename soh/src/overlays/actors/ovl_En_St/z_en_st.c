@@ -27,7 +27,6 @@ const ActorInit En_St_InitVars = {
     ACTOR_EN_ST,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_ST,
     sizeof(EnSt),
     (ActorFunc)EnSt_Init,
     (ActorFunc)EnSt_Destroy,

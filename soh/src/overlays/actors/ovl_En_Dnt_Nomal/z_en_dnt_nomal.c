@@ -60,7 +60,6 @@ const ActorInit En_Dnt_Nomal_InitVars = {
     ACTOR_EN_DNT_NOMAL,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(EnDntNomal),
     (ActorFunc)EnDntNomal_Init,
     (ActorFunc)EnDntNomal_Destroy,
@@ -258,7 +257,7 @@ void EnDntNomal_SetupTargetUnburrow(EnDntNomal* this, GlobalContext* globalCtx) 
         Animation_Change(&this->skelAnime, &gHintNutsUnburrowAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
         spawnPos = this->actor.world.pos;
         spawnPos.y = this->actor.world.pos.y + 50.0f;
-        EffectSsHahen_SpawnBurst(globalCtx, &spawnPos, 4.0f, 0, 10, 3, 15, HAHEN_OBJECT_DEFAULT, 10, NULL);
+        EffectSsHahen_SpawnBurst(globalCtx, &spawnPos, 4.0f, 0, 10, 3, 15, HAHEN_GRAY_DEFAULT, 10, NULL);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_UP);
         this->actionFunc = EnDntNomal_TargetUnburrow;
     }
@@ -414,7 +413,7 @@ void EnDntNomal_SetupStageUp(EnDntNomal* this, GlobalContext* globalCtx) {
         if (this->action != DNT_ACTION_ATTACK) {
             this->rotDirection = -1;
         }
-        EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 4.0f, 0, 10, 3, 15, HAHEN_OBJECT_DEFAULT, 10, NULL);
+        EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 4.0f, 0, 10, 3, 15, HAHEN_GRAY_DEFAULT, 10, NULL);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_UP);
         this->isSolid = true;
         this->actionFunc = EnDntNomal_StageUp;
@@ -469,7 +468,7 @@ void EnDntNomal_SetupStageUnburrow(EnDntNomal* this, GlobalContext* globalCtx) {
         this->endFrame = (f32)Animation_GetLastFrame(&gDntStageUnburrowAnim);
         Animation_Change(&this->skelAnime, &gDntStageUnburrowAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
         this->isSolid = false;
-        EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 4.0f, 0, 10, 3, 15, HAHEN_OBJECT_DEFAULT, 10, NULL);
+        EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 4.0f, 0, 10, 3, 15, HAHEN_GRAY_DEFAULT, 10, NULL);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_UP);
         this->actionFunc = EnDntNomal_StageUnburrow;
     }
@@ -589,7 +588,7 @@ void EnDntNomal_StageHide(EnDntNomal* this, GlobalContext* globalCtx) {
 
     SkelAnime_Update(&this->skelAnime);
     if (frame >= this->endFrame) {
-        EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 4.0f, 0, 10, 3, 15, HAHEN_OBJECT_DEFAULT, 10, NULL);
+        EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 4.0f, 0, 10, 3, 15, HAHEN_GRAY_DEFAULT, 10, NULL);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_UP);
         switch (this->action) {
             case DNT_ACTION_NONE:

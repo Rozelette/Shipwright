@@ -36,7 +36,6 @@ const ActorInit En_Ishi_InitVars = {
     ACTOR_EN_ISHI,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_GAMEPLAY_FIELD_KEEP,
     sizeof(EnIshi),
     (ActorFunc)EnIshi_Init,
     (ActorFunc)EnIshi_Destroy,
@@ -165,7 +164,7 @@ void EnIshi_SpawnFragmentsSmall(EnIshi* this, GlobalContext* globalCtx) {
             phi_v0 = 33;
         }
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -420, phi_v0, 30, 5, 0, scales[i], 3, 10, 40,
-                             KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_FIELD_KEEP, gFieldKakeraDL);
+                             KAKERA_COLOR_NONE, gFieldKakeraDL);
     }
 }
 
@@ -211,7 +210,7 @@ void EnIshi_SpawnFragmentsLarge(EnIshi* this, GlobalContext* globalCtx) {
             phi_v1 = -320;
         }
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &this->actor.world.pos, phi_v1, phi_v0, 30, 5, 0, scales[i], 5,
-                             2, 70, KAKERA_COLOR_WHITE, OBJECT_GAMEPLAY_FIELD_KEEP, gSilverRockFragmentsDL);
+                             2, 70, KAKERA_COLOR_WHITE, gSilverRockFragmentsDL);
     }
 }
 

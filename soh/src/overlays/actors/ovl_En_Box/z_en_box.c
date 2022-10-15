@@ -53,7 +53,6 @@ const ActorInit En_Box_InitVars = {
     ACTOR_EN_BOX,
     ACTORCAT_CHEST,
     FLAGS,
-    OBJECT_BOX,
     sizeof(EnBox),
     (ActorFunc)EnBox_Init,
     (ActorFunc)EnBox_Destroy,

@@ -50,7 +50,6 @@ const ActorInit En_Fz_InitVars = {
     ACTOR_EN_FZ,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_FZ,
     sizeof(EnFz),
     (ActorFunc)EnFz_Init,
     (ActorFunc)EnFz_Destroy,

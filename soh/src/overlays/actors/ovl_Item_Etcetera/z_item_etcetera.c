@@ -27,19 +27,12 @@ const ActorInit Item_Etcetera_InitVars = {
     ACTOR_ITEM_ETCETERA,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(ItemEtcetera),
     (ActorFunc)ItemEtcetera_Init,
     (ActorFunc)ItemEtcetera_Destroy,
     (ActorFunc)ItemEtcetera_Update,
     NULL,
     NULL,
-};
-
-static s16 sObjectIds[] = {
-    OBJECT_GI_BOTTLE, OBJECT_GI_BOTTLE_LETTER, OBJECT_GI_SHIELD_2, OBJECT_GI_ARROWCASE, OBJECT_GI_SCALE,
-    OBJECT_GI_SCALE,  OBJECT_GI_KEY,           OBJECT_GI_M_ARROW,  OBJECT_GI_RUPY,      OBJECT_GI_RUPY,
-    OBJECT_GI_RUPY,   OBJECT_GI_RUPY,          OBJECT_GI_HEARTS,   OBJECT_GI_KEY,
 };
 
 // Indexes passed to the item table in z_draw.c

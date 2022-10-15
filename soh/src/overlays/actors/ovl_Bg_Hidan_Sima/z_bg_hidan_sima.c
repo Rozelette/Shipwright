@@ -25,7 +25,6 @@ const ActorInit Bg_Hidan_Sima_InitVars = {
     ACTOR_BG_HIDAN_SIMA,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanSima),
     (ActorFunc)BgHidanSima_Init,
     (ActorFunc)BgHidanSima_Destroy,

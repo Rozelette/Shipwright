@@ -21,7 +21,6 @@ const ActorInit Player_InitVars = {
     ACTOR_PLAYER,
     ACTORCAT_PLAYER,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(Player),
     (ActorFunc)PlayerCall_Init,
     (ActorFunc)PlayerCall_Destroy,

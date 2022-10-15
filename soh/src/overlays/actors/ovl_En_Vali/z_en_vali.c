@@ -33,7 +33,6 @@ const ActorInit En_Vali_InitVars = {
     ACTOR_EN_VALI,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_VALI,
     sizeof(EnVali),
     (ActorFunc)EnVali_Init,
     (ActorFunc)EnVali_Destroy,

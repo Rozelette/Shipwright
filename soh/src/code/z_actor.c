@@ -3221,11 +3221,6 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
     actor->id = actorInit->id;
     actor->flags = actorInit->flags;
 
-    if (actorInit->id == ACTOR_EN_PART) {
-        actor->objBankIndex = rotZ;
-        rotZ = 0;
-    }
-
     actor->init = actorInit->init;
     actor->destroy = actorInit->destroy;
     actor->update = actorInit->update;
@@ -3579,7 +3574,6 @@ void BodyBreak_SetInfo(BodyBreak* bodyBreak, s32 limbIndex, s32 minLimbIndex, s3
 s32 BodyBreak_SpawnParts(Actor* actor, BodyBreak* bodyBreak, GlobalContext* globalCtx, s16 type) {
     EnPart* spawnedEnPart;
     MtxF* mtx;
-    s16 objBankIndex;
 
     if (bodyBreak->val != BODYBREAK_STATUS_READY) {
         return false;
@@ -3590,18 +3584,10 @@ s32 BodyBreak_SpawnParts(Actor* actor, BodyBreak* bodyBreak, GlobalContext* glob
         Matrix_Scale(1.0f / actor->scale.x, 1.0f / actor->scale.y, 1.0f / actor->scale.z, MTXMODE_APPLY);
         Matrix_Get(&bodyBreak->matrices[bodyBreak->count]);
 
-        if (1) {
-            if (bodyBreak->objectIds[bodyBreak->count] >= 0) {
-                objBankIndex = bodyBreak->objectIds[bodyBreak->count];
-            } else {
-                objBankIndex = actor->objBankIndex;
-            }
-        }
-
         mtx = &bodyBreak->matrices[bodyBreak->count];
 
         spawnedEnPart = (EnPart*)Actor_SpawnAsChild(&globalCtx->actorCtx, actor, globalCtx, ACTOR_EN_PART, mtx->xw,
-                                                    mtx->yw, mtx->zw, 0, 0, objBankIndex, type);
+                                                    mtx->yw, mtx->zw, 0, 0, 0, type);
 
         if (spawnedEnPart != NULL) {
             Matrix_MtxFToYXZRotS(&bodyBreak->matrices[bodyBreak->count], &spawnedEnPart->actor.shape.rot, 0);
@@ -4587,7 +4573,7 @@ Actor* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3, 
 
     spawnedEnPart =
         (EnPart*)Actor_SpawnAsChild(&globalCtx->actorCtx, actor, globalCtx, ACTOR_EN_PART, spawnPos->x, spawnPos->y,
-                                    spawnPos->z, spawnRot->x, spawnRot->y, actor->objBankIndex, params);
+                                    spawnPos->z, spawnRot->x, spawnRot->y, 0, params);
     if (spawnedEnPart != NULL) {
         spawnedEnPart->actor.scale = actor->scale;
         spawnedEnPart->actor.speedXZ = arg3[0];

@@ -23,7 +23,6 @@ const ActorInit En_Horse_Link_Child_InitVars = {
     ACTOR_EN_HORSE_LINK_CHILD,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_HORSE_LINK_CHILD,
     sizeof(EnHorseLinkChild),
     (ActorFunc)EnHorseLinkChild_Init,
     (ActorFunc)EnHorseLinkChild_Destroy,

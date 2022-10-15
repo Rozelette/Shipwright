@@ -22,7 +22,6 @@ const ActorInit En_Horse_Zelda_InitVars = {
     ACTOR_EN_HORSE_ZELDA,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_HORSE_ZELDA,
     sizeof(EnHorseZelda),
     (ActorFunc)EnHorseZelda_Init,
     (ActorFunc)EnHorseZelda_Destroy,

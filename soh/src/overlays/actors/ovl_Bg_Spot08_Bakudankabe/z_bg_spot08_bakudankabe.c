@@ -23,7 +23,6 @@ const ActorInit Bg_Spot08_Bakudankabe_InitVars = {
     ACTOR_BG_SPOT08_BAKUDANKABE,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_SPOT08_OBJ,
     sizeof(BgSpot08Bakudankabe),
     (ActorFunc)BgSpot08Bakudankabe_Init,
     (ActorFunc)BgSpot08Bakudankabe_Destroy,
@@ -146,7 +145,7 @@ void func_808B0324(BgSpot08Bakudankabe* this, GlobalContext* globalCtx) {
         }
 
         EffectSsKakera_Spawn(globalCtx, &burstDepthY, &burstDepthX, &burstDepthY, gravityInfluence, rotationSpeed, 0x1E,
-                             4, 0, scale, 1, 3, 80, KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_FIELD_KEEP, gFieldKakeraDL);
+                             4, 0, scale, 1, 3, 80, KAKERA_COLOR_NONE, gFieldKakeraDL);
     }
 
     for (i = 0; i < ARRAY_COUNT(D_808B08AC); i++) {

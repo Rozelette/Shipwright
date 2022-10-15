@@ -32,7 +32,6 @@ const ActorInit En_Ex_Ruppy_InitVars = {
     ACTOR_EN_EX_RUPPY,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(EnExRuppy),
     (ActorFunc)EnExRuppy_Init,
     (ActorFunc)EnExRuppy_Destroy,

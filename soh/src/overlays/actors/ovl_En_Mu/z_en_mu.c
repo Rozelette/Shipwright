@@ -43,7 +43,6 @@ const ActorInit En_Mu_InitVars = {
     ACTOR_EN_MU,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_MU,
     sizeof(EnMu),
     (ActorFunc)EnMu_Init,
     (ActorFunc)EnMu_Destroy,

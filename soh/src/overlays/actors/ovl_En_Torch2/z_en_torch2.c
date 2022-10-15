@@ -56,7 +56,6 @@ const ActorInit En_Torch2_InitVars = {
     ACTOR_EN_TORCH2,
     ACTORCAT_BOSS,
     FLAGS,
-    OBJECT_TORCH2,
     sizeof(Player),
     (ActorFunc)EnTorch2_Init,
     (ActorFunc)EnTorch2_Destroy,

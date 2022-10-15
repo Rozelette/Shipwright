@@ -25,7 +25,6 @@ const ActorInit Bg_Mori_Idomizu_InitVars = {
     ACTOR_BG_MORI_IDOMIZU,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_MORI_OBJECTS,
     sizeof(BgMoriIdomizu),
     (ActorFunc)BgMoriIdomizu_Init,
     (ActorFunc)BgMoriIdomizu_Destroy,

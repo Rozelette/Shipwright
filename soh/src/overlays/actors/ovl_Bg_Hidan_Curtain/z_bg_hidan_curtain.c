@@ -57,7 +57,6 @@ const ActorInit Bg_Hidan_Curtain_InitVars = {
     ACTOR_BG_HIDAN_CURTAIN,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(BgHidanCurtain),
     (ActorFunc)BgHidanCurtain_Init,
     (ActorFunc)BgHidanCurtain_Destroy,

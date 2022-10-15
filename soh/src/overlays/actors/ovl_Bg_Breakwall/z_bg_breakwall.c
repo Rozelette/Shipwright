@@ -30,7 +30,6 @@ const ActorInit Bg_Breakwall_InitVars = {
     ACTOR_BG_BREAKWALL,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(BgBreakwall),
     (ActorFunc)BgBreakwall_Init,
     (ActorFunc)BgBreakwall_Destroy,

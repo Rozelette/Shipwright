@@ -34,7 +34,6 @@ const ActorInit Bg_Spot18_Obj_InitVars = {
     ACTOR_BG_SPOT18_OBJ,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_SPOT18_OBJ,
     sizeof(BgSpot18Obj),
     (ActorFunc)BgSpot18Obj_Init,
     (ActorFunc)BgSpot18Obj_Destroy,

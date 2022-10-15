@@ -31,7 +31,6 @@ const ActorInit En_Gb_InitVars = {
     ACTOR_EN_GB,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_PS,
     sizeof(EnGb),
     (ActorFunc)EnGb_Init,
     (ActorFunc)EnGb_Destroy,

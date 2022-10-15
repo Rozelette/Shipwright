@@ -59,7 +59,6 @@ const ActorInit Bg_Dy_Yoseizo_InitVars = {
     ACTOR_BG_DY_YOSEIZO,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_DY_OBJ,
     sizeof(BgDyYoseizo),
     (ActorFunc)BgDyYoseizo_Init,
     (ActorFunc)BgDyYoseizo_Destroy,

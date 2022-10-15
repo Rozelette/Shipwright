@@ -20,7 +20,6 @@ const ActorInit Oceff_Spot_InitVars = {
     ACTOR_OCEFF_SPOT,
     ACTORCAT_ITEMACTION,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(OceffSpot),
     (ActorFunc)OceffSpot_Init,
     (ActorFunc)OceffSpot_Destroy,

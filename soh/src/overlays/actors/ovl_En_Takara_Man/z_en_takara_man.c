@@ -26,7 +26,6 @@ const ActorInit En_Takara_Man_InitVars = {
     ACTOR_EN_TAKARA_MAN,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_TS,
     sizeof(EnTakaraMan),
     (ActorFunc)EnTakaraMan_Init,
     NULL,

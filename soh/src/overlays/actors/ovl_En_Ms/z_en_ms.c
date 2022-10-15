@@ -24,7 +24,6 @@ const ActorInit En_Ms_InitVars = {
     ACTOR_EN_MS,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_MS,
     sizeof(EnMs),
     (ActorFunc)EnMs_Init,
     (ActorFunc)EnMs_Destroy,

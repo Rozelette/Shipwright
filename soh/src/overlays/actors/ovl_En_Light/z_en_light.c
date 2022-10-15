@@ -20,7 +20,6 @@ const ActorInit En_Light_InitVars = {
     ACTOR_EN_LIGHT,
     ACTORCAT_ITEMACTION,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(EnLight),
     (ActorFunc)EnLight_Init,
     (ActorFunc)EnLight_Destroy,

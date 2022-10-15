@@ -57,7 +57,6 @@ const ActorInit Bg_Haka_Gate_InitVars = {
     ACTOR_BG_HAKA_GATE,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_HAKA_OBJECTS,
     sizeof(BgHakaGate),
     (ActorFunc)BgHakaGate_Init,
     (ActorFunc)BgHakaGate_Destroy,

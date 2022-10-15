@@ -28,7 +28,6 @@ const ActorInit En_Daiku_Kakariko_InitVars = {
     ACTOR_EN_DAIKU_KAKARIKO,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_DAIKU,
     sizeof(EnDaikuKakariko),
     (ActorFunc)EnDaikuKakariko_Init,
     (ActorFunc)EnDaikuKakariko_Destroy,

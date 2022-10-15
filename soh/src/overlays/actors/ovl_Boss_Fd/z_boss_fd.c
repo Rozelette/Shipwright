@@ -50,7 +50,6 @@ const ActorInit Boss_Fd_InitVars = {
     ACTOR_BOSS_FD,
     ACTORCAT_BOSS,
     FLAGS,
-    OBJECT_FD,
     sizeof(BossFd),
     (ActorFunc)BossFd_Init,
     (ActorFunc)BossFd_Destroy,

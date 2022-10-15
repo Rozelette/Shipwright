@@ -19,7 +19,6 @@ const ActorInit Bg_Menkuri_Eye_InitVars = {
     ACTOR_BG_MENKURI_EYE,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_MENKURI_OBJECTS,
     sizeof(BgMenkuriEye),
     (ActorFunc)BgMenkuriEye_Init,
     (ActorFunc)BgMenkuriEye_Destroy,

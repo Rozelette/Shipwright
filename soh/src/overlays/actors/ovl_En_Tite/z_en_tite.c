@@ -78,7 +78,6 @@ const ActorInit En_Tite_InitVars = {
     ACTOR_EN_TITE,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_TITE,
     sizeof(EnTite),
     (ActorFunc)EnTite_Init,
     (ActorFunc)EnTite_Destroy,

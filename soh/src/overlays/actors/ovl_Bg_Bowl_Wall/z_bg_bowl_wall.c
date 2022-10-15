@@ -27,7 +27,6 @@ const ActorInit Bg_Bowl_Wall_InitVars = {
     ACTOR_BG_BOWL_WALL,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_BOWL,
     sizeof(BgBowlWall),
     (ActorFunc)BgBowlWall_Init,
     (ActorFunc)BgBowlWall_Destroy,
@@ -148,7 +147,7 @@ void BgBowlWall_FallDoEffects(BgBowlWall* this, GlobalContext* globalCtx) {
             effectPos.z = Rand_CenteredFloat(400.0f) + this->bullseyeCenter.z;
             EffectSsBomb2_SpawnLayered(globalCtx, &effectPos, &effectVelocity, &effectAccel, 100, 30);
             effectPos.y = -50.0f;
-            EffectSsHahen_SpawnBurst(globalCtx, &effectPos, 10.0f, 0, 50, 15, 3, HAHEN_OBJECT_DEFAULT, 10, NULL);
+            EffectSsHahen_SpawnBurst(globalCtx, &effectPos, 10.0f, 0, 50, 15, 3, HAHEN_GRAY_DEFAULT, 10, NULL);
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_IT_BOMB_EXPLOSION);
         }
         quakeIndex = Quake_Add(GET_ACTIVE_CAM(globalCtx), 1);

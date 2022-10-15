@@ -24,7 +24,6 @@ const ActorInit Shot_Sun_InitVars = {
     ACTOR_SHOT_SUN,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(ShotSun),
     (ActorFunc)ShotSun_Init,
     (ActorFunc)ShotSun_Destroy,

@@ -22,7 +22,6 @@ const ActorInit En_Bdfire_InitVars = {
     0,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_KINGDODONGO,
     sizeof(EnBdfire),
     (ActorFunc)EnBdfire_Init,
     (ActorFunc)EnBdfire_Destroy,

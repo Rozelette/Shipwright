@@ -126,7 +126,6 @@ const ActorInit Boss_Mo_InitVars = {
     ACTOR_BOSS_MO,
     ACTORCAT_BOSS,
     FLAGS,
-    OBJECT_MO,
     sizeof(BossMo),
     (ActorFunc)BossMo_Init,
     (ActorFunc)BossMo_Destroy,

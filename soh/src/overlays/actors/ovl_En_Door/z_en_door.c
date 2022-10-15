@@ -36,7 +36,6 @@ const ActorInit En_Door_InitVars = {
     ACTOR_EN_DOOR,
     ACTORCAT_DOOR,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(EnDoor),
     (ActorFunc)EnDoor_Init,
     (ActorFunc)EnDoor_Destroy,
@@ -49,14 +48,14 @@ const ActorInit En_Door_InitVars = {
  * Controls which object and display lists to use in a given scene
  */
 static EnDoorInfo sDoorInfo[] = {
-    { SCENE_HIDAN, 1, OBJECT_HIDAN_OBJECTS },
-    { SCENE_MIZUSIN, 2, OBJECT_MIZU_OBJECTS },
-    { SCENE_HAKADAN, 3, OBJECT_HAKA_DOOR },
-    { SCENE_HAKADANCH, 3, OBJECT_HAKA_DOOR },
-    { SCENE_BMORI1, 0, OBJECT_GAMEPLAY_KEEP }, // Hacky fix, but behavior same as console.
+    { SCENE_HIDAN, 1 },
+    { SCENE_MIZUSIN, 2 },
+    { SCENE_HAKADAN, 3 },
+    { SCENE_HAKADANCH, 3 },
+    { SCENE_BMORI1, 0 }, // Hacky fix, but behavior same as console.
     // KEEP objects should remain last and in this order
-    { -1, 0, OBJECT_GAMEPLAY_KEEP },
-    { -1, 4, OBJECT_GAMEPLAY_FIELD_KEEP },
+    { -1, 0 },
+    { -1, 4 },
 };
 
 static InitChainEntry sInitChain[] = {

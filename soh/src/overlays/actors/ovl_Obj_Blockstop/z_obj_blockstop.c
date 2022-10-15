@@ -17,7 +17,6 @@ const ActorInit Obj_Blockstop_InitVars = {
     ACTOR_OBJ_BLOCKSTOP,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(ObjBlockstop),
     (ActorFunc)ObjBlockstop_Init,
     (ActorFunc)ObjBlockstop_Destroy,

@@ -18,7 +18,6 @@ const ActorInit En_Ganon_Organ_InitVars = {
     ACTOR_EN_GANON_ORGAN,
     ACTORCAT_BOSS,
     FLAGS,
-    OBJECT_GANON,
     sizeof(EnGanonOrgan),
     (ActorFunc)EnGanonOrgan_Init,
     (ActorFunc)EnGanonOrgan_Destroy,

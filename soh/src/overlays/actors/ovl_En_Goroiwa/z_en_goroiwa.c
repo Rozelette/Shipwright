@@ -46,7 +46,6 @@ const ActorInit En_Goroiwa_InitVars = {
     ACTOR_EN_GOROIWA,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_GOROIWA,
     sizeof(EnGoroiwa),
     (ActorFunc)EnGoroiwa_Init,
     (ActorFunc)EnGoroiwa_Destroy,
@@ -511,7 +510,7 @@ void EnGoroiwa_SpawnFragments(EnGoroiwa* this, GlobalContext* globalCtx) {
         fragmentVelocity.z = effectPos.z * 0.2f;
         Math_Vec3f_Sum(&effectPos, thisPos, &effectPos);
         EffectSsKakera_Spawn(globalCtx, &effectPos, &fragmentVelocity, &effectPos, -340, 33, 28, 2, 0,
-                             Rand_ZeroOne() * 7.0f + 1.0f, 1, 0, 70, KAKERA_COLOR_NONE, 1, gBoulderFragmentsDL);
+                             Rand_ZeroOne() * 7.0f + 1.0f, 1, 0, 70, KAKERA_COLOR_NONE, gBoulderFragmentsDL);
     }
 
     effectPos.x = thisPos->x;

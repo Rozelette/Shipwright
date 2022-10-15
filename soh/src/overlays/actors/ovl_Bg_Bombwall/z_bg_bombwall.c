@@ -73,7 +73,6 @@ const ActorInit Bg_Bombwall_InitVars = {
     ACTOR_BG_BOMBWALL,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_GAMEPLAY_FIELD_KEEP,
     sizeof(BgBombwall),
     (ActorFunc)BgBombwall_Init,
     (ActorFunc)BgBombwall_Destroy,

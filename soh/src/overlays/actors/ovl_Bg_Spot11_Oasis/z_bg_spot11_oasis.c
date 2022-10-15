@@ -24,7 +24,6 @@ const ActorInit Bg_Spot11_Oasis_InitVars = {
     ACTOR_BG_SPOT11_OASIS,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_SPOT11_OBJ,
     sizeof(BgSpot11Oasis),
     (ActorFunc)BgSpot11Oasis_Init,
     (ActorFunc)Actor_Noop,

@@ -39,7 +39,6 @@ const ActorInit En_Eiyer_InitVars = {
     ACTOR_EN_EIYER,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_EI,
     sizeof(EnEiyer),
     (ActorFunc)EnEiyer_Init,
     (ActorFunc)EnEiyer_Destroy,

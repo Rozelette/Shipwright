@@ -129,7 +129,6 @@ const ActorInit En_Test_InitVars = {
     ACTOR_EN_TEST,
     ACTORCAT_ENEMY,
     FLAGS,
-    OBJECT_SK2,
     sizeof(EnTest),
     (ActorFunc)EnTest_Init,
     (ActorFunc)EnTest_Destroy,

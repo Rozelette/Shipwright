@@ -46,7 +46,6 @@ const ActorInit En_Syateki_Man_InitVars = {
     ACTOR_EN_SYATEKI_MAN,
     ACTORCAT_NPC,
     FLAGS,
-    OBJECT_OSSAN,
     sizeof(EnSyatekiMan),
     (ActorFunc)EnSyatekiMan_Init,
     (ActorFunc)EnSyatekiMan_Destroy,

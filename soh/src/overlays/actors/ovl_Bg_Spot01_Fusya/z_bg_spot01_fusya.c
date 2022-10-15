@@ -20,7 +20,6 @@ const ActorInit Bg_Spot01_Fusya_InitVars = {
     ACTOR_BG_SPOT01_FUSYA,
     ACTORCAT_BG,
     FLAGS,
-    OBJECT_SPOT01_OBJECTS,
     sizeof(BgSpot01Fusya),
     (ActorFunc)BgSpot01Fusya_Init,
     (ActorFunc)BgSpot01Fusya_Destroy,

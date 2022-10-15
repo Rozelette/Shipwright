@@ -21,7 +21,6 @@ const ActorInit En_Anubice_Tag_InitVars = {
     ACTOR_EN_ANUBICE_TAG,
     ACTORCAT_SWITCH,
     FLAGS,
-    OBJECT_GAMEPLAY_KEEP,
     sizeof(EnAnubiceTag),
     (ActorFunc)EnAnubiceTag_Init,
     (ActorFunc)EnAnubiceTag_Destroy,

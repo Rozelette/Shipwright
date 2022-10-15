@@ -22,7 +22,6 @@ const ActorInit Door_Ana_InitVars = {
     ACTOR_DOOR_ANA,
     ACTORCAT_ITEMACTION,
     FLAGS,
-    OBJECT_GAMEPLAY_FIELD_KEEP,
     sizeof(DoorAna),
     (ActorFunc)DoorAna_Init,
     (ActorFunc)DoorAna_Destroy,

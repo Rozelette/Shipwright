@@ -20,7 +20,6 @@ const ActorInit Bg_Mizu_Shutter_InitVars = {
     ACTOR_BG_MIZU_SHUTTER,
     ACTORCAT_PROP,
     FLAGS,
-    OBJECT_MIZU_OBJECTS,
     sizeof(BgMizuShutter),
     (ActorFunc)BgMizuShutter_Init,
     (ActorFunc)BgMizuShutter_Destroy,
