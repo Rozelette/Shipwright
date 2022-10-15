@@ -9,7 +9,6 @@
 #include "z64actor.h"
 #include "z64player.h"
 #include "z64audio.h"
-#include "z64object.h"
 #include "z64camera.h"
 #include "z64environment.h"
 #include "z64cutscene.h"

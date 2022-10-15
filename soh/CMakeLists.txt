@@ -144,7 +144,6 @@ set(Header_Files__include
     "include/z64light.h"
     "include/z64map_mark.h"
     "include/z64math.h"
-    "include/z64object.h"
     "include/z64player.h"
     "include/z64save.h"
     "include/z64scene.h"
