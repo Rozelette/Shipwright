@@ -10861,14 +10861,27 @@ void Player_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (func_8084FCAC(this, globalCtx)) {
         if (gSaveContext.dogParams < 0) {
-            gSaveContext.dogParams &= 0x7FFF;
-            func_808395DC(this, &this->actor.world.pos, &D_80854838, &sDogSpawnPos);
-            dogParams = gSaveContext.dogParams;
+            u32 dogInArea = (globalCtx->sceneNum == SCENE_TAKARAYA) || (globalCtx->sceneNum == SCENE_ENTRA) ||
+                            (globalCtx->sceneNum == SCENE_ENTRA_N) || (globalCtx->sceneNum == SCENE_MARKET_ALLEY) ||
+                            (globalCtx->sceneNum == SCENE_MARKET_ALLEY_N) ||
+                            (globalCtx->sceneNum == SCENE_MARKET_DAY) || (globalCtx->sceneNum == SCENE_MARKET_NIGHT) ||
+                            (globalCtx->sceneNum == SCENE_SHRINE) || (globalCtx->sceneNum == SCENE_SHRINE_N) ||
+                            (globalCtx->sceneNum == SCENE_KAKARIKO3) || (globalCtx->sceneNum == SCENE_SHOP1) ||
+                            (globalCtx->sceneNum == SCENE_ALLEY_SHOP) || (globalCtx->sceneNum == SCENE_FACE_SHOP) ||
+                            (globalCtx->sceneNum == SCENE_IMPA) || (globalCtx->sceneNum == SCENE_SYATEKIJYOU) ||
+                            (globalCtx->sceneNum == SCENE_BOWLING) || (globalCtx->sceneNum == SCENE_MIHARIGOYA);
+            if (!dogInArea) {
+                gSaveContext.dogParams = 0;
+            } else {
+                gSaveContext.dogParams &= 0x7FFF;
+                func_808395DC(this, &this->actor.world.pos, &D_80854838, &sDogSpawnPos);
+                dogParams = gSaveContext.dogParams;
 
-            dog = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_DOG, sDogSpawnPos.x, sDogSpawnPos.y,
-                                sDogSpawnPos.z, 0, this->actor.shape.rot.y, 0, dogParams | 0x8000);
-            if (dog != NULL) {
-                dog->room = 0;
+                dog = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_DOG, sDogSpawnPos.x, sDogSpawnPos.y,
+                                  sDogSpawnPos.z, 0, this->actor.shape.rot.y, 0, dogParams | 0x8000);
+                if (dog != NULL) {
+                    dog->room = 0;
+                }
             }
         }
 
