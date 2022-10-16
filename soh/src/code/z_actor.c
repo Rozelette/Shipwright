@@ -3107,8 +3107,6 @@ void Actor_FreeOverlay(ActorOverlay* actorOverlay) {
     osSyncPrintf(VT_RST);
 }
 
-int gMapLoading = 0;
-
 Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId, f32 posX, f32 posY, f32 posZ,
                    s16 rotX, s16 rotY, s16 rotZ, s16 params) {
     s32 pad;
@@ -3290,10 +3288,8 @@ void Actor_SpawnTransitionActors(GlobalContext* globalCtx, ActorContext* actorCt
 }
 
 Actor* Actor_SpawnEntry(ActorContext* actorCtx, ActorEntry* actorEntry, GlobalContext* globalCtx) {
-    gMapLoading = 1;
     Actor* ret = Actor_Spawn(actorCtx, globalCtx, actorEntry->id, actorEntry->pos.x, actorEntry->pos.y, actorEntry->pos.z,
                        actorEntry->rot.x, actorEntry->rot.y, actorEntry->rot.z, actorEntry->params);
-    gMapLoading = 0;
 
     return ret;
 }
