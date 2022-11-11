@@ -1045,6 +1045,7 @@ void AnimationContext_MoveActor(GlobalContext* globalCtx, AnimationEntryData* da
     Actor* actor = entry->actor;
     Vec3f diff;
 
+    // TODO interpolate?
     SkelAnime_UpdateTranslation(entry->skelAnime, &diff, actor->shape.rot.y);
     actor->world.pos.x += diff.x * actor->scale.x;
     actor->world.pos.y += diff.y * actor->scale.y * entry->unk_08;
@@ -1150,7 +1151,7 @@ s32 LinkAnimation_Update(GlobalContext* globalCtx, SkelAnime* skelAnime) {
  */
 s32 LinkAnimation_Morph(GlobalContext* globalCtx, SkelAnime* skelAnime) {
     f32 prevMorphWeight = skelAnime->morphWeight;
-    f32 updateRate = R_UPDATE_RATE * 0.5f;
+    f32 updateRate = R_UPDATE_RATE * 0.5f * FPS_ADJUSTMENT;
 
     skelAnime->morphWeight -= skelAnime->morphRate * updateRate;
 
@@ -1171,7 +1172,7 @@ void LinkAnimation_AnimateFrame(GlobalContext* globalCtx, SkelAnime* skelAnime) 
     AnimationContext_SetLoadFrame(globalCtx, skelAnime->animation, skelAnime->curFrame, skelAnime->limbCount,
                                   skelAnime->jointTable);
     if (skelAnime->morphWeight != 0) {
-        f32 updateRate = R_UPDATE_RATE * 0.5f;
+        f32 updateRate = R_UPDATE_RATE * 0.5f * FPS_ADJUSTMENT;
 
         skelAnime->morphWeight -= skelAnime->morphRate * updateRate;
         if (skelAnime->morphWeight <= 0.0f) {
@@ -1187,7 +1188,7 @@ void LinkAnimation_AnimateFrame(GlobalContext* globalCtx, SkelAnime* skelAnime) 
  * Advances a Link animation that loops over its full length
  */
 s32 LinkAnimation_Loop(GlobalContext* globalCtx, SkelAnime* skelAnime) {
-    f32 updateRate = R_UPDATE_RATE * 0.5f;
+    f32 updateRate = R_UPDATE_RATE * 0.5f * FPS_ADJUSTMENT;
 
     skelAnime->curFrame += skelAnime->playSpeed * updateRate;
     if (skelAnime->curFrame < 0.0f) {
@@ -1203,7 +1204,7 @@ s32 LinkAnimation_Loop(GlobalContext* globalCtx, SkelAnime* skelAnime) {
  * Advances a Link animation that stops at endFrame and returns true when it is reached.
  */
 s32 LinkAnimation_Once(GlobalContext* globalCtx, SkelAnime* skelAnime) {
-    f32 updateRate = R_UPDATE_RATE * 0.5f;
+    f32 updateRate = R_UPDATE_RATE * 0.5f * FPS_ADJUSTMENT;
 
     if (skelAnime->curFrame == skelAnime->endFrame) {
         LinkAnimation_AnimateFrame(globalCtx, skelAnime);
@@ -1418,7 +1419,7 @@ s32 Animation_OnFrameImpl(SkelAnime* skelAnime, f32 frame, f32 updateRate) {
  * Checks if the current Link animation has reached the specified frame
  */
 s32 LinkAnimation_OnFrame(SkelAnime* skelAnime, f32 frame) {
-    f32 updateRate = R_UPDATE_RATE * 0.5f;
+    f32 updateRate = R_UPDATE_RATE * 0.5f * FPS_ADJUSTMENT;
 
     return Animation_OnFrameImpl(skelAnime, frame, updateRate);
 }
@@ -1547,7 +1548,7 @@ s32 SkelAnime_Update(SkelAnime* skelAnime) {
  */
 s32 SkelAnime_Morph(SkelAnime* skelAnime) {
     f32 prevMorphWeight = skelAnime->morphWeight;
-    f32 updateRate = R_UPDATE_RATE * (1.0f / 3.0f);
+    f32 updateRate = R_UPDATE_RATE * (1.0f / 3.0f) * FPS_ADJUSTMENT;
 
     skelAnime->morphWeight -= skelAnime->morphRate * updateRate;
     if (skelAnime->morphWeight <= 0.0f) {
@@ -1568,7 +1569,7 @@ s32 SkelAnime_MorphTaper(SkelAnime* skelAnime) {
     s16 curPhase;
     f32 prevWeight;
     f32 curWeight;
-    f32 updateRate = R_UPDATE_RATE * (1.0f / 3.0f);
+    f32 updateRate = R_UPDATE_RATE * (1.0f / 3.0f) * FPS_ADJUSTMENT;
 
     skelAnime->morphWeight -= skelAnime->morphRate * updateRate;
     if (skelAnime->morphWeight <= 0.0f) {
@@ -1628,7 +1629,7 @@ void SkelAnime_AnimateFrame(SkelAnime* skelAnime) {
  * Advances an animation that loops over its full length and updates the frame tables
  */
 s32 SkelAnime_LoopFull(SkelAnime* skelAnime) {
-    f32 updateRate = R_UPDATE_RATE * (1.0f / 3.0f);
+    f32 updateRate = R_UPDATE_RATE * (1.0f / 3.0f) * FPS_ADJUSTMENT;
 
     skelAnime->curFrame += skelAnime->playSpeed * updateRate;
     if (skelAnime->curFrame < 0.0f) {
@@ -1644,7 +1645,7 @@ s32 SkelAnime_LoopFull(SkelAnime* skelAnime) {
  * Advances an animation that loops over part of its length and updates the frame tables
  */
 s32 SkelAnime_LoopPartial(SkelAnime* skelAnime) {
-    f32 updateRate = R_UPDATE_RATE * (1.0f / 3.0f);
+    f32 updateRate = R_UPDATE_RATE * (1.0f / 3.0f) * FPS_ADJUSTMENT;
 
     skelAnime->curFrame += skelAnime->playSpeed * updateRate;
     if (skelAnime->curFrame < skelAnime->startFrame) {
@@ -1661,7 +1662,7 @@ s32 SkelAnime_LoopPartial(SkelAnime* skelAnime) {
  * Advances an animation that stops at endFrame and returns true when it is reached.
  */
 s32 SkelAnime_Once(SkelAnime* skelAnime) {
-    f32 updateRate = R_UPDATE_RATE * (1.0f / 3.0f);
+    f32 updateRate = R_UPDATE_RATE * (1.0f / 3.0f) * FPS_ADJUSTMENT;
 
     if (skelAnime->curFrame == skelAnime->endFrame) {
         SkelAnime_GetFrameData(skelAnime->animation, (s32)skelAnime->curFrame, skelAnime->limbCount,

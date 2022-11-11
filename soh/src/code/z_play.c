@@ -751,7 +751,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                         gSaveContext.entranceIndex = globalCtx->nextEntranceIndex;
                         globalCtx->sceneLoadFlag = 0;
                         globalCtx->transitionMode = 0;
-                    } else {
+                    } else if (gIsLogicFrame) {
                         D_801614C8++;
                     }
                     break;
@@ -764,7 +764,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                         globalCtx->sceneLoadFlag = 0;
                         globalCtx->transitionMode = 0;
                         globalCtx->envCtx.fillScreen = false;
-                    } else {
+                    } else if (gIsLogicFrame) {
                         D_801614C8++;
                     }
                     break;
@@ -929,11 +929,15 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     LOG_NUM("1", 1);
                 }
 
-                globalCtx->gameplayFrames++;
+                if (gIsLogicFrame) {
+                    globalCtx->gameplayFrames++; // TODO float
+                }
 
                 func_800AA178(1);
 
-                if (globalCtx->actorCtx.freezeFlashTimer && (globalCtx->actorCtx.freezeFlashTimer-- < 5)) {
+                if (globalCtx->actorCtx.freezeFlashTimer &&
+                    ((gIsLogicFrame ? globalCtx->actorCtx.freezeFlashTimer-- : globalCtx->actorCtx.freezeFlashTimer) <
+                     5)) {
                     osSyncPrintf("FINISH=%d\n", globalCtx->actorCtx.freezeFlashTimer);
                     if ((globalCtx->actorCtx.freezeFlashTimer > 0) &&
                         ((globalCtx->actorCtx.freezeFlashTimer % 2) != 0)) {
@@ -980,32 +984,42 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     }
 
                     if (globalCtx->unk_11DE9 == 0) {
-                        Actor_UpdateAll(globalCtx, &globalCtx->actorCtx);
+                        //if (gIsLogicFrame) {
+                            Actor_UpdateAll(globalCtx, &globalCtx->actorCtx); // TODO
+                        //}
                     }
 
                     if (1 && HREG(63)) {
                         LOG_NUM("1", 1);
                     }
 
-                    func_80064558(globalCtx, &globalCtx->csCtx);
+                    if (gIsLogicFrame) {
+                        func_80064558(globalCtx, &globalCtx->csCtx); // TODO
+                    }
 
                     if (1 && HREG(63)) {
                         LOG_NUM("1", 1);
                     }
 
-                    func_800645A0(globalCtx, &globalCtx->csCtx);
+                    if (gIsLogicFrame) {
+                        func_800645A0(globalCtx, &globalCtx->csCtx); // TODO
+                    }
 
                     if (1 && HREG(63)) {
                         LOG_NUM("1", 1);
                     }
 
-                    Effect_UpdateAll(globalCtx);
+                    if (gIsLogicFrame) {
+                        Effect_UpdateAll(globalCtx); // TODO
+                    }
 
                     if (1 && HREG(63)) {
                         LOG_NUM("1", 1);
                     }
 
-                    EffectSs_UpdateAll(globalCtx);
+                    if (gIsLogicFrame) {
+                        EffectSs_UpdateAll(globalCtx); // TODO
+                    }
 
                     if (1 && HREG(63)) {
                         LOG_NUM("1", 1);
@@ -1075,7 +1089,9 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     LOG_NUM("1", 1);
                 }
 
-                Message_Update(globalCtx);
+                if (gIsLogicFrame) {
+                    Message_Update(globalCtx); // TODO
+                }
             }
 
             if (1 && HREG(63)) {
@@ -1086,7 +1102,9 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 LOG_NUM("1", 1);
             }
 
-            Interface_Update(globalCtx);
+            if (gIsLogicFrame) {
+                Interface_Update(globalCtx); // TODO
+            }
 
             if (1 && HREG(63)) {
                 LOG_NUM("1", 1);
@@ -1104,13 +1122,17 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 LOG_NUM("1", 1);
             }
 
-            ShrinkWindow_Update(R_UPDATE_RATE);
+            if (gIsLogicFrame) {
+                ShrinkWindow_Update(R_UPDATE_RATE); // TODO
+            }
 
             if (1 && HREG(63)) {
                 LOG_NUM("1", 1);
             }
 
-            TransitionFade_Update(&globalCtx->transitionFade, R_UPDATE_RATE);
+            if (gIsLogicFrame) {
+                TransitionFade_Update(&globalCtx->transitionFade, R_UPDATE_RATE); // TODO
+            }
         } else {
             goto skip;
         }
@@ -1156,8 +1178,11 @@ skip:
         LOG_NUM("1", 1);
     }
 
-    Environment_Update(globalCtx, &globalCtx->envCtx, &globalCtx->lightCtx, &globalCtx->pauseCtx, &globalCtx->msgCtx,
-                       &globalCtx->gameOverCtx, globalCtx->state.gfxCtx);
+    if (gIsLogicFrame) {
+        // TODO
+        Environment_Update(globalCtx, &globalCtx->envCtx, &globalCtx->lightCtx, &globalCtx->pauseCtx,
+                           &globalCtx->msgCtx, &globalCtx->gameOverCtx, globalCtx->state.gfxCtx);
+    }
 
     if (gSaveContext.n64ddFlag) {
         GivePlayerRandoRewardSariaGift(globalCtx, RC_LW_GIFT_FROM_SARIA);

@@ -277,7 +277,9 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
 
     CLOSE_DISPS(gfxCtx);
 
-    GameState_ReqPadData(gameState);
+    if (gIsLogicFrame) {
+        GameState_ReqPadData(gameState); // TODO
+    }
     GameState_Update(gameState);
     Debug_Draw();
 

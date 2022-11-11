@@ -562,6 +562,8 @@ void RunCommands(Gfx* Commands, const std::vector<std::unordered_map<Mtx*, MtxF>
     }
 }
 
+int gIsLogicFrame = true;
+
 // C->C++ Bridge
 extern "C" void Graph_ProcessGfxCommands(Gfx* commands) {
     {
@@ -569,14 +571,35 @@ extern "C" void Graph_ProcessGfxCommands(Gfx* commands) {
         audio.processing = true;
     }
 
-    audio.cv_to_thread.notify_one();
+    bool doingAudio = gIsLogicFrame;
+    if (doingAudio) {
+        audio.cv_to_thread.notify_one();
+    }
+
     std::vector<std::unordered_map<Mtx*, MtxF>> mtx_replacements;
     int target_fps = CVar_GetS32("gInterpolationFPS", 20);
     static int last_fps;
     static int last_update_rate;
     static int time;
+    static double logicFrameError = 0.0;
     int fps = target_fps;
     int original_fps = 60 / R_UPDATE_RATE;
+
+    if (R_UPDATE_RATE == 3) {
+        original_fps = 60;
+    }
+
+    if (R_UPDATE_RATE == 3) {
+        logicFrameError += 1.0f / 60;
+        if (logicFrameError > (1.0f / 20)) {
+            logicFrameError -= 1.0f / 20;
+            gIsLogicFrame = true;
+        } else {
+            gIsLogicFrame = false;
+        }
+    } else {
+        gIsLogicFrame = true;
+    }
 
     if (target_fps == 20 || original_fps > target_fps) {
         fps = original_fps;
@@ -612,7 +635,7 @@ extern "C" void Graph_ProcessGfxCommands(Gfx* commands) {
 
     {
         std::unique_lock<std::mutex> Lock(audio.mutex);
-        while (audio.processing) {
+        while (audio.processing && doingAudio) {
             audio.cv_from_thread.wait(Lock);
         }
     }

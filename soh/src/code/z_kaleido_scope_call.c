@@ -101,7 +101,9 @@ void KaleidoScopeCall_Update(GlobalContext* globalCtx) {
 
             if (gKaleidoMgrCurOvl == kaleidoScopeOvl) 
             {
-                sKaleidoScopeUpdateFunc(globalCtx);
+                if (gIsLogicFrame) {
+                    sKaleidoScopeUpdateFunc(globalCtx); // TODO
+                }
 
                 if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.debugState == 0)) {
                     osSyncPrintf(VT_FGCOL(GREEN));

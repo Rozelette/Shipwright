@@ -11,6 +11,8 @@
 #include "Enhancements/savestates.h"
 #include "Enhancements/randomizer/randomizer.h"
 
+extern "C" int gIsLogicFrame;
+
 const std::string customMessageTableID = "BaseGameOverrides";
 
 class OTRGlobals
@@ -38,6 +40,8 @@ uint32_t IsGameMasterQuest();
 #endif
 
 #ifndef __cplusplus
+extern int gIsLogicFrame;
+
     void InitOTR(void);
 void DeinitOTR(void);
 void VanillaItemTable_Init();

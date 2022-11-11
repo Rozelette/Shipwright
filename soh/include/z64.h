@@ -65,6 +65,8 @@ namespace Ship
 // NOTE: Once we start supporting other builds, this can be changed with an ifdef
 #define REGION_NATIVE REGION_EU
 
+#define FPS_ADJUSTMENT (20.0f / 60.0f)
+
 #ifdef __cplusplus
 extern "C"
 {

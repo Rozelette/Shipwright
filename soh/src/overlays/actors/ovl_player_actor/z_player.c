@@ -1306,6 +1306,7 @@ void func_808322D0(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* 
     LinkAnimation_PlayOnceSetSpeed(globalCtx, &this->skelAnime, anim, 2.0f / 3.0f);
 }
 
+// TODO
 void func_808322FC(Player* this) {
     this->actor.shape.rot.y += this->skelAnime.jointTable[1].y;
     this->skelAnime.jointTable[1].y = 0;
@@ -3129,13 +3130,14 @@ void func_808368EC(Player* this, GlobalContext* globalCtx) {
         if ((this->unk_664 != NULL) &&
             ((globalCtx->actorCtx.targetCtx.unk_4B != 0) || (this->actor.category != ACTORCAT_PLAYER))) {
             Math_ScaledStepToS(&this->actor.shape.rot.y,
-                               Math_Vec3f_Yaw(&this->actor.world.pos, &this->unk_664->focus.pos), 4000);
+                               Math_Vec3f_Yaw(&this->actor.world.pos, &this->unk_664->focus.pos),
+                               4000 / FPS_ADJUSTMENT);
         } else if ((this->stateFlags1 & PLAYER_STATE1_17) &&
                    !(this->stateFlags2 & (PLAYER_STATE2_5 | PLAYER_STATE2_6))) {
-            Math_ScaledStepToS(&this->actor.shape.rot.y, this->targetYaw, 4000);
+            Math_ScaledStepToS(&this->actor.shape.rot.y, this->targetYaw, 4000 / FPS_ADJUSTMENT);
         }
     } else if (!(this->stateFlags2 & PLAYER_STATE2_6)) {
-        Math_ScaledStepToS(&this->actor.shape.rot.y, this->currentYaw, 2000);
+        Math_ScaledStepToS(&this->actor.shape.rot.y, this->currentYaw, 2000 / FPS_ADJUSTMENT);
     }
 
     this->unk_87C = this->actor.shape.rot.y - previousYaw;
@@ -6916,7 +6918,7 @@ s32 func_8084021C(f32 arg0, f32 arg1, f32 arg2, f32 arg3) {
 }
 
 void func_8084029C(Player* this, f32 arg1) {
-    f32 updateScale = R_UPDATE_RATE * 0.5f;
+    f32 updateScale = R_UPDATE_RATE * 0.5f * FPS_ADJUSTMENT;
 
     arg1 *= updateScale;
     if (arg1 < -7.25) {
@@ -7294,7 +7296,7 @@ void func_80841138(Player* this, GlobalContext* globalCtx) {
     f32 temp2;
 
     if (this->unk_864 < 1.0f) {
-        temp1 = R_UPDATE_RATE * 0.5f;
+        temp1 = R_UPDATE_RATE * 0.5f * FPS_ADJUSTMENT;
         func_8084029C(this, REG(35) / 1000.0f);
         LinkAnimation_LoadToJoint(globalCtx, &this->skelAnime, D_80853914[PLAYER_ANIMGROUP_31][this->modelAnimType],
                                   this->unk_868);
@@ -7595,7 +7597,7 @@ void func_80841EE4(Player* this, GlobalContext* globalCtx) {
     f32 temp2;
 
     if (this->unk_864 < 1.0f) {
-        temp1 = R_UPDATE_RATE * 0.5f;
+        temp1 = R_UPDATE_RATE * 0.5f * FPS_ADJUSTMENT;
 
         func_8084029C(this, REG(35) / 1000.0f);
         LinkAnimation_LoadToJoint(globalCtx, &this->skelAnime, D_80853914[PLAYER_ANIMGROUP_1][this->modelAnimType],
@@ -8984,7 +8986,7 @@ s32 func_80845964(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2
     }
 
     if (arg5 != 2) {
-        f32 sp34 = R_UPDATE_RATE * 0.5f;
+        f32 sp34 = R_UPDATE_RATE * 0.5f * FPS_ADJUSTMENT;
         f32 selfDistX = arg2->endPos.x - this->actor.world.pos.x;
         f32 selfDistZ = arg2->endPos.z - this->actor.world.pos.z;
         f32 sp28 = sqrtf(SQ(selfDistX) + SQ(selfDistZ)) / sp34;
@@ -9647,7 +9649,7 @@ void func_808471F4(s16* pValue) {
     step = (ABS(*pValue) * 100.0f) / 1000.0f;
     step = CLAMP(step, 400, 4000);
 
-    Math_ScaledStepToS(pValue, 0, step);
+    Math_ScaledStepToS(pValue, 0, step / FPS_ADJUSTMENT);
 }
 
 void func_80847298(Player* this) {
@@ -10479,7 +10481,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
 
     sControlInput = input;
 
-    if (this->unk_A86 < 0) {
+    if (this->unk_A86 < 0 && gIsLogicFrame) {
         this->unk_A86++;
         if (this->unk_A86 == 0) {
             this->unk_A86 = 1;
@@ -10489,42 +10491,42 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
 
     Math_Vec3f_Copy(&this->actor.prevPos, &this->actor.home.pos);
 
-    if (this->unk_A73 != 0) {
+    if (this->unk_A73 != 0 && gIsLogicFrame) {
         this->unk_A73--;
     }
 
-    if (this->unk_88E != 0) {
+    if (this->unk_88E != 0 && gIsLogicFrame) {
         this->unk_88E--;
     }
 
-    if (this->unk_A87 != 0) {
+    if (this->unk_A87 != 0 && gIsLogicFrame) {
         this->unk_A87--;
     }
 
-    if (this->invincibilityTimer < 0) {
+    if (this->invincibilityTimer < 0 && gIsLogicFrame) {
         this->invincibilityTimer++;
-    } else if (this->invincibilityTimer > 0) {
+    } else if (this->invincibilityTimer > 0 && gIsLogicFrame) {
         this->invincibilityTimer--;
     }
 
-    if (this->unk_890 != 0) {
+    if (this->unk_890 != 0 && gIsLogicFrame) {
         this->unk_890--;
     }
 
-    func_808473D4(globalCtx, this);
-    func_80836BEC(this, globalCtx);
+    func_808473D4(globalCtx, this); // TODO
+    func_80836BEC(this, globalCtx); // TODO
 
     if ((this->heldItemActionParam == PLAYER_AP_STICK) && (this->unk_860 != 0)) {
         func_80848A04(globalCtx, this);
-    } else if ((this->heldItemActionParam == PLAYER_AP_FISHING_POLE) && (this->unk_860 < 0)) {
+    } else if ((this->heldItemActionParam == PLAYER_AP_FISHING_POLE) && (this->unk_860 < 0) && gIsLogicFrame) {
         this->unk_860++;
     }
 
-    if (this->shockTimer != 0) {
+    if (this->shockTimer != 0 && gIsLogicFrame) {
         func_80848B44(globalCtx, this);
     }
 
-    if (this->isBurning) {
+    if (this->isBurning && gIsLogicFrame) {
         func_80848C74(globalCtx, this);
     }
 
@@ -10540,7 +10542,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
             Actor_MoveForward(&this->actor);
         }
 
-        func_80847BA0(globalCtx, this);
+        func_80847BA0(globalCtx, this); // TODO
     } else {
         f32 temp_f0;
         f32 phi_f12;
@@ -10556,7 +10558,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
             } else {
                 if (this->stateFlags1 & PLAYER_STATE1_27) {
                     if ((this->prevBoots == PLAYER_BOOTS_IRON) || (this->actor.bgCheckFlags & 1)) {
-                        func_8083D36C(globalCtx, this);
+                        func_8083D36C(globalCtx, this); // TODO
                         this->stateFlags2 &= ~PLAYER_STATE2_10;
                     }
                 }
@@ -10576,23 +10578,25 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
 
         if (this->unk_844 == 0) {
             this->unk_845 = 0;
-        } else if (this->unk_844 < 0) {
+        } else if (this->unk_844 < 0 && gIsLogicFrame) {
             this->unk_844++;
-        } else {
+        } else if (gIsLogicFrame) {
             this->unk_844--;
         }
 
-        Math_ScaledStepToS(&this->unk_6C2, 0, 400);
-        func_80032CB4(this->unk_3A8, 20, 80, 6);
+        if (gIsLogicFrame) {
+            Math_ScaledStepToS(&this->unk_6C2, 0, 400);
+            func_80032CB4(this->unk_3A8, 20, 80, 6);
+        }
 
         this->actor.shape.face = this->unk_3A8[0] + ((globalCtx->gameplayFrames & 32) ? 0 : 3);
 
-        if (this->currentMask == PLAYER_MASK_BUNNY) {
-            func_8085002C(this);
+        if (this->currentMask == PLAYER_MASK_BUNNY && gIsLogicFrame) {
+            func_8085002C(this); // TODO
         }
 
-        if (func_8002DD6C(this) != 0) {
-            func_8084FF7C(this);
+        if (func_8002DD6C(this) != 0 && gIsLogicFrame) {
+            func_8084FF7C(this); // TODO
         }
 
         if (!(this->skelAnime.moveFlags & 0x80)) {
@@ -10609,7 +10613,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
                     sp6E += 0x8000;
                 }
 
-                if (Math_StepToF(&this->actor.speedXZ, sp70, 0.35f) && (sp70 == 0.0f)) {
+                if (Math_StepToF(&this->actor.speedXZ, sp70, 0.35f / FPS_ADJUSTMENT) && (sp70 == 0.0f)) {
                     this->actor.world.rot.y = this->currentYaw;
                 }
 
@@ -10617,7 +10621,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
                     s32 phi_v0;
 
                     phi_v0 = (fabsf(this->linearVelocity) * 700.0f) - (fabsf(this->actor.speedXZ) * 100.0f);
-                    phi_v0 = CLAMP(phi_v0, 0, 1350);
+                    phi_v0 = CLAMP(phi_v0, 0, 1350) / FPS_ADJUSTMENT;
 
                     Math_ScaledStepToS(&this->actor.world.rot.y, sp6E, phi_v0);
                 }
@@ -10637,10 +10641,10 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
                 (func_80845668 != this->func_674) && (func_808507F4 != this->func_674)) {
                 this->actor.velocity.x += this->windSpeed * Math_SinS(this->windDirection);
                 this->actor.velocity.z += this->windSpeed * Math_CosS(this->windDirection);
-            }
+            } // TODO
 
             func_8002D7EC(&this->actor);
-            func_80847BA0(globalCtx, this);
+            func_80847BA0(globalCtx, this); // TODO
         } else {
             D_808535E4 = 0;
             this->unk_A7A = 0;
@@ -10658,6 +10662,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
                     sp58 = rideActor->actor.floorBgId;
                 }
 
+                // TODO
                 if ((sp5C != NULL) && func_80839034(globalCtx, this, sp5C, sp58)) {
                     if (DREG(25) != 0) {
                         DREG(25) = 0;
@@ -10674,7 +10679,9 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
         if ((D_808535F4 != 0) && (this->currentBoots != PLAYER_BOOTS_IRON)) {
             f32 sp48;
 
-            D_808535F4--;
+            if (gIsLogicFrame) {
+                D_808535F4--;
+            }
 
             if (D_808535F8 == 0) {
                 sp48 = D_80854820[D_808535F4];
@@ -10686,14 +10693,16 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
                 sp48 = D_8085482C[D_808535F4];
             }
 
-            Math_StepToF(&this->windSpeed, sp48, sp48 * 0.1f);
+            Math_StepToF(&this->windSpeed, sp48, sp48 * 0.1f / FPS_ADJUSTMENT);
 
             Math_ScaledStepToS(&this->windDirection, D_808535FC,
-                               ((this->stateFlags1 & PLAYER_STATE1_27) ? 400.0f : 800.0f) * sp48);
+                               ((this->stateFlags1 & PLAYER_STATE1_27) ? 400.0f : 800.0f) * sp48 / FPS_ADJUSTMENT);
         } else if (this->windSpeed != 0.0f) {
-            Math_StepToF(&this->windSpeed, 0.0f, (this->stateFlags1 & PLAYER_STATE1_27) ? 0.5f : 1.0f);
+            Math_StepToF(&this->windSpeed, 0.0f,
+                         ((this->stateFlags1 & PLAYER_STATE1_27) ? 0.5f : 1.0f) / FPS_ADJUSTMENT);
         }
 
+        // TODO
         if (!Player_InBlockingCsMode(globalCtx, this) && !(this->stateFlags2 & PLAYER_STATE2_18)) {
             func_8083D53C(globalCtx, this);
 
@@ -10881,7 +10890,7 @@ void Player_Update(Actor* thisx, GlobalContext* globalCtx) {
     Input sp44;
     Actor* dog;
 
-    if (func_8084FCAC(this, globalCtx)) {
+    if (func_8084FCAC(this, globalCtx)) { // TODO
         if (gSaveContext.dogParams < 0) {
             if (Object_GetIndex(&globalCtx->objectCtx, OBJECT_DOG) < 0) {
                 gSaveContext.dogParams = 0;
@@ -13837,7 +13846,7 @@ void func_80850AEC(Player* this, GlobalContext* globalCtx) {
 
 void func_80850C68(Player* this, GlobalContext* globalCtx) {
     if ((this->unk_850 != 0) && ((this->unk_858 != 0.0f) || (this->unk_85C != 0.0f))) {
-        f32 updateScale = R_UPDATE_RATE * 0.5f;
+        f32 updateScale = R_UPDATE_RATE * 0.5f * FPS_ADJUSTMENT;
 
         this->skelAnime.curFrame += this->skelAnime.playSpeed * updateScale;
         if (this->skelAnime.curFrame >= this->skelAnime.animLength) {

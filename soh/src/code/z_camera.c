@@ -7437,6 +7437,9 @@ void Camera_UpdateDistortion(Camera* camera) {
             return;
         }
 
+        depthPhaseStep *= FPS_ADJUSTMENT;
+        screenPlanePhaseStep *= FPS_ADJUSTMENT;
+
         depthPhase += DEGF_TO_BINANG(depthPhaseStep);
         screenPlanePhase += DEGF_TO_BINANG(screenPlanePhaseStep);
 
@@ -7445,7 +7448,7 @@ void Camera_UpdateDistortion(Camera* camera) {
         View_SetDistortionScale(&camera->globalCtx->view, Math_SinS(screenPlanePhase) * (xScale * scaleFactor) + 1.0f,
                                 Math_CosS(screenPlanePhase) * (yScale * scaleFactor) + 1.0f,
                                 Math_CosS(depthPhase) * (zScale * scaleFactor) + 1.0f);
-        View_SetDistortionSpeed(&camera->globalCtx->view, speed * speedFactor);
+        View_SetDistortionSpeed(&camera->globalCtx->view, speed * speedFactor * FPS_ADJUSTMENT);
 
         camera->unk_14C |= 0x40;
 
@@ -7509,7 +7512,9 @@ Vec3s Camera_Update(Camera* camera) {
             camera->playerGroundY = playerGroundY;
         } else {
             // player is not above ground.
-            sOOBTimer++;
+            if (gIsLogicFrame) {
+                sOOBTimer++;
+            }
             camera->floorNorm.x = 0.0;
             camera->floorNorm.y = 1.0f;
             camera->floorNorm.z = 0.0;
@@ -7567,7 +7572,7 @@ Vec3s Camera_Update(Camera* camera) {
     }
 
     if (sOOBTimer < 200) {
-        sCameraFunctions[sCameraSettings[camera->setting].cameraModes[camera->mode].funcIdx](camera);
+        sCameraFunctions[sCameraSettings[camera->setting].cameraModes[camera->mode].funcIdx](camera); // TODO TODO TODO
     } else if (camera->player != NULL) {
         OLib_Vec3fDiffToVecSphGeo(&eyeAtAngle, &camera->at, &camera->eye);
         Camera_CalcAtDefault(camera, &eyeAtAngle, 0.0f, 0);
@@ -7616,7 +7621,7 @@ Vec3s Camera_Update(Camera* camera) {
     // Debug cam update
     if (gDbgCamEnabled) {
         camera->globalCtx->view.fovy = D_8015BD80.fov;
-        DbCamera_Update(&D_8015BD80, camera);
+        DbCamera_Update(&D_8015BD80, camera); // TODO
         func_800AA358(&camera->globalCtx->view, &D_8015BD80.eye, &D_8015BD80.at, &D_8015BD80.unk_1C);
         if (R_DBG_CAM_UPDATE) {
             osSyncPrintf("camera: debug out\n");

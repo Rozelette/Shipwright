@@ -20,7 +20,8 @@ s32 FrameAdvance_Update(FrameAdvanceContext* frameAdvCtx, Input* input) {
 
     if (!frameAdvCtx->enabled || (CHECK_BTN_ALL(input->cur.button, BTN_Z) &&
                                   (CHECK_BTN_ALL(input->press.button, BTN_R) ||
-                                   (CHECK_BTN_ALL(input->cur.button, BTN_R) && (++frameAdvCtx->timer >= 9))))) {
+                                   (CHECK_BTN_ALL(input->cur.button, BTN_R) &&
+                                    ((gIsLogicFrame ? ++frameAdvCtx->timer : frameAdvCtx->timer) >= 9))))) {
         frameAdvCtx->timer = 0;
         return true;
     }

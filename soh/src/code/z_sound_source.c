@@ -15,7 +15,7 @@ void SoundSource_UpdateAll(GlobalContext* globalCtx) {
 
     for (i = 0; i < ARRAY_COUNT(globalCtx->soundSources); i++) {
         if (source->countdown != 0) {
-            if (DECR(source->countdown) == 0) {
+            if (DECR_LOGIC(source->countdown) == 0) {
                 Audio_StopSfxByPos(&source->projectedPos);
             } else {
                 SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->viewProjectionMtxF, &source->worldPos, &source->projectedPos);

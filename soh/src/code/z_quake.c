@@ -66,6 +66,10 @@ void Quake_UpdateShakeInfo(QuakeRequest* req, ShakeInfo* shake, f32 y, f32 x) {
 s16 Quake_Callback1(QuakeRequest* req, ShakeInfo* shake) {
     s32 pad;
 
+    if (!gIsLogicFrame) {
+        return req->countdown; // TODO
+    }
+
     if (req->countdown > 0) {
         f32 a = Math_SinS(req->speed * req->countdown);
 
@@ -76,6 +80,10 @@ s16 Quake_Callback1(QuakeRequest* req, ShakeInfo* shake) {
 }
 
 s16 Quake_Callback5(QuakeRequest* req, ShakeInfo* shake) {
+
+    if (!gIsLogicFrame) {
+        return req->countdown; // TODO
+    }
     if (req->countdown > 0) {
         f32 a = Math_SinS(req->speed * req->countdown);
 
@@ -89,6 +97,10 @@ s16 Quake_Callback6(QuakeRequest* req, ShakeInfo* shake) {
     s32 pad;
     f32 a;
 
+    if (!gIsLogicFrame) {
+        return req->countdown; // TODO
+    }
+
     req->countdown--;
     a = Math_SinS(req->speed * ((req->countdown & 0xF) + 500));
     Quake_UpdateShakeInfo(req, shake, a, Rand_ZeroOne() * a);
@@ -96,6 +108,10 @@ s16 Quake_Callback6(QuakeRequest* req, ShakeInfo* shake) {
 }
 
 s16 Quake_Callback3(QuakeRequest* req, ShakeInfo* shake) {
+
+    if (!gIsLogicFrame) {
+        return req->countdown; // TODO
+    }
     if (req->countdown > 0) {
         f32 a = Math_SinS(req->speed * req->countdown) * ((f32)req->countdown / (f32)req->countdownMax);
 
@@ -106,6 +122,10 @@ s16 Quake_Callback3(QuakeRequest* req, ShakeInfo* shake) {
 }
 
 s16 Quake_Callback2(QuakeRequest* req, ShakeInfo* shake) {
+
+    if (!gIsLogicFrame) {
+        return req->countdown; // TODO
+    }
     if (req->countdown > 0) {
         f32 a = Rand_ZeroOne();
 
@@ -116,6 +136,10 @@ s16 Quake_Callback2(QuakeRequest* req, ShakeInfo* shake) {
 }
 
 s16 Quake_Callback4(QuakeRequest* req, ShakeInfo* shake) {
+
+    if (!gIsLogicFrame) {
+        return req->countdown; // TODO
+    }
     if (req->countdown > 0) {
         f32 a = Rand_ZeroOne() * ((f32)req->countdown / (f32)req->countdownMax);
 
