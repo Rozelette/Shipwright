@@ -28,6 +28,9 @@ typedef struct {
 #include <functional>
 #include <vector>
 #include <filesystem>
+extern "C" {
+#include <z64save.h>
+}
 
 #include <nlohmann/json.hpp>
 
