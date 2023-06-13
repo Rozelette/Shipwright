@@ -748,7 +748,7 @@ void SaveManager::SaveFileThreaded(int fileNum, SaveContext* saveContext) {
     fclose(w);
 #else
     std::ofstream output(GetFileName(fileNum));
-    output << std::setw(4) << baseBlock << std::endl;
+    output << std::setw(-1) << baseBlock << std::endl;
 #endif
 
     delete saveContext;
