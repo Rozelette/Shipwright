@@ -78,6 +78,8 @@
 #include "SohGui.hpp"
 #include "ActorDB.h"
 
+#include "PyZelda.h"
+
 #ifdef ENABLE_REMOTE_CONTROL
 #include "Enhancements/crowd-control/CrowdControl.h"
 #include "Enhancements/game-interactor/GameInteractor_Sail.h"
@@ -1162,6 +1164,8 @@ extern "C" void InitOTR() {
     OTRExtScanner();
     VanillaItemTable_Init();
     DebugConsole_Init();
+
+    PyZelda::Instance = new PyZelda();
 
     InitMods();
     ActorDB::AddBuiltInCustomActors();
