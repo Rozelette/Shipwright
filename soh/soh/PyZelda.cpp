@@ -9,49 +9,15 @@
 #include <tuple>
 #include <utility>
 #include <type_traits>
+#include <concepts>
 
 PyZelda* PyZelda::Instance;
 
-template <std::string_view const&... Strs> struct join {
-    // Join all strings into a single std::array of chars
-    static constexpr auto impl() noexcept {
-        constexpr std::size_t len = (Strs.size() + ... + 0);
-        std::array<char, len + 1> arr{};
-        auto append = [i = 0, &arr](auto const& s) mutable {
-            for (auto c : s)
-                arr[i++] = c;
-        };
-        (append(Strs), ...);
-        arr[len] = 0;
-        return arr;
-    }
-    // Give the joined string static storage
-    static constexpr auto arr = impl();
-    // View as a std::string_view
-    static constexpr std::string_view value{ arr.data(), arr.size() - 1 };
-};
-// Helper to get the value out
-template <std::string_view const&... Strs> static constexpr std::string_view join_v = join<Strs...>::value;
-
-template <typename T, typename = void> struct GetTypeChar;
-
-template <> struct GetTypeChar<unsigned char> { static constexpr std::string_view value = "b"; };
-
-template <> struct GetTypeChar<char> { static constexpr std::string_view value = "c"; };
-
-template <> struct GetTypeChar<short int> { static constexpr std::string_view value = "h"; };
-
-template <> struct GetTypeChar<unsigned short int> { static constexpr std::string_view value = "H"; };
-
-template <> struct GetTypeChar<int> { static constexpr std::string_view value = "i"; };
-
-template <> struct GetTypeChar<unsigned int> { static constexpr std::string_view value = "I"; };
-
-template <> struct GetTypeChar<float> { static constexpr std::string_view value = "f"; };
-
-template <> struct GetTypeChar<double> { static constexpr std::string_view value = "d"; };
-
-template <> struct GetTypeChar<char*> { static constexpr std::string_view value = "s"; };
+const std::string test_script_source =
+""
+"def Update(play, actor):"
+"    return play * actor + 5"
+"";
 
 PyObject* GetResult(int ret) {
     return PyLong_FromLong(ret);
@@ -65,20 +31,23 @@ template <typename ReturnType, typename... ArgTypes> struct PythonFuncWrapperImp
     using FuncType = ReturnType(ArgTypes...);
 
     template <typename T, T... Ints>
-    static PyObject* WrappedFuncImpl(FuncType func, PyObject* self, PyObject* args,
+    static ReturnType WrappedFuncImpl(FuncType func, PyObject* self, PyObject* args,
                                   std::integer_sequence<T, Ints...> int_seq) {
         std::tuple<ArgTypes...> argTuple;
 
         // TODO errors
         PyArg_ParseTuple(args, value.data(), &std::get<Ints>(argTuple)...);
 
-        ReturnType ret = func(std::get<Ints>(argTuple)...);
-
-        return GetResult(ret);
+        return func(std::get<Ints>(argTuple)...);
     }
 
     static PyObject* WrappedFunc(FuncType func, PyObject* self, PyObject* args) {
-        return WrappedFuncImpl(func, self, args, IntSeq{});
+        return GetResult(WrappedFuncImpl(func, self, args, IntSeq{}));
+    }
+
+    static PyObject* WrappedFunc(FuncType func, PyObject* self, PyObject* args) requires std::is_same_v<ReturnType, void> {
+        WrappedFuncImpl(func, self, args, IntSeq{});
+        return nullptr;
     }
 };
 
@@ -92,11 +61,16 @@ int test_method(int i) {
     return i + 1;
 }
 
+void test_method2() {
+    printf("yo");
+}
+
 #define METHOD_ENTRY(func, doc_string) \
     { #func, PythonFuncWrapper<decltype(func), func>::WrappedFunc, METH_VARARGS, doc_string }
 
 static PyMethodDef PyZeldaMethods[] = {
     METHOD_ENTRY(test_method, "Test"),
+    METHOD_ENTRY(test_method2, "Test"),
     {NULL, NULL, 0, NULL}
 };
 
@@ -112,6 +86,29 @@ PyMODINIT_FUNC PyInit_PyZelda() {
     return PyModule_Create(&PyZeldaModule);
 }
 
+CompiledScript::CompiledScript(const std::string& script) {
+    scriptObject = Py_CompileString(script.c_str(), "test.py", Py_file_input);
+    // TODO check errors
+
+    if (PyErr_Occurred()) {
+        PyObject *ptype, *pvalue, *ptraceback;
+        PyErr_Fetch(&ptype, &pvalue, &ptraceback);
+
+        PyErr_Clear();
+    }
+
+    moduleObject = PyImport_ExecCodeModule("__test__", scriptObject);
+
+    if (PyErr_Occurred()) {
+        PyObject *ptype, *pvalue, *ptraceback;
+        PyErr_Fetch(&ptype, &pvalue, &ptraceback);
+
+        PyErr_Clear();
+    }
+}
+
+using ActorFunc = int(int, int);
+
 PyZelda::PyZelda() {
     Py_Initialize();
 
@@ -121,9 +118,12 @@ PyZelda::PyZelda() {
     PyDict_SetItemString(g, "__builtins__", PyEval_GetBuiltins());
     PyDict_SetItemString(g, "PyZelda", PyInit_PyZelda());
 
-    PyObject* string_result = PyRun_StringFlags(
-                                                "PyZelda.test_method(5)\n",
+    /*
+    PyRun_StringFlags(
+                                                "PyZelda.test_method(5)\n"
+                                                "PyZelda.test_method2()\n",
                                                 Py_file_input, g, l, NULL);
+                                                */
 
     if (PyErr_Occurred()) {
         //PyErr_Print();
@@ -141,9 +141,11 @@ PyZelda::PyZelda() {
         PyErr_Clear();
     }
 
-    const char* buff;
-    Py_ssize_t len;
-    PyObject_AsCharBuffer(string_result, &buff, &len);
+    CompiledScript script = CompiledScript(test_script_source);
+
+    int test = script.Call<ActorFunc>("Update", 6, 9);
+
+    printf("%i\n", test);
 
     volatile int bp = 0;
 }
