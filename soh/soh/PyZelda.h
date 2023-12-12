@@ -49,6 +49,8 @@ template <> struct GetTypeChar<double> { static constexpr std::string_view value
 
 template <> struct GetTypeChar<char*> { static constexpr std::string_view value = "s"; };
 
+template <typename T> struct GetTypeChar<T*> { static constexpr std::string_view value = "K"; };
+
 template <typename ReturnType> static ReturnType GetCallResult(PyObject* ret);
 
 template <> static int GetCallResult<int>(PyObject* ret) {
@@ -56,6 +58,22 @@ template <> static int GetCallResult<int>(PyObject* ret) {
 }
 template <> static void GetCallResult<void>(PyObject* ret) {
     return;
+}
+
+static bool CheckError() {
+    if (PyErr_Occurred()) {
+        PyObject *ptype, *pvalue, *ptraceback;
+        PyErr_Fetch(&ptype, &pvalue, &ptraceback);
+
+        PyObject* msg = PyObject_Repr(pvalue);
+
+        const char* pStrErrorMessage = PyUnicode_AsUTF8(msg);
+        printf("%s", pStrErrorMessage);
+
+        return true;
+    }
+
+    return false;
 }
 
 class CompiledScript {
@@ -69,21 +87,11 @@ class CompiledScript {
         static PyObject* Call(PyObject* moduleObject, std::string name, ArgTypes... args) {
             PyObject* funcObject = PyObject_GetAttrString(moduleObject, name.c_str());
 
-            if (PyErr_Occurred()) {
-                PyObject *ptype, *pvalue, *ptraceback;
-                PyErr_Fetch(&ptype, &pvalue, &ptraceback);
-
-                PyErr_Clear();
-            }
+            CheckError();
 
             PyObject* retObject = PyObject_CallFunction(funcObject, value.data(), args...);
 
-            if (PyErr_Occurred()) {
-                PyObject *ptype, *pvalue, *ptraceback;
-                PyErr_Fetch(&ptype, &pvalue, &ptraceback);
-
-                PyErr_Clear();
-            }
+            CheckError();
 
             return retObject;
         }

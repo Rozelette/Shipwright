@@ -1,6 +1,7 @@
 #include "ActorDB.h"
 
 #include <assert.h>
+#include <type_traits>
 
 ActorDB* ActorDB::Instance;
 
@@ -465,6 +466,44 @@ static std::unordered_map<u16, const char*> actorDescriptions = {
     { ACTOR_OBJ_WARP2BLOCK, "Navi Infospot (Green, Time Block)" }
 };
 
+using CallActorFunc = std::remove_pointer_t<ActorFunc>;
+
+static void ActorInitScriptWrapper(Actor* actor, PlayState* play) {
+    std::shared_ptr<CompiledScript> script = ActorDB::Instance->RetrieveEntry(actor->id).script;
+
+    assert(script != nullptr);
+
+    script->Call<CallActorFunc>("Init", actor, play);
+}
+
+static void ActorDestroyScriptWrapper(Actor* actor, PlayState* play) {
+    std::shared_ptr<CompiledScript> script = ActorDB::Instance->RetrieveEntry(actor->id).script;
+
+    assert(script != nullptr);
+
+    script->Call<CallActorFunc>("Destroy", actor, play);
+}
+
+static void ActorUpdateScriptWrapper(Actor* actor, PlayState* play) {
+    std::shared_ptr<CompiledScript> script = ActorDB::Instance->RetrieveEntry(actor->id).script;
+
+    assert(script != nullptr);
+
+    script->Call<CallActorFunc>("Update", actor, play);
+}
+
+static void ActorDrawScriptWrapper(Actor* actor, PlayState* play) {
+    std::shared_ptr<CompiledScript> script = ActorDB::Instance->RetrieveEntry(actor->id).script;
+
+    assert(script != nullptr);
+
+    script->Call<CallActorFunc>("Draw", actor, play);
+}
+
+static void ActorResetScriptWrapper() {
+    // TODO
+}
+
 ActorDB::ActorDB() {
     db.reserve(ACTOR_NUMBER_MAX); // reserve size for all initial entries so we don't do it for each
     for (const AddPair& pair : initialActorTable) {
@@ -520,11 +559,22 @@ ActorDB::Entry& ActorDB::AddEntry(const ActorDBInit& init) {
     entry.entry.flags = init.flags;
     entry.entry.objectId = init.objectId;
     entry.entry.instanceSize = init.instanceSize;
-    entry.entry.init = init.init;
-    entry.entry.destroy = init.destroy;
-    entry.entry.update = init.update;
-    entry.entry.draw = init.draw;
-    entry.entry.reset = init.reset;
+
+    entry.script = init.script;
+
+    if (entry.script == nullptr) {
+        entry.entry.init = init.init;
+        entry.entry.destroy = init.destroy;
+        entry.entry.update = init.update;
+        entry.entry.draw = init.draw;
+        entry.entry.reset = init.reset;
+    } else {
+        entry.entry.init = ActorInitScriptWrapper;
+        entry.entry.destroy = ActorDestroyScriptWrapper;
+        entry.entry.update = ActorUpdateScriptWrapper;
+        entry.entry.draw = ActorDrawScriptWrapper;
+        entry.entry.reset = ActorResetScriptWrapper;
+    }
 
     return entry;
 }
@@ -608,8 +658,50 @@ static ActorDBInit EnPartnerInit = {
 };
 extern "C" s16 gEnPartnerId;
 
+static ActorDBInit EnPythonInit = {
+    "En_Python",
+    "snek",
+    ACTORCAT_BG,
+    (ACTOR_FLAG_UPDATE_WHILE_CULLED | ACTOR_FLAG_DRAW_WHILE_CULLED | ACTOR_FLAG_DRAGGED_BY_HOOKSHOT |
+     ACTOR_FLAG_CAN_PRESS_SWITCH),
+    OBJECT_GAMEPLAY_KEEP,
+    sizeof(Actor),
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+    nullptr,
+};
+s16 gEnPythonId;
+
+static std::string EnPythonScript =
+"\n"
+"def Init(actor, play):\n"
+"    PyZelda.SetActorScaleX(actor, 0.4)\n"
+"    PyZelda.SetActorScaleY(actor, 0.4)\n"
+"    PyZelda.SetActorScaleZ(actor, 0.4)\n"
+"\n"
+"def Destroy(actor, play):\n"
+"    pass\n"
+"\n"
+"def Update(actor, play):\n"
+"    player = PyZelda.GetPlayer(play)\n"
+"    x = PyZelda.GetActorX(player)\n"
+"    y = PyZelda.GetActorY(player)\n"
+"    z = PyZelda.GetActorZ(player)\n"
+"    PyZelda.SetActorX(actor, x)\n"
+"    PyZelda.SetActorY(actor, y)\n"
+"    PyZelda.SetActorZ(actor, z)\n"
+"\n"
+"def Draw(actor, play):\n"
+"    PyZelda.DrawTemp(play, actor)\n"
+"\n";
+
 void ActorDB::AddBuiltInCustomActors() {
     gEnPartnerId = ActorDB::Instance->AddEntry(EnPartnerInit).entry.id;
+
+    EnPythonInit.script = std::make_shared<CompiledScript>(PyZelda::Instance->Compile(EnPythonScript));
+    gEnPythonId = ActorDB::Instance->AddEntry(EnPythonInit).entry.id;
 }
 
 extern "C" ActorDBEntry* ActorDB_Retrieve(const int id) {

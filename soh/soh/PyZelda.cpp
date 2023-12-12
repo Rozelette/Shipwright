@@ -1,4 +1,6 @@
 #include "PyZelda.h"
+#include "z64actor.h"
+#include "ScriptInterface.h"
 
 #define PY_SSIZE_T_CLEAN
 #include "Python.h"
@@ -21,6 +23,11 @@ const std::string test_script_source =
 
 PyObject* GetResult(int ret) {
     return PyLong_FromLong(ret);
+}
+
+template<typename T>
+PyObject* GetResult(T* ret) {
+    return PyLong_FromLongLong((uintptr_t)ret);
 }
 
 template <typename T> struct PythonFuncWrapperImpl;
@@ -47,7 +54,7 @@ template <typename ReturnType, typename... ArgTypes> struct PythonFuncWrapperImp
 
     static PyObject* WrappedFunc(FuncType func, PyObject* self, PyObject* args) requires std::is_same_v<ReturnType, void> {
         WrappedFuncImpl(func, self, args, IntSeq{});
-        return nullptr;
+        Py_RETURN_NONE;
     }
 };
 
@@ -57,20 +64,23 @@ template <typename T, T* Func> struct PythonFuncWrapper {
     }
 };
 
-int test_method(int i) {
-    return i + 1;
-}
-
-void test_method2() {
-    printf("yo");
-}
-
 #define METHOD_ENTRY(func, doc_string) \
     { #func, PythonFuncWrapper<decltype(func), func>::WrappedFunc, METH_VARARGS, doc_string }
 
+using namespace ScriptInterface;
+
 static PyMethodDef PyZeldaMethods[] = {
-    METHOD_ENTRY(test_method, "Test"),
-    METHOD_ENTRY(test_method2, "Test"),
+    METHOD_ENTRY(GetPlayer, "Test"),
+    METHOD_ENTRY(GetActorX, "Test"),
+    METHOD_ENTRY(GetActorY, "Test"),
+    METHOD_ENTRY(GetActorZ, "Test"),
+    METHOD_ENTRY(SetActorX, "Test"),
+    METHOD_ENTRY(SetActorY, "Test"),
+    METHOD_ENTRY(SetActorZ, "Test"),
+    METHOD_ENTRY(SetActorScaleX, "Test"),
+    METHOD_ENTRY(SetActorScaleY, "Test"),
+    METHOD_ENTRY(SetActorScaleZ, "Test"),
+    METHOD_ENTRY(DrawTemp, "Test"),
     {NULL, NULL, 0, NULL}
 };
 
@@ -89,25 +99,20 @@ PyMODINIT_FUNC PyInit_PyZelda() {
 CompiledScript::CompiledScript(const std::string& script) {
     scriptObject = Py_CompileString(script.c_str(), "test.py", Py_file_input);
     // TODO check errors
-
-    if (PyErr_Occurred()) {
-        PyObject *ptype, *pvalue, *ptraceback;
-        PyErr_Fetch(&ptype, &pvalue, &ptraceback);
-
-        PyErr_Clear();
-    }
+    CheckError();
 
     moduleObject = PyImport_ExecCodeModule("__test__", scriptObject);
 
-    if (PyErr_Occurred()) {
-        PyObject *ptype, *pvalue, *ptraceback;
-        PyErr_Fetch(&ptype, &pvalue, &ptraceback);
+    PyObject_SetAttrString(moduleObject, "__builtins__", PyEval_GetBuiltins());
+    PyObject_SetAttrString(moduleObject, "PyZelda", PyInit_PyZelda());
 
-        PyErr_Clear();
-    }
+    PyObject* msg = PyObject_Repr(moduleObject);
+
+    const char* pStrErrorMessage = PyUnicode_AsUTF8(msg);
+    printf("%s", pStrErrorMessage);
+
+    CheckError();
 }
-
-using ActorFunc = int(int, int);
 
 PyZelda::PyZelda() {
     Py_Initialize();
@@ -125,27 +130,13 @@ PyZelda::PyZelda() {
                                                 Py_file_input, g, l, NULL);
                                                 */
 
-    if (PyErr_Occurred()) {
-        //PyErr_Print();
+    CheckError();
 
-        PyObject *ptype, *pvalue, *ptraceback;
-        PyErr_Fetch(&ptype, &pvalue, &ptraceback);
-        // pvalue contains error message
-        // ptraceback contains stack snapshot and many other information
-        //(see python traceback structure)
+    //CompiledScript script = Compile(test_script_source);
 
-        // Get error message
-        const char* pStrErrorMessage = PyUnicode_AsUTF8(pvalue);
-        printf(pStrErrorMessage);
+    //int test = script.Call<ActorFunc>("Update", 6, 9);
 
-        PyErr_Clear();
-    }
-
-    CompiledScript script = CompiledScript(test_script_source);
-
-    int test = script.Call<ActorFunc>("Update", 6, 9);
-
-    printf("%i\n", test);
+    //printf("%i\n", test);
 
     volatile int bp = 0;
 }
@@ -153,4 +144,8 @@ PyZelda::PyZelda() {
 PyZelda::~PyZelda() {
     // TODO check error
     Py_FinalizeEx();
+}
+
+CompiledScript PyZelda::Compile(const std::string& script) {
+    return CompiledScript(script);
 }
