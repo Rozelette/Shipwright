@@ -20,7 +20,7 @@ typedef struct {
 
 #ifdef __cplusplus
 
-#include "PyZelda.h"
+#include "ScriptingImpl.h"
 
 #include <string>
 #include <unordered_map>
@@ -39,7 +39,7 @@ struct ActorDBInit {
     ActorFunc update = nullptr;
     ActorFunc draw = nullptr;
     ActorResetFunc reset = nullptr;
-    std::shared_ptr<CompiledScript> script = nullptr;
+    std::shared_ptr<ICompiledScript> script = nullptr;
 };
 
 class ActorDB {
@@ -60,7 +60,7 @@ public:
         std::string name;
         std::string desc;
         ActorDBEntry entry;
-        std::shared_ptr<CompiledScript> script;
+        std::shared_ptr<ICompiledScript> script;
     };
     Entry& AddEntry(const ActorDBInit& init);
 

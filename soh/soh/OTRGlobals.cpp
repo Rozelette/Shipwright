@@ -263,6 +263,13 @@ const char* constCameraStrings[] = {
     GFXP_KATAKANA "ｷ-     /   ",
 };
 
+/*
+#include <format>
+#include "soh/resource/type/scenecommand/SetRoomList.h"
+#include "soh/resource/type/scenecommand/SetActorList.h"
+std::shared_ptr<LUS::IResource> GetResourceByNameHandlingMQ(const char* path);
+*/
+
 OTRGlobals::OTRGlobals() {
     std::vector<std::string> OTRFiles;
     std::string mqPath = Ship::Context::LocateFileAcrossAppDirs("oot-mq.otr", appShortName);
@@ -441,6 +448,99 @@ OTRGlobals::OTRGlobals() {
                 break;
         }
     }
+
+    /*
+
+    std::ofstream out;
+    out.open("out.txt");
+    std::ofstream out2;
+    out2.open("out2.txt");
+
+    for (int sceneNum = 0; sceneNum <= SCENE_OUTSIDE_GANONS_CASTLE; sceneNum++) {
+        SceneTableEntry* scene = &gSceneTable[sceneNum];
+        int16_t inNonSharedScene = (sceneNum >= SCENE_DEKU_TREE && sceneNum <= SCENE_ICE_CAVERN) ||
+                                   sceneNum == SCENE_GERUDO_TRAINING_GROUND || sceneNum == SCENE_INSIDE_GANONS_CASTLE;
+
+        std::string sceneVersion = "shared";
+        if (inNonSharedScene) {
+            sceneVersion = IsGameMasterQuest() ? "mq" : "nonmq";
+        }
+        std::string scenePath = StringHelper::Sprintf("scenes/%s/%s/%s", sceneVersion.c_str(),
+                                                      scene->sceneFile.fileName, scene->sceneFile.fileName);
+
+        LUS::Scene* sceneSegment =
+            (LUS::Scene*)LUS::Context::GetInstance()->GetResourceManager()->LoadResource(scenePath.c_str()).get();
+
+        for (auto cmd : sceneSegment->commands) {
+            bool firstScene = true;
+            bool firstScene2 = true;
+            switch (cmd->cmdId) {
+            case LUS::SceneCommandID::SetRoomList: {
+                LUS::SetRoomList* cmdRoomList = (LUS::SetRoomList*)cmd.get();
+
+                uint32_t numRooms = cmdRoomList->numRooms;
+                RomFile* roomList = (RomFile*)cmdRoomList->GetRawPointer();
+
+                for (uint32_t roomNum = 0; roomNum < numRooms; roomNum++) {
+                    bool firstRoom = true;
+                    bool firstRoom2 = true;
+
+                    auto roomData = std::static_pointer_cast<LUS::Scene>(
+                        GetResourceByNameHandlingMQ(roomList[roomNum].fileName));
+
+                    LUS::Scene* roomToLoad = roomData.get();
+
+                    for (auto roomCmd : roomToLoad->commands) {
+                        switch (roomCmd->cmdId) {
+                            case LUS::SceneCommandID::SetActorList: {
+                                LUS::SetActorList* cmdActor = (LUS::SetActorList*)roomCmd.get();
+
+                                uint32_t numSetupActors = cmdActor->numActors;
+                                ActorEntry* setupActorList = (ActorEntry*)cmdActor->GetRawPointer();
+                                for (uint32_t setupActorNum = 0; setupActorNum < numSetupActors; setupActorNum++) {
+                                    ActorEntry* a = setupActorList + setupActorNum;
+                                    if (a->id == ACTOR_OBJ_KIBAKO) {
+                                        if (firstScene) {
+                                            out << std::format("{}:\n", scene->sceneFile.fileName);
+                                            firstScene = false;
+                                        }
+                                        if (firstRoom) {
+                                            out << std::format("  {}:\n", roomList[roomNum].fileName);
+                                            firstRoom = false;
+                                        }
+                                        out << std::format("    {}, {}, {}, 0x{:04X}\n", a->pos.x, a->pos.y, a->pos.z,
+                                                           (u16)a->params);
+                                    }
+                                    if (a->id == ACTOR_OBJ_KIBAKO2) {
+                                        if (firstScene2) {
+                                            out2 << std::format("{}:\n", scene->sceneFile.fileName);
+                                            firstScene2 = false;
+                                        }
+                                        if (firstRoom2) {
+                                            out2 << std::format("  {}:\n", roomList[roomNum].fileName);
+                                            firstRoom2 = false;
+                                        }
+                                        out2 << std::format("    {}, {}, {}, 0x{:04X}\n", a->pos.x, a->pos.y, a->pos.z,
+                                                            (u16)a->params);
+                                    }
+                                }
+                            } break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
+            break;
+            default:
+                break;
+            }
+        }
+    }
+
+    out.close();
+    out2.close();
+    */
 }
 
 OTRGlobals::~OTRGlobals() {

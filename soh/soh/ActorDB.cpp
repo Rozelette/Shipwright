@@ -3,6 +3,8 @@
 #include <assert.h>
 #include <type_traits>
 
+#include "Scripting.h"
+
 ActorDB* ActorDB::Instance;
 
 
@@ -468,36 +470,40 @@ static std::unordered_map<u16, const char*> actorDescriptions = {
 
 using CallActorFunc = std::remove_pointer_t<ActorFunc>;
 
-static void ActorInitScriptWrapper(Actor* actor, PlayState* play) {
-    std::shared_ptr<CompiledScript> script = ActorDB::Instance->RetrieveEntry(actor->id).script;
+static void ActorInitScriptWrapper(ScriptActor* actor, PlayState* play) {
+    std::shared_ptr<ICompiledScript> script = ActorDB::Instance->RetrieveEntry(actor->actor.id).script;
 
     assert(script != nullptr);
 
-    script->Call<CallActorFunc>("Init", actor, play);
+    actor->instanceData = script->GetImplementation()->CreateActorInstanceData(0); // TODO size
+
+    Scripting::CallIfExists<CallActorFunc>(script, "Init", &actor->actor, play);
 }
 
-static void ActorDestroyScriptWrapper(Actor* actor, PlayState* play) {
-    std::shared_ptr<CompiledScript> script = ActorDB::Instance->RetrieveEntry(actor->id).script;
+static void ActorDestroyScriptWrapper(ScriptActor* actor, PlayState* play) {
+    std::shared_ptr<ICompiledScript> script = ActorDB::Instance->RetrieveEntry(actor->actor.id).script;
 
     assert(script != nullptr);
 
-    script->Call<CallActorFunc>("Destroy", actor, play);
+    Scripting::CallIfExists<CallActorFunc>(script, "Destroy", &actor->actor, play);
+
+    script->GetImplementation()->DeleteActorInstanceData((void*)actor->instanceData);
 }
 
-static void ActorUpdateScriptWrapper(Actor* actor, PlayState* play) {
-    std::shared_ptr<CompiledScript> script = ActorDB::Instance->RetrieveEntry(actor->id).script;
+static void ActorUpdateScriptWrapper(ScriptActor* actor, PlayState* play) {
+    std::shared_ptr<ICompiledScript> script = ActorDB::Instance->RetrieveEntry(actor->actor.id).script;
 
     assert(script != nullptr);
 
-    script->Call<CallActorFunc>("Update", actor, play);
+    Scripting::CallIfExists<CallActorFunc>(script, "Update", &actor->actor, play);
 }
 
-static void ActorDrawScriptWrapper(Actor* actor, PlayState* play) {
-    std::shared_ptr<CompiledScript> script = ActorDB::Instance->RetrieveEntry(actor->id).script;
+static void ActorDrawScriptWrapper(ScriptActor* actor, PlayState* play) {
+    std::shared_ptr<ICompiledScript> script = ActorDB::Instance->RetrieveEntry(actor->actor.id).script;
 
     assert(script != nullptr);
 
-    script->Call<CallActorFunc>("Draw", actor, play);
+    Scripting::CallIfExists<CallActorFunc>(script, "Draw", &actor->actor, play);
 }
 
 static void ActorResetScriptWrapper() {
@@ -569,11 +575,11 @@ ActorDB::Entry& ActorDB::AddEntry(const ActorDBInit& init) {
         entry.entry.draw = init.draw;
         entry.entry.reset = init.reset;
     } else {
-        entry.entry.init = ActorInitScriptWrapper;
-        entry.entry.destroy = ActorDestroyScriptWrapper;
-        entry.entry.update = ActorUpdateScriptWrapper;
-        entry.entry.draw = ActorDrawScriptWrapper;
-        entry.entry.reset = ActorResetScriptWrapper;
+        entry.entry.init = (ActorFunc)ActorInitScriptWrapper;
+        entry.entry.destroy = (ActorFunc)ActorDestroyScriptWrapper;
+        entry.entry.update = (ActorFunc)ActorUpdateScriptWrapper;
+        entry.entry.draw = (ActorFunc)ActorDrawScriptWrapper;
+        entry.entry.reset = (ActorResetFunc)ActorResetScriptWrapper;
     }
 
     return entry;
@@ -665,7 +671,7 @@ static ActorDBInit EnPythonInit = {
     (ACTOR_FLAG_UPDATE_WHILE_CULLED | ACTOR_FLAG_DRAW_WHILE_CULLED | ACTOR_FLAG_DRAGGED_BY_HOOKSHOT |
      ACTOR_FLAG_CAN_PRESS_SWITCH),
     OBJECT_GAMEPLAY_KEEP,
-    sizeof(Actor),
+    sizeof(ScriptActor),
     nullptr,
     nullptr,
     nullptr,
@@ -675,32 +681,72 @@ static ActorDBInit EnPythonInit = {
 s16 gEnPythonId;
 
 static std::string EnPythonScript =
+"import PyZeldaImpl\n"
 "\n"
 "def Init(actor, play):\n"
-"    PyZelda.SetActorScaleX(actor, 0.4)\n"
-"    PyZelda.SetActorScaleY(actor, 0.4)\n"
-"    PyZelda.SetActorScaleZ(actor, 0.4)\n"
+"    PyZeldaImpl.SetActorScaleX(actor, 0.4)\n"
+"    PyZeldaImpl.SetActorScaleY(actor, 0.4)\n"
+"    PyZeldaImpl.SetActorScaleZ(actor, 0.4)\n"
+"    data = PyZeldaImpl.GetInstanceData(actor)\n"
+"    data.offset = 0\n"
+"    data.timer = 0\n"
 "\n"
 "def Destroy(actor, play):\n"
 "    pass\n"
 "\n"
 "def Update(actor, play):\n"
-"    player = PyZelda.GetPlayer(play)\n"
-"    x = PyZelda.GetActorX(player)\n"
-"    y = PyZelda.GetActorY(player)\n"
-"    z = PyZelda.GetActorZ(player)\n"
-"    PyZelda.SetActorX(actor, x)\n"
-"    PyZelda.SetActorY(actor, y)\n"
-"    PyZelda.SetActorZ(actor, z)\n"
+"    data = PyZeldaImpl.GetInstanceData(actor)\n"
+"    player = PyZeldaImpl.GetPlayer(play)\n"
+"    x = PyZeldaImpl.GetActorX(player)\n"
+"    y = PyZeldaImpl.GetActorY(player)\n"
+"    z = PyZeldaImpl.GetActorZ(player)\n"
+"    PyZeldaImpl.SetActorX(actor, x)\n"
+"    PyZeldaImpl.SetActorY(actor, y + data.offset)\n"
+"    PyZeldaImpl.SetActorZ(actor, z)\n"
+""
+"    data.timer = data.timer + 1\n"
+"    if data.timer == 3:\n"
+"        data.offset = data.offset + 1\n"
+"        data.timer = 0\n"
 "\n"
 "def Draw(actor, play):\n"
-"    PyZelda.DrawTemp(play, actor)\n"
+"    PyZeldaImpl.DrawTemp(play, actor)\n"
+"\n";
+
+static std::string EnPythonScript2 =
+"import PyZelda\n"
+"\n"
+"@PyZelda.actor_function\n"
+"def Init(actor, play):\n"
+"    actor.scale = (0.4, 0.4, 0.4)\n"
+"    actor.data.offset = 0\n"
+"    actor.data.timer = 0\n"
+"\n"
+"@PyZelda.actor_function\n"
+"def Destroy(actor, play):\n"
+"    pass\n"
+"\n"
+"@PyZelda.actor_function\n"
+"def Update(actor, play):\n"
+"    player = PyZelda.get_player(play)\n"
+"    pos = player.pos\n"
+"    pos[1] = pos[1] + actor.data.offset\n"
+"    actor.pos = pos\n"
+"\n"
+"    actor.data.timer = actor.data.timer + 1\n"
+"    if actor.data.timer == 3:\n"
+"        actor.data.offset = actor.data.offset + 1\n"
+"        actor.data.timer = 0\n"
+"\n"
+"@PyZelda.actor_function\n"
+"def Draw(actor, play):\n"
+"    actor.draw(play)\n"
 "\n";
 
 void ActorDB::AddBuiltInCustomActors() {
     gEnPartnerId = ActorDB::Instance->AddEntry(EnPartnerInit).entry.id;
 
-    EnPythonInit.script = std::make_shared<CompiledScript>(PyZelda::Instance->Compile(EnPythonScript));
+    EnPythonInit.script = PyZelda::Instance->Compile(EnPythonScript2);
     gEnPythonId = ActorDB::Instance->AddEntry(EnPythonInit).entry.id;
 }
 
