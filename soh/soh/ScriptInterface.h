@@ -127,8 +127,8 @@ f32 GetActorCollisionDisplacementZ(Actor* actor);
 void GetActorCollisionDisplacement(Actor* actor, f32* x, f32* y, f32* z);
 
 void SetActorCollisionDisplacementX(Actor* actor, f32 x);
-void SetActorCollisionDisplacementY(Actor* actor, f32 x);
-void SetActorCollisionDisplacementZ(Actor* actor, f32 x);
+void SetActorCollisionDisplacementY(Actor* actor, f32 y);
+void SetActorCollisionDisplacementZ(Actor* actor, f32 z);
 void SetActorCollisionDisplacement(Actor* actor, f32 x, f32 y, f32 z);
 
 s16 GetActorCollisionCylRadius(Actor* actor);
@@ -185,6 +185,8 @@ template <typename T> T* GetInstanceData(ScriptActor* actor) {
 }
 
 // TODO Actor_ProcessInitChain?
+
+// Util
 // TODO ActorID enum
 // TODO infer ActorContext from play?
 Actor* Actor_Spawn(ActorContext* actorCtx, PlayState* play, s16 actorId, f32 posX, f32 posY, f32 posZ,
@@ -194,8 +196,8 @@ Actor* Actor_SpawnAsChild(ActorContext* actorCtx, Actor* parent, PlayState* play
 
 void Actor_Kill(Actor* actor);
 
-s32 Actor_GetActorCount(ActorCategory category);
-Actor* Actor_GetActorHead(ActorCategory category);
+s32 Actor_GetActorCount(ActorContext* actorCtx, ActorCategory category);
+Actor* Actor_GetActorHead(ActorContext* actorCtx, ActorCategory category);
 
 void Actor_MoveForward(Actor* actor);
 
@@ -286,9 +288,9 @@ s16 Collider_BumpGetHitY(ColliderInfo* info);
 s16 Collider_BumpGetHitZ(ColliderInfo* info);
 void Collider_BumpGetHit(ColliderInfo* info, s16* x, s16* y, s16* z);
 
-void Collider_BumpSetHitZ(ColliderInfo* info, s16 z);
-void Collider_BumpSetHitY(ColliderInfo* info, s16 y);
 void Collider_BumpSetHitX(ColliderInfo* info, s16 x);
+void Collider_BumpSetHitY(ColliderInfo* info, s16 y);
+void Collider_BumpSetHitZ(ColliderInfo* info, s16 z);
 void Collider_BumpSetHit(ColliderInfo* info, s16 x, s16 y, s16 z);
 
 u8 Collider_InfoGetElemType(ColliderInfo* info);
@@ -319,8 +321,8 @@ void Collider_InfoSetAcHitInfo(ColliderInfo* info, ColliderInfo* acHitInfo); // 
 ColliderCylinder* Collider_AllocCylinder();
 void Collider_DeallocCylinder(ColliderCylinder* cylinder);
 
-void Collider_InitCylinder(ColliderCylinder* cylinder);
-void Collider_DestroyCylinder(ColliderCylinder* cylinder);
+void Collider_InitCylinder(ColliderCylinder* cylinder); // TODO pass in play?
+void Collider_DestroyCylinder(ColliderCylinder* cylinder); // TODO pass in play?
 
 Collider* Collider_CylinderGetBase(ColliderCylinder* cylinder);
 
@@ -336,17 +338,17 @@ s16 Collider_CylinderGetYShift(ColliderCylinder* cylinder);
 void Collider_CylinderSetYShift(ColliderCylinder* cylinder, s16 yShift);
 
 s16 Collider_CylinderGetX(ColliderCylinder* cylinder);
-void Collider_CylinderSetX(ColliderCylinder* cylinder, s16 x);
-
 s16 Collider_CylinderGetY(ColliderCylinder* cylinder);
-void Collider_CylinderSetY(ColliderCylinder* cylinder, s16 y);
-
 s16 Collider_CylinderGetZ(ColliderCylinder* cylinder);
+void Collider_CylinderGetPos(ColliderCylinder* cylinder, s16* x, s16* y, s16* z);
+
+void Collider_CylinderSetX(ColliderCylinder* cylinder, s16 x);
+void Collider_CylinderSetY(ColliderCylinder* cylinder, s16 y);
 void Collider_CylinderSetZ(ColliderCylinder* cylinder, s16 z);
+void Collider_CylinderSetPos(ColliderCylinder* cylinder, s16 x, s16 y, s16 z);
 
 void Collider_SetCylinder(ColliderCylinder* cylinder, Actor* actor, ColliderCylinderInit* init);
-void Collider_SetCylinderDim(Cylinder16* cylinder, Cylinder16* init);
-void Collider_SetCylinderDimRaw(Cylinder16* cylinder, s16 radius, s16 height, s16 yShift, s16 x, s16 y, s16 z);
+void Collider_SetCylinderRaw(Cylinder16* cylinder, s16 radius, s16 height, s16 yShift, s16 x, s16 y, s16 z);
 
 void Collider_UpdateCylinder(ColliderCylinder* cylinder, Actor* actor); // TODO switch parameters to match OG?
 
@@ -360,12 +362,13 @@ SkelAnime* SkelAnime_Alloc();
 void SkelAnime_Dealloc(SkelAnime* skelAnime);
 
 // TODO
-s32 SkelAnime_Init(PlayState* play, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg, AnimationHeader* animation, Vec3s* jointTable, Vec3s* morphTable, s32 limbCount);
+//s32 SkelAnime_Init(PlayState* play, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg, AnimationHeader* animation, Vec3s* jointTable, Vec3s* morphTable, s32 limbCount);
+s32 SkelAnime_Init(PlayState* play, SkelAnime* skelAnime, char* skeletonHeaderSeg, char* animation, s32 limbCount);
 
 s32 SkelAnime_Update(SkelAnime* skelAnime);
 
 Gfx* SkelAnime_Draw(PlayState* play, void** skeleton, Vec3s* jointTable, OverrideLimbDraw overrideLimbDraw, PostLimbDraw postLimbDraw, void* arg, Gfx* gfx);
-Gfx* SkelAnime_DrawWithNames(PlayState* play, void** skeleton, Vec3s* jointTable, const char* overrideLimbDraw, const char* postLimbDraw, void* arg, Gfx* gfx);
+Gfx* SkelAnime_DrawWithNames(PlayState* play, void** skeleton, Vec3s* jointTable, void* arg, Gfx* gfx); // TODO arg must be actor?
 
 void SkelAnime_Free(SkelAnime* skelAnime, PlayState* play);
 
@@ -387,7 +390,7 @@ void Lights_PointSetColorAndRadius(LightInfo* info, u8 r, u8 g, u8 b, s16 radius
 void Lights_DirectionalSetInfo(LightInfo* info, s8 x, s8 y, s8 z, u8 r, u8 g, u8 b);
 
 LightNode* LightContext_InsertLight(LightContext* lightCtx, LightInfo* info);
-void LightContext_RemoveLight(LightContext* lightCtx, LightInfo* info);
+void LightContext_RemoveLight(LightContext* lightCtx, LightNode* node);
 
 //**************************
 // PlayState
@@ -489,16 +492,16 @@ void Graph_OpenDisp(GraphicsContext* gfxCtx);
 void Graph_CloseDisp(GraphicsContext* gfxCtx);
 
 Gfx* Graph_GetWorkDisp(GraphicsContext* gfxCtx);
-void Graph_SetWorkDisp(GraphicsContext* gfxCtx);
+void Graph_SetWorkDisp(GraphicsContext* gfxCtx, Gfx* gfx);
 
 Gfx* Graph_GetOpaDisp(GraphicsContext* gfxCtx);
-void Graph_SetOpaDisp(GraphicsContext* gfxCtx);
+void Graph_SetOpaDisp(GraphicsContext* gfxCtx, Gfx* gfx);
 
 Gfx* Graph_GetXluDisp(GraphicsContext* gfxCtx);
-void Graph_SetXluDisp(GraphicsContext* gfxCtx);
+void Graph_SetXluDisp(GraphicsContext* gfxCtx, Gfx* gfx);
 
 Gfx* Graph_GetOverlayDisp(GraphicsContext* gfxCtx);
-void Graph_SetOverlayDisp(GraphicsContext* gfxCtx);
+void Graph_SetOverlayDisp(GraphicsContext* gfxCtx, Gfx* gfx);
 
 // TODO SoH specific lists?
 
@@ -514,7 +517,7 @@ void Gfx_SetupDL_27Xlu(GraphicsContext* gfxCtx);
 Gfx* Gfx_Segment(Gfx* gfx, u8 segNum, uintptr_t target);
 Gfx* Gfx_SetPrimColor(Gfx* gfx, u8 m, u8 l, u8 r, u8 g, u8 b, u8 a);
 Gfx* Gfx_SetEnvColor(Gfx* gfx, u8 r, u8 g, u8 b, u8 a);
-//Gfx* Gfx_SetRenderMode(Gfx* gfx); // TODO
+Gfx* Gfx_SetRenderMode(Gfx* gfx, u32 c0, u32 c1);
 Gfx* Gfx_DisplayList(Gfx* gfx, Gfx* dl);
 Gfx* Gfx_EndDisplayList(Gfx* gfx);
 Gfx* Gfx_Matrix(Gfx* gfx, Mtx* m, u8 flags);

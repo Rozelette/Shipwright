@@ -469,6 +469,8 @@ static std::unordered_map<u16, const char*> actorDescriptions = {
 };
 
 using CallActorFunc = std::remove_pointer_t<ActorFunc>;
+using CallOverrideLimbDraw = std::remove_pointer_t<OverrideLimbDraw>;
+using CallPostLimbDraw = std::remove_pointer_t<PostLimbDraw>;
 
 static void ActorInitScriptWrapper(ScriptActor* actor, PlayState* play) {
     std::shared_ptr<ICompiledScript> script = ActorDB::Instance->RetrieveEntry(actor->actor.id).script;
@@ -508,6 +510,22 @@ static void ActorDrawScriptWrapper(ScriptActor* actor, PlayState* play) {
 
 static void ActorResetScriptWrapper() {
     // TODO
+}
+
+s32 ActorDB::ActorOverrideLimbDrawScriptWrapper(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, ScriptActor* actor, Gfx** gfx) {
+    std::shared_ptr<ICompiledScript> script = ActorDB::Instance->RetrieveEntry(actor->actor.id).script;
+
+    assert(script != nullptr);
+
+    return Scripting::CallIfExists<CallOverrideLimbDraw>(script, "OverrideLimbDraw", play, limbIndex, dList, pos, rot, (void*)actor, gfx);
+}
+
+void ActorDB::ActorPostLimbDrawScriptWrapper(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, ScriptActor* actor, Gfx** gfx) {
+    std::shared_ptr<ICompiledScript> script = ActorDB::Instance->RetrieveEntry(actor->actor.id).script;
+
+    assert(script != nullptr);
+
+    Scripting::CallIfExists<CallPostLimbDraw>(script, "PostLimbDraw", play, limbIndex, dList, rot, (void*)actor, gfx);
 }
 
 ActorDB::ActorDB() {

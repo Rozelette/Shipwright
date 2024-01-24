@@ -69,6 +69,10 @@ public:
 
     static void AddBuiltInCustomActors();
 
+    static s32 ActorOverrideLimbDrawScriptWrapper(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, ScriptActor* actor, Gfx** gfx);
+
+    static void ActorPostLimbDrawScriptWrapper(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, ScriptActor* actor, Gfx** gfx);
+
     int GetEntryCount();
 private:
     Entry& AddEntry(const std::string& name, const std::string& desc, size_t index);
