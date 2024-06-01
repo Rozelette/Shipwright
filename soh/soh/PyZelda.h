@@ -55,6 +55,8 @@ template <> struct GetTypeChar<char*> { static constexpr std::string_view value 
 
 template <typename T> struct GetTypeChar<T*> { static constexpr std::string_view value = "K"; };
 
+template <typename T> requires std::is_enum_v<T> struct GetTypeChar<T> { static constexpr std::string_view value = "I"; }; // TODO 64b value?
+
 template <typename ReturnType> static ReturnType GetCallResult(PyObject* ret);
 
 template <> static void GetCallResult<void>(PyObject* ret) {

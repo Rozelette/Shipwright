@@ -5,6 +5,8 @@
 
 #include "Scripting.h"
 
+#include "soh/Enhancements/game-interactor/GameInteractor.h"
+
 ActorDB* ActorDB::Instance;
 
 
@@ -761,11 +763,36 @@ static std::string EnPythonScript2 =
 "    actor.draw(play)\n"
 "\n";
 
+static std::string OwlScript =
+"import ctypes\n"
+"def Func(id, should, opt):\n"
+"    if id == 8:\n"
+"        ctypes.cast(should, ctypes.POINTER(ctypes.c_bool))[0] = 1\n"
+"\n";
+
+static std::shared_ptr<ICompiledScript> owlScript;
+
+static void TestFunction(GIVanillaBehavior id, bool* should, void* opt) {
+    Scripting::CallIfExists<GameInteractor::OnVanillaBehavior::fn_raw>(owlScript, "Func", id, should, opt);
+}
+
 void ActorDB::AddBuiltInCustomActors() {
     gEnPartnerId = ActorDB::Instance->AddEntry(EnPartnerInit).entry.id;
 
     EnPythonInit.script = PyZelda::Instance->Compile(EnPythonScript2);
     gEnPythonId = ActorDB::Instance->AddEntry(EnPythonInit).entry.id;
+
+    owlScript = PyZelda::Instance->Compile(OwlScript);
+
+    static uint32_t onVanillaBehaviorHook = GameInteractor::Instance->RegisterGameHook<GameInteractor::OnVanillaBehavior>([](GIVanillaBehavior id, bool* should, void* opt) {
+        TestFunction(id, should, opt);
+    });
+
+    bool hey = false;
+    TestFunction(VB_OPEN_KOKIRI_FOREST, &hey, 0);
+    assert(hey == false);
+    TestFunction(VB_OWL_INTERACTION, &hey, 0);
+    assert(hey == true);
 }
 
 extern "C" ActorDBEntry* ActorDB_Retrieve(const int id) {

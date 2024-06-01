@@ -439,6 +439,7 @@ typedef uint32_t HOOK_ID;
     struct name {                                \
         typedef std::function<void args> fn;     \
         typedef std::function<bool args> filter; \
+        using fn_raw = void args; \
     }
 
 #define REGISTER_VB_SHOULD(flag, body) \
