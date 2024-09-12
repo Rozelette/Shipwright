@@ -4,6 +4,8 @@
 
 namespace ScriptInterface {
 
+// TODO rename sections the Section_Func
+
 //**************************
 // Actor
 //**************************
@@ -322,7 +324,7 @@ ColliderCylinder* Collider_AllocCylinder();
 void Collider_DeallocCylinder(ColliderCylinder* cylinder);
 
 void Collider_InitCylinder(ColliderCylinder* cylinder); // TODO pass in play?
-void Collider_DestroyCylinder(ColliderCylinder* cylinder); // TODO pass in play?
+void Collider_DestroyCylinder(ColliderCylinder* cylinder); // TODO pass in play? // TODO include?
 
 Collider* Collider_CylinderGetBase(ColliderCylinder* cylinder);
 

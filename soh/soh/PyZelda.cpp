@@ -135,6 +135,11 @@ static PyMethodDef PyZeldaImplMethods[] = {
     METHOD_ENTRY(SetActorScaleY, "Test"),
     METHOD_ENTRY(SetActorScaleZ, "Test"),
     METHOD_ENTRY(SetActorScale, "Test"),
+    // ActorShape
+    METHOD_ENTRY(GetActorShape, "Test"),
+    METHOD_ENTRY(ActorShape_Init, "Test"),
+    METHOD_ENTRY(ActorShape_InitCircle, "Test"),
+    METHOD_ENTRY(ActorShape_SetShadowAlpha, "Test"),
     // TODO once velocity and speedXY are figured out, add them
     METHOD_ENTRY_NAME(GetInstanceData<PyObject>, "GetInstanceData", "Test"),
     // Player
@@ -143,9 +148,31 @@ static PyMethodDef PyZeldaImplMethods[] = {
     METHOD_ENTRY(SetPlayerIvanFloating, "Test"),
     METHOD_ENTRY(GetPlayerIvanDamageMultiplier, "Test"),
     METHOD_ENTRY(SetPlayerIvanDamageMultiplier, "Test"),
+    // Collider
+    // Base
+    METHOD_ENTRY(Collider_GetOcFlags1, "Test"),
+    METHOD_ENTRY(Collider_SetOcFlags1, "Test"),
+    METHOD_ENTRY(Collider_TouchSetDamage, "Test"),
+    // Cylinder
+    METHOD_ENTRY(Collider_AllocCylinder, "Test"),
+    METHOD_ENTRY(Collider_DeallocCylinder, "Test"),
+    METHOD_ENTRY(Collider_InitCylinder, "Test"),
+    METHOD_ENTRY(Collider_DestroyCylinder, "Test"),
+    METHOD_ENTRY(Collider_CylinderGetInfo, "Test"),
+    METHOD_ENTRY(Collider_UpdateCylinder, "Test"),
+    // Lights
+    METHOD_ENTRY(Lights_AllocInfo, "Test"),
+    METHOD_ENTRY(Lights_DeallocInfo, "Test"),
+    METHOD_ENTRY(Lights_PointSetInfo, "Test"),
+    METHOD_ENTRY(Lights_PointGlowSetInfo, "Test"),
+    METHOD_ENTRY(Lights_PointNoGlowSetInfo, "Test"),
+    METHOD_ENTRY(Lights_PointSetColorAndRadius, "Test"),
+    METHOD_ENTRY(Lights_DirectionalSetInfo, "Test"),
+    METHOD_ENTRY(LightContext_InsertLight, "Test"),
+    METHOD_ENTRY(LightContext_RemoveLight, "Test"),
     // Temp
     METHOD_ENTRY(DrawTemp, "Test"),
-    // Actor Instance Data
+    // Actor Instance Data TODO??
     {NULL, NULL, 0, NULL}
 };
 
