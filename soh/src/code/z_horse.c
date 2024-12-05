@@ -3,8 +3,10 @@
 #include <assert.h>
 #include "soh/Enhancements/game-interactor/GameInteractor.h"
 #include "soh/Enhancements/game-interactor/GameInteractor_Hooks.h"
+#include "soh/SceneDB.h"
 
 s32 func_8006CFC0(s32 scene) {
+#if 0
     s32 validScenes[] = { SCENE_HYRULE_FIELD, SCENE_LAKE_HYLIA, SCENE_GERUDO_VALLEY, SCENE_GERUDOS_FORTRESS, SCENE_LON_LON_RANCH };
     s32 i;
 
@@ -15,6 +17,8 @@ s32 func_8006CFC0(s32 scene) {
     }
 
     return 0;
+#endif
+    return SceneDB_Retrieve(scene)->epona.allowed;
 }
 
 void func_8006D074(PlayState* play) {
@@ -105,19 +109,13 @@ void func_8006D0EC(PlayState* play, Player* player) {
             Actor_Spawn(&play->actorCtx, play, ACTOR_EN_HORSE, 0.0f, 0.0f, -500.0f, 0, 0, 0, 1, true);
         assert(horseActor != NULL);
     } else if (Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED) || (DREG(1) != 0)) {
-        for (i = 0; i < ARRAY_COUNT(horseSpawns); i++) {
-            HorseSpawn* horseSpawn = &horseSpawns[i];
-            if (horseSpawn->scene == play->sceneNum) {
-                Actor* horseActor =
-                    Actor_Spawn(&play->actorCtx, play, ACTOR_EN_HORSE, horseSpawn->pos.x, horseSpawn->pos.y,
-                                horseSpawn->pos.z, 0, horseSpawn->angle, 0, horseSpawn->type, true);
-                assert(horseActor != NULL);
-                if (play->sceneNum == SCENE_GERUDOS_FORTRESS) {
-                    horseActor->room = -1;
-                }
-
-                break;
-            }
+        SceneDBEntry* entry = SceneDB_Retrieve(play->sceneNum);
+        Actor* horseActor =
+            Actor_Spawn(&play->actorCtx, play, ACTOR_EN_HORSE, entry->epona.startingPos.x, entry->epona.startingPos.y,
+                entry->epona.startingPos.z, 0, entry->epona.angle, 0, 2, true);
+        assert(horseActor != NULL);
+        if (play->sceneNum == SCENE_GERUDOS_FORTRESS) {
+            horseActor->room = -1;
         }
     } else if (!Flags_GetEventChkInf(EVENTCHKINF_EPONA_OBTAINED)) {
         if ((DREG(1) == 0) && (play->sceneNum == SCENE_LON_LON_BUILDINGS) && !IS_DAY) {

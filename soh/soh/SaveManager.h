@@ -159,6 +159,8 @@ class SaveManager {
     static void InitFileDebug();
     static void InitFileMaxed();
 
+    static void AllocateSceneData();
+
     static void LoadRandomizerVersion1();
     static void LoadRandomizerVersion2();
     static void LoadRandomizerVersion3();
@@ -170,6 +172,7 @@ class SaveManager {
     static void LoadBaseVersion2();
     static void LoadBaseVersion3();
     static void LoadBaseVersion4();
+    static void LoadBaseVersion5();
     static void SaveBase(SaveContext* saveContext, int sectionID, bool fullSave);
 
     std::vector<InitFunc> initFuncs;

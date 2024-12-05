@@ -1675,7 +1675,8 @@ typedef struct PreNMIContext {
 } PreNMIContext; // size = 0xAC
 
 typedef enum {
-    /*  1 */ F_8F = 1,
+    /*  0 */ F_NA,
+    /*  1 */ F_8F,
     /*  2 */ F_7F,
     /*  3 */ F_6F,
     /*  4 */ F_5F,
