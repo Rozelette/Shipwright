@@ -1,20 +1,17 @@
 #include "global.h"
 
-#include <string.h>
-
 #include "objects/gameplay_keep/gameplay_keep.h"
 
 #include "soh/frame_interpolation.h"
 #include "soh/OTRGlobals.h"
 
 #define LIGHTS_BUFFER_SIZE 32
-//#define LIGHTS_BUFFER_SIZE 1024 // Kill me
 
 typedef struct {
-    /* 0x000 */ s32 numOccupied;
-    /* 0x004 */ s32 searchIndex;
-    /* 0x008 */ LightNode buf[LIGHTS_BUFFER_SIZE];
-} LightsBuffer; // size = 0x188
+    s32 numOccupied;
+    s32 searchIndex;
+    LightNode buf[LIGHTS_BUFFER_SIZE];
+} LightsBuffer;
 
 LightsBuffer sLightsBuffer;
 
@@ -51,22 +48,12 @@ void Lights_DirectionalSetInfo(LightInfo* info, s8 x, s8 y, s8 z, u8 r, u8 g, u8
     info->params.dir.color[2] = b;
 }
 
-// unused
-void Lights_Reset(Lights* lights, u8 ambentR, u8 ambentG, u8 ambentB) {
-    lights->l.a.l.col[0] = lights->l.a.l.colc[0] = ambentR;
-    lights->l.a.l.col[1] = lights->l.a.l.colc[1] = ambentG;
-    lights->l.a.l.col[2] = lights->l.a.l.colc[2] = ambentB;
-    lights->numLights = 0;
-}
-
 /*
  * Draws every light in the provided Lights group
  */
 void Lights_Draw(Lights* lights, GraphicsContext* gfxCtx) {
     Light* light;
     s32 i;
-
-#if 1
 
     OPEN_DISPS(gfxCtx);
 
@@ -88,7 +75,6 @@ void Lights_Draw(Lights* lights, GraphicsContext* gfxCtx) {
     gSPLight(POLY_XLU_DISP++, &lights->l.a, i);
 
     CLOSE_DISPS(gfxCtx);
-#endif
 }
 
 Light* Lights_FindSlot(Lights* lights) {
@@ -149,6 +135,8 @@ void Lights_BindDirectional(Lights* lights, LightParams* params, Vec3f* vec) {
     }
 }
 
+typedef void (*LightsBindFunc)(Lights* lights, LightParams* params, Vec3f* vec);
+
 /**
  * For every light in a provided list, try to find a free slot in the provided Lights group and bind
  * a light to it. Then apply color and positional/directional info for each light
@@ -193,8 +181,7 @@ LightNode* Lights_FindBufSlot() {
     return node;
 }
 
-// return type must not be void to match
-s32 Lights_FreeNode(LightNode* light) {
+void Lights_FreeNode(LightNode* light) {
     if (light != NULL) {
         sLightsBuffer.numOccupied--;
         light->info = NULL;
@@ -281,33 +268,6 @@ void LightContext_RemoveLight(PlayState* play, LightContext* lightCtx, LightNode
 
         Lights_FreeNode(node);
     }
-}
-
-// unused
-Lights* Lights_NewAndDraw(GraphicsContext* gfxCtx, u8 ambientR, u8 ambientG, u8 ambientB, u8 numLights, u8 r, u8 g,
-                          u8 b, s8 x, s8 y, s8 z) {
-    Lights* lights;
-    s32 i;
-
-    lights = Graph_Alloc(gfxCtx, sizeof(Lights));
-
-    lights->l.a.l.col[0] = lights->l.a.l.colc[0] = ambientR;
-    lights->l.a.l.col[1] = lights->l.a.l.colc[1] = ambientG;
-    lights->l.a.l.col[2] = lights->l.a.l.colc[2] = ambientB;
-    lights->numLights = numLights;
-
-    for (i = 0; i < numLights; i++) {
-        lights->l.l[i].l.col[0] = lights->l.l[i].l.colc[0] = r;
-        lights->l.l[i].l.col[1] = lights->l.l[i].l.colc[1] = g;
-        lights->l.l[i].l.col[2] = lights->l.l[i].l.colc[2] = b;
-        lights->l.l[i].l.dir[0] = x;
-        lights->l.l[i].l.dir[1] = y;
-        lights->l.l[i].l.dir[2] = z;
-    }
-
-    Lights_Draw(lights, gfxCtx);
-
-    return lights;
 }
 
 Lights* Lights_New(GraphicsContext* gfxCtx, u8 ambientR, u8 ambientG, u8 ambientB) {
@@ -408,7 +368,6 @@ void Lights_GlowCheck(PlayState* play) {
 }
 
 void Lights_DrawGlow(PlayState* play) {
-    s32 pad;
     LightNode* node;
 
     node = play->lightCtx.listHead;
@@ -424,7 +383,6 @@ void Lights_DrawGlow(PlayState* play) {
         LightInfo* info;
         LightPoint* params;
         f32 scale;
-        s32 pad[4];
 
         info = node->info;
         params = &info->params.point;
