@@ -580,6 +580,71 @@ class GameInteractor {
     };
 };
 
+// Object that wraps a hook to automatically unregister it when the object is destructed
+template <typename HookType> class HookAutoUnregisterer {
+  public:
+    // Default construct
+    explicit HookAutoUnregisterer() = default;
+
+    // Construct from HOOK_ID, be sure not to reuse the id later
+    explicit HookAutoUnregisterer(HOOK_ID _hookId) : hookId(_hookId){};
+
+    // Construct from function
+    explicit HookAutoUnregisterer(HookType::fn h) {
+        hookId = GameInteractor::Instance->RegisterGameHook<HookType>(h);
+    };
+
+    explicit HookAutoUnregisterer(int32_t id, HookType::fn h) {
+        hookId = GameInteractor::Instance->RegisterGameHookForID<HookType>(id, h);
+    };
+
+    explicit HookAutoUnregisterer(uintptr_t ptr, HookType::fn h) {
+        hookId = GameInteractor::Instance->RegisterGameHookForPtr<HookType>(ptr, h);
+    };
+
+    explicit HookAutoUnregisterer(HookType::filter filter, HookType::fn h) {
+        hookId = GameInteractor::Instance->RegisterGameHookForFilter<HookType>(filter, h);
+    };
+
+    // Destruct, unregister the hook
+    ~HookAutoUnregisterer() {
+        GameInteractor::Instance->UnregisterGameHookForID<HookType>(hookId);
+    }
+
+    // Not copyable
+    HookAutoUnregisterer(const HookAutoUnregisterer&) = delete;
+    HookAutoUnregisterer& operator=(const HookAutoUnregisterer&) = delete;
+
+    // Assign from HOOK_ID
+    HookAutoUnregisterer& operator=(HOOK_ID _hookId) {
+        GameInteractor::Instance->UnregisterGameHookForID<HookType>(hookId);
+        hookId = _hookId;
+
+        return *this;
+    }
+
+    // Moveable, leaves other in a no-op state
+    HookAutoUnregisterer(HookAutoUnregisterer&& other) {
+        hookId = std::move(other.hookId);
+        other.hookId = 0;
+    }
+
+    HookAutoUnregisterer& operator=(HookAutoUnregisterer&& other) {
+        // Moving from self -- do nothing
+        if (this == &other) {
+            return *this;
+        }
+
+        hookId = std::move(other.hookId);
+        other.hookId = 0;
+
+        return *this;
+    }
+
+  private:
+    HOOK_ID hookId = 0;
+};
+
 #undef GET_CURRENT_REGISTERING_INFO
 
 #endif /* __cplusplus */

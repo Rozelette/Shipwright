@@ -1191,7 +1191,7 @@ void ActorViewerWindow::DrawElement() {
 }
 
 void ActorViewerWindow::InitElement() {
-    GameInteractor::Instance->RegisterGameHook<GameInteractor::OnActorInit>([](void* refActor) {
+    OnActorInitHook = GameInteractor::Instance->RegisterGameHook<GameInteractor::OnActorInit>([](void* refActor) {
         Actor* actor = static_cast<Actor*>(refActor);
         ActorViewer_AddTagForActor(actor);
     });
