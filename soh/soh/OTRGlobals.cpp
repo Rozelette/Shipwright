@@ -128,6 +128,9 @@
 #include "soh/config/ConfigUpdaters.h"
 #include "soh/ShipInit.hpp"
 
+#include "Scripting/PyZelda.h"
+#include "Scripting/Scripting.h"
+
 extern "C" {
 #include "src/overlays/actors/ovl_En_Dns/z_en_dns.h"
 }
@@ -1299,8 +1302,11 @@ extern "C" void InitOTR(int argc, char* argv[]) {
     VanillaItemTable_Init();
     DebugConsole_Init();
 
+    PyZelda::Instance = new PyZelda();
+    
     InitMods();
     ActorDB::AddBuiltInCustomActors();
+    Scripting::LoadScriptActors();
     // #region SOH [Randomizer] TODO: Remove these and refactor spoiler file handling for randomizer
     CVarClear(CVAR_GENERAL("RandomizerNewFileDropped"));
     CVarClear(CVAR_GENERAL("RandomizerDroppedFile"));

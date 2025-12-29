@@ -1,5 +1,7 @@
 #include "ActorDB.h"
 
+#include "soh/Scripting/Scripting.h"
+
 #include <assert.h>
 
 ActorDB* ActorDB::Instance;
@@ -466,6 +468,70 @@ static constexpr std::pair<u16, const char*> actorDescriptionData[] = {
 static std::unordered_map<u16, const char*> actorDescriptions =
     std::unordered_map<u16, const char*>(std::begin(actorDescriptionData), std::end(actorDescriptionData));
 
+using CallActorFunc = std::remove_pointer_t<ActorFunc>;
+using CallOverrideLimbDraw = std::remove_pointer_t<OverrideLimbDraw>;
+using CallPostLimbDraw = std::remove_pointer_t<PostLimbDraw>;
+
+static void ActorInitScriptWrapper(ScriptActor* actor, PlayState* play) {
+    std::shared_ptr<ICompiledScript> script = ActorDB::Instance->RetrieveEntry(actor->actor.id).script;
+
+    assert(script != nullptr);
+
+    script->GetImplementation()->CreateActorInstanceData((Actor*)actor, 0); // TODO size
+
+    try {
+        Scripting::CallIfExists<CallActorFunc>(script, "Init", &actor->actor, play);
+    } catch (pybind11::error_already_set& e) {
+        printf("%s", e.what());
+        assert(false);
+    }
+}
+
+static void ActorDestroyScriptWrapper(ScriptActor* actor, PlayState* play) {
+    std::shared_ptr<ICompiledScript> script = ActorDB::Instance->RetrieveEntry(actor->actor.id).script;
+
+    assert(script != nullptr);
+
+    try {
+        Scripting::CallIfExists<CallActorFunc>(script, "Destroy", &actor->actor, play);
+    } catch (pybind11::error_already_set& e) {
+        printf("%s", e.what());
+        assert(false);
+    }
+
+    script->GetImplementation()->DeleteActorInstanceData((Actor*)actor);
+}
+
+static void ActorUpdateScriptWrapper(ScriptActor* actor, PlayState* play) {
+    std::shared_ptr<ICompiledScript> script = ActorDB::Instance->RetrieveEntry(actor->actor.id).script;
+
+    assert(script != nullptr);
+
+    try {
+        Scripting::CallIfExists<CallActorFunc>(script, "Update", &actor->actor, play);
+    } catch (pybind11::error_already_set& e) {
+        printf("%s", e.what());
+        assert(false);
+    }
+}
+
+static void ActorDrawScriptWrapper(ScriptActor* actor, PlayState* play) {
+    std::shared_ptr<ICompiledScript> script = ActorDB::Instance->RetrieveEntry(actor->actor.id).script;
+
+    assert(script != nullptr);
+
+    try {
+        Scripting::CallIfExists<CallActorFunc>(script, "Draw", &actor->actor, play);
+    } catch (pybind11::error_already_set& e) {
+        printf("%s", e.what());
+        assert(false);
+    }
+}
+
+static void ActorResetScriptWrapper() {
+    // TODO
+}
+
 ActorDB::ActorDB() {
     db.reserve(ACTOR_NUMBER_MAX); // reserve size for all initial entries so we don't do it for each
     for (const AddPair& pair : initialActorTable) {
@@ -523,11 +589,22 @@ ActorDB::Entry& ActorDB::AddEntry(const ActorDBInit& init) {
     entry.entry.flags = init.flags;
     entry.entry.objectId = init.objectId;
     entry.entry.instanceSize = init.instanceSize;
-    entry.entry.init = init.init;
-    entry.entry.destroy = init.destroy;
-    entry.entry.update = init.update;
-    entry.entry.draw = init.draw;
-    entry.entry.reset = init.reset;
+
+    entry.script = init.script;
+
+    if (entry.script == nullptr) {
+        entry.entry.init = init.init;
+        entry.entry.destroy = init.destroy;
+        entry.entry.update = init.update;
+        entry.entry.draw = init.draw;
+        entry.entry.reset = init.reset;
+    } else {
+        entry.entry.init = (ActorFunc)ActorInitScriptWrapper;
+        entry.entry.destroy = (ActorFunc)ActorDestroyScriptWrapper;
+        entry.entry.update = (ActorFunc)ActorUpdateScriptWrapper;
+        entry.entry.draw = (ActorFunc)ActorDrawScriptWrapper;
+        entry.entry.reset = (ActorResetFunc)ActorResetScriptWrapper;
+    }
 
     return entry;
 }

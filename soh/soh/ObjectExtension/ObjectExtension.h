@@ -88,6 +88,14 @@ class ObjectExtension {
     // Removes all data from an object
     void Free(const void* object);
 
+    // Removes all data of type T from objects
+    template <typename T> void FreeType() {
+        std::erase_if(Data, [](const auto& iter) {
+            auto const& [key, value] = iter;
+            return key.second == ObjectExtension::Register<T>::Id;
+        });
+    }
+
   private:
     ObjectExtension() = default;
 
